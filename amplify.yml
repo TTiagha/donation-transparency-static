@@ -6,7 +6,7 @@ frontend:
       commands:
         - echo "Deploying static site"
   artifacts:
-    baseDirectory: /
+    baseDirectory: static-pages
     files:
       - '**/*'
   cache:
