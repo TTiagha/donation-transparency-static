@@ -1,0 +1,13 @@
+version: 1
+frontend:
+  phases:
+    # No pre-build or build needed for static HTML
+    build:
+      commands:
+        - echo "Deploying static site"
+  artifacts:
+    baseDirectory: static-pages
+    files:
+      - '**/*'
+  cache:
+    paths: []

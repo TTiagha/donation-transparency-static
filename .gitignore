@@ -1,3 +1,36 @@
+<<<<<<< HEAD
+# WordPress specific files
+wp-config.php
+wp-content/advanced-cache.php
+wp-content/backup-db/
+wp-content/backups/
+wp-content/blogs.dir/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/uploads/
+wp-content/mu-plugins/
+wp-content/wp-cache-config.php
+wp-content/wflogs/
+
+# Node modules
+node_modules/
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+debug.log
+=======
 # Dependencies
 node_modules/
 npm-debug.log*
@@ -21,6 +54,7 @@ build/
 .idea/
 *.swp
 *.swo
+>>>>>>> 1552ff505ade1eee050e1367074fa85eacf9bc3a
 
 # OS generated files
 .DS_Store
@@ -31,6 +65,36 @@ build/
 ehthumbs.db
 Thumbs.db
 
+<<<<<<< HEAD
+# IDE and editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Composer
+vendor/
+composer.phar
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Test and documentation artifacts
+phpunit.xml
+.phpunit.result.cache
+docs/build/
+phpdoc/
+
+# Build directories
+build/
+dist/
+=======
 # Logs
 *.log
 
@@ -60,3 +124,4 @@ temp/
 
 # Optional eslint cache
 .eslintcache
+>>>>>>> 1552ff505ade1eee050e1367074fa85eacf9bc3a
