@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favicon Generator</title>
+</head>
+<body>
+    <canvas id="favicon" width="32" height="32" style="border: 1px solid #ccc;"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('favicon');
+        const ctx = canvas.getContext('2d');
+        
+        // Background
+        ctx.fillStyle = '#1e293b'; // dt-navy
+        ctx.fillRect(0, 0, 32, 32);
+        
+        // Border
+        ctx.strokeStyle = '#4ade80'; // dt-teal
+        ctx.lineWidth = 2;
+        ctx.strokeRect(2, 2, 28, 28);
+        
+        // Transparency circles (overlapping)
+        ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(12, 12, 6, 0, 2 * Math.PI);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.arc(20, 12, 6, 0, 2 * Math.PI);
+        ctx.stroke();
+        
+        // Center dot
+        ctx.fillStyle = '#4ade80';
+        ctx.beginPath();
+        ctx.arc(16, 12, 2, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Dollar sign
+        ctx.strokeStyle = '#e2e8f0'; // dt-silver
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(15, 20);
+        ctx.lineTo(15, 24);
+        ctx.moveTo(17, 20);
+        ctx.lineTo(17, 24);
+        ctx.moveTo(13, 22);
+        ctx.lineTo(19, 22);
+        ctx.stroke();
+        
+        // Convert to data URL and create download link
+        const dataURL = canvas.toDataURL('image/png');
+        console.log('Favicon created. Right-click the canvas and save as favicon.png');
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* Custom Styles */
+body {
+    font-family: 'Manrope', sans-serif;
+    background-color: #FFFFFF;
+    color: #212529;
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+
+/* Particle.js Background Styling */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Place it behind all content */
+}
+
+/* Define custom colors for light mode theme */
+.bg-dt-navy { background-color: #FFFFFF; }
+.bg-dt-charcoal { background-color: #F8F9FA; }
+.text-dt-slate { color: #6C757D; }
+.text-dt-silver { color: #212529; }
+.text-dt-teal { color: #6EC1E4; }
+.border-dt-teal { border-color: #6EC1E4; }
+.shadow-dt-teal { box-shadow: 0 0 15px rgba(110, 193, 228, 0.5); }
+.shadow-soft { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02); }
+
+/* Animation for sections fading in on scroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Pulsing button effect */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(110, 193, 228, 0.5);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(110, 193, 228, 0.8);
+    }
+}
+.pulse-btn {
+    animation: pulse 2.5s infinite;
+}
+
+/* Lock screen notification animation */
+@keyframes slide-in-notification {
+    0% { 
+        transform: translateY(-100%); 
+        opacity: 0; 
+        scale: 0.95;
+    }
+    15% { 
+        transform: translateY(0); 
+        opacity: 1; 
+        scale: 1;
+    }
+    85% { 
+        transform: translateY(0); 
+        opacity: 1; 
+        scale: 1;
+    }
+    100% { 
+        transform: translateY(-100%); 
+        opacity: 0; 
+        scale: 0.95;
+    }
+}
+
+/* Progressive fade animation for lock screen elements */
+@keyframes lock-screen-fade-out {
+    0% { 
+        opacity: 1;
+    }
+    15% { 
+        opacity: 0.3;
+    }
+    85% { 
+        opacity: 0.3;
+    }
+    100% { 
+        opacity: 1;
+    }
+}
+
+.notification-bubble {
+    animation: slide-in-notification 6s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+.lock-screen-fade {
+    opacity: 1;
+    animation: lock-screen-fade-out 6s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+/* Card flip animation */
+.flipper-card { perspective: 1000px; }
+.flipper-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
+.flipper-card:hover .flipper-card-inner { transform: rotateY(180deg); }
+.flipper-card-front, .flipper-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; border-radius: 0.75rem; }
+.flipper-card-front { background-color: #FFFFFF; border: 1px solid #E9ECEF; }
+.flipper-card-back { background-color: #E9ECEF; transform: rotateY(180deg); }
+
+/* Glitch effect for donor voices */
+.glitch-text { transition: color 0.2s; }
+.glitch-text:hover {
+    color: #d90429;
+    text-shadow: 1px 1px 1px #6EC1E4, -1px -1px 1px #fff;
+}
