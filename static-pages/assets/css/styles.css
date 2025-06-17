@@ -117,3 +117,22 @@ body {
     color: #d90429;
     text-shadow: 1px 1px 1px #6EC1E4, -1px -1px 1px #fff;
 }
+
+/* Header height optimization - match WordPress app navigation */
+header .container {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Add vertical padding to navigation links instead of header container */
+nav a {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+/* Ensure logo and CTA button maintain proper vertical alignment */
+header img,
+header .bg-dt-charcoal {
+    margin-top: 0;
+    margin-bottom: 0;
+}
