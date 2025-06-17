@@ -136,3 +136,21 @@ header .bg-dt-charcoal {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+/* Get Started button - pill/capsule style */
+.get-started-btn {
+    background-color: transparent !important;
+    border: 1px solid #CED4DA !important;
+    border-radius: 50px !important;
+    color: #212529 !important;
+    padding: 8px 20px !important;
+    font-weight: 400 !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+}
+
+.get-started-btn:hover {
+    background-color: #6EC1E4 !important;
+    border-color: #6EC1E4 !important;
+    color: white !important;
+}
