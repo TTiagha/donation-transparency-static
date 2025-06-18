@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Transparency - Build Unshakeable Donor Trust (Light Mode)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles for Light Mode */
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #FFFFFF; /* Main background is white */
+            color: #212529; /* Primary text is dark charcoal */
+            overflow-x: hidden;
+        }
+
+        /* Define new light mode color palette */
+        .bg-lm-white { background-color: #FFFFFF; }
+        .bg-lm-offwhite { background-color: #F8F9FA; }
+        .text-lm-dark { color: #212529; }
+        .text-lm-gray { color: #6C757D; }
+        .text-lm-accent { color: #6EC1E4; }
+        .bg-lm-accent { background-color: #6EC1E4; }
+        .border-lm-accent { border-color: #6EC1E4; }
+        .shadow-lm-accent { box-shadow: 0 0 15px rgba(110, 193, 228, 0.5); }
+        .shadow-soft { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02); }
+
+
+        /* Particle.js Background Styling */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Reveal animation (no change) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Pulsing button effect with new accent color */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(110, 193, 228, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px rgba(110, 193, 228, 0.8);
+            }
+        }
+        .pulse-btn {
+            animation: pulse 2.5s infinite;
+        }
+
+        /* Hero Text Animation (no change) */
+        .hero-headline span {
+             display: inline-block;
+             opacity: 0;
+             transform: translateY(30px) rotate(10deg);
+        }
+        
+        /* Card flip animation with new light colors */
+        .flipper-card { perspective: 1000px; }
+        .flipper-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
+        .flipper-card:hover .flipper-card-inner { transform: rotateY(180deg); }
+        .flipper-card-front, .flipper-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; border-radius: 0.75rem; }
+        .flipper-card-front { background-color: #FFFFFF; border: 1px solid #E9ECEF;}
+        .flipper-card-back { background-color: #E9ECEF; transform: rotateY(180deg); }
+        
+        /* Glitch effect for donor voices (no change in logic, just colors) */
+        .glitch-text { transition: color 0.2s; }
+        .glitch-text:hover {
+            color: #d90429;
+            text-shadow: 1px 1px 1px #6EC1E4, -1px -1px 1px #fff;
+        }
+    </style>
+</head>
+<body class="bg-lm-white">
+    <!-- Particle.js container -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-lm-white bg-opacity-80 backdrop-blur-sm shadow-soft">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <img src="data:image/png;base64,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" alt="Donation Transparency Logo" class="h-10 w-10">
+                <span class="text-2xl font-extrabold text-lm-dark">Donation<span class="text-lm-accent">Transparency</span></span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#problem" class="text-lm-gray hover:text-lm-accent transition duration-300">The Problem</a>
+                <a href="#solution" class="text-lm-gray hover:text-lm-accent transition duration-300">Our Solution</a>
+                <a href="#proof" class="text-lm-gray hover:text-lm-accent transition duration-300">The Proof</a>
+            </nav>
+            <a href="#cta" class="bg-lm-offwhite text-lm-dark px-4 py-2 rounded-lg hover:bg-lm-accent hover:text-white font-bold transition border border-gray-200">Get Started</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section class="min-h-screen flex items-center pt-24 pb-12 overflow-hidden relative z-10">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-8">
+                <!-- Left Content -->
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h2 class="hero-headline text-4xl md:text-6xl font-extrabold text-lm-dark leading-tight">
+                        <span>Donors</span> <span>see</span> <span>every</span> <span>dollar</span> <span>you</span> <span>spend—</span>
+                        <span class="text-lm-accent">the</span> <span class="text-lm-accent">instant</span> <span class="text-lm-accent">you</span> <span class="text-lm-accent">spend</span> <span class="text-lm-accent">it.</span>
+                    </h2>
+                    <p class="hero-subheadline text-lm-gray mt-6 text-lg max-w-xl mx-auto md:mx-0">
+                        Stop fighting donor skepticism. Build unshakeable trust from day one with the world's most transparent fundraising platform. Perfect for new charities, local heroes, and passionate individuals who believe honesty is the best policy.
+                    </p>
+                    <div class="hero-cta mt-10">
+                        <a href="#cta" class="inline-block bg-lm-accent text-white font-bold text-lg px-10 py-4 rounded-lg pulse-btn transition transform hover:scale-105">
+                            Start a Transparent Fundraiser for FREE
+                        </a>
+                    </div>
+                </div>
+                <!-- Right Phone Graphic -->
+                <div class="hero-phone md:w-1/2 flex justify-center items-center mt-10 md:mt-0">
+                     <div class="relative w-72 h-[34rem] bg-gray-800 border-8 border-gray-900 rounded-[2.5rem] shadow-2xl">
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-6 bg-gray-900 rounded-b-xl"></div>
+                        <div class="absolute inset-0 flex items-center justify-center p-4">
+                           <svg class="w-24 h-24 text-lm-accent opacity-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008h-.008v-.008z" />
+                           </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Problem (Target Audience) -->
+        <section id="problem" class="py-20 bg-lm-offwhite relative z-10">
+            <div class="container mx-auto px-6 text-center">
+                <div class="reveal">
+                    <h3 class="text-4xl font-extrabold text-lm-dark">You Pour Your Heart In. Donors Hold Back.</h3>
+                    <p class="text-lm-gray mt-4 max-w-3xl mx-auto text-lg">Whether you're a new charity, a local hero, or an individual fundraiser, you face the same challenge: overcoming the trust gap. We built our platform to solve your specific problems.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 mt-12">
+                    <!-- Card 1: New Charities -->
+                    <div class="flipper-card h-80 reveal">
+                        <div class="flipper-card-inner">
+                            <div class="flipper-card-front">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-lm-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                                <h4 class="text-2xl font-bold mt-4 text-lm-dark">For New Charities</h4>
+                                <p class="text-lm-gray mt-2">Hover to see your challenges</p>
+                            </div>
+                            <div class="flipper-card-back">
+                                <p class="text-lm-dark">Struggling to establish credibility against bigger names? Our real-time proof of spending helps you build trust from your very first donation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2: Local Heroes -->
+                    <div class="flipper-card h-80 reveal" style="transition-delay: 200ms;">
+                         <div class="flipper-card-inner">
+                            <div class="flipper-card-front">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-lm-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                <h4 class="text-2xl font-bold mt-4 text-lm-dark">For Local Heroes</h4>
+                                <p class="text-lm-gray mt-2">Hover to see your challenges</p>
+                            </div>
+                            <div class="flipper-card-back">
+                                <p class="text-lm-dark">Your strength is your community bond. We help you strengthen it by showing neighbors exactly how their support is lifting up your shared community, in real time.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3: Individual Fundraisers -->
+                    <div class="flipper-card h-80 reveal" style="transition-delay: 400ms;">
+                        <div class="flipper-card-inner">
+                            <div class="flipper-card-front">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-lm-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                <h4 class="text-2xl font-bold mt-4 text-lm-dark">For Individuals</h4>
+                                <p class="text-lm-gray mt-2">Hover to see your challenges</p>
+                            </div>
+                             <div class="flipper-card-back">
+                                <p class="text-lm-dark">Relying on the trust of friends and family? We eliminate any awkward questions by providing verifiable proof that their generosity is going exactly where you said it would.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: The Solution (How it works) -->
+        <section id="solution" class="py-24 bg-lm-white relative z-10">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h3 class="text-4xl font-extrabold text-lm-dark">A Toolkit for Complete Transparency</h3>
+                     <p class="text-lm-gray mt-4 max-w-3xl mx-auto text-lg">Every feature is designed to solve your biggest challenge: building donor confidence. Follow the journey of a single donation.</p>
+                </div>
+                
+                <!-- Timeline/Journey -->
+                <div class="space-y-16">
+                    <!-- Step 1 -->
+                    <div class="solution-step flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 flex justify-center solution-icon">
+                            <svg class="w-32 h-32 text-lm-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a2.25 2.25 0 01-2.25 2.25H5.25a2.25 2.25 0 01-2.25-2.25v-8.25M12 4.875A2.625 2.625 0 1012 10.125A2.625 2.625 0 0012 4.875z" /><path stroke-linecap="round" stroke-linejoin="round" d="M18.75 4.5H5.25A2.25 2.25 0 003 6.75v.518c.386.054.772.128 1.158.224l.493.123a2.25 2.25 0 001.996-2.003L7.5 5.25H16.5l.205 1.846a2.25 2.25 0 001.996 2.003l.493-.123c.386-.096.772-.17 1.158-.224V6.75A2.25 2.25 0 0018.75 4.5z" /></svg>
+                        </div>
+                        <div class="md:w-1/2 solution-text">
+                            <h4 class="text-2xl font-bold text-lm-accent">1. Donation Received</h4>
+                            <p class="text-lm-gray mt-2">Your supporter makes a donation. It's instantly logged in your secure Donation Transparency account, and they receive an immediate confirmation.</p>
+                        </div>
+                    </div>
+                     <!-- Step 2 -->
+                    <div class="solution-step flex flex-col md:flex-row-reverse items-center gap-8">
+                        <div class="md:w-1/2 flex justify-center solution-icon">
+                            <svg class="w-32 h-32 text-lm-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.572L16.5 21.75l-.398-1.178a3.375 3.375 0 00-2.455-2.456L12.75 18l1.178-.398a3.375 3.375 0 002.455-2.456L16.5 14.25l.398 1.178a3.375 3.375 0 002.456 2.456L20.25 18l-1.178.398a3.375 3.375 0 00-2.456 2.456z" />
+                            </svg>
+                        </div>
+                        <div class="md:w-1/2 solution-text">
+                            <h4 class="text-2xl font-bold text-lm-accent">2. Spending is Tracked Automatically</h4>
+                            <p class="text-lm-gray mt-2">Zero manual entry required. Simply connect your accounts via Plaid. Our intelligent algorithms automatically detect expenses, categorize them, and attach receipts for you.</p>
+                        </div>
+                    </div>
+                     <!-- Step 3 -->
+                    <div class="solution-step flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 flex justify-center solution-icon">
+                            <svg class="w-32 h-32 text-lm-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+                        </div>
+                        <div class="md:w-1/2 solution-text">
+                            <h4 class="text-2xl font-bold text-lm-accent">3. Donors are Notified Instantly</h4>
+                            <p class="text-lm-gray mt-2">The magic happens here. All your donors receive a real-time "Ping!" showing exactly how their money was just used. This isn't a report weeks later; it's instant proof.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: The Proof (Donor Voices vs Fundraiser Voices) -->
+        <section id="proof" class="py-24 bg-lm-offwhite relative z-10">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
+                    <!-- Left Column: The Doubt -->
+                    <div class="reveal">
+                        <h3 class="text-3xl font-extrabold text-red-500">The Doubt They Feel</h3>
+                        <p class="text-lm-gray mt-2">The growing frustration of would-be donors presents a critical problem. This is what you're up against.</p>
+                        <div class="mt-8 space-y-6">
+                            <blockquote class="border-l-4 border-red-300 pl-4 italic glitch-text">"Afraid to say most big charities are just scams. I shall NEVER EVER donate a single penny to any of them again..."<cite class="block not-italic text-sm text-lm-gray mt-2">- Debra Claridge</cite></blockquote>
+                            <blockquote class="border-l-4 border-red-300 pl-4 italic glitch-text">"Not a betting man I'm afraid, and charity (unless local) is a scam..."<cite class="block not-italic text-sm text-lm-gray mt-2">- KDB 69</cite></blockquote>
+                        </div>
+                    </div>
+                    <!-- Right Column: The Confidence -->
+                     <div class="reveal" style="transition-delay: 200ms;">
+                        <h3 class="text-3xl font-extrabold text-lm-accent">The Confidence You Build</h3>
+                        <p class="text-lm-dark mt-2">With our tools, you create a new narrative. This is what your supporters experience.</p>
+                        <div class="mt-8 space-y-6">
+                            <blockquote class="border-l-4 border-lm-accent pl-4 italic">"As a new 501(c)(3), building trust was our biggest hurdle. With DT, our first-time donors could see their impact in real-time. Our campaign exceeded its goal by 40%."<cite class="block not-italic text-sm text-lm-gray mt-2">- Founder, 'Hopeful Start Initiative'</cite></blockquote>
+                            <blockquote class="border-l-4 border-lm-accent pl-4 italic">"Our community food drive runs on local trust. Showing every dollar spent, as it happened, was a game-changer. People gave more because they felt truly connected."<cite class="block not-italic text-sm text-lm-gray mt-2">- Organizer, 'Main Street Food Project'</cite></blockquote>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-16 reveal">
+                    <h4 class="text-2xl font-bold text-lm-dark">It's Time for a New Story.</h4>
+                    <p class="text-lm-gray mt-2">Donation Transparency was built to repair the broken bond between givers and doers. <br/> We provide the tools to replace doubt with proof.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Final CTA -->
+        <section id="cta" class="py-24 bg-lm-white relative z-10">
+            <div class="container mx-auto px-6 text-center">
+                 <div class="reveal">
+                    <h3 class="text-4xl md:text-5xl font-extrabold text-lm-dark">Ready to Build Unshakeable Donor Trust?</h3>
+                    <p class="text-lm-gray mt-6 text-lg max-w-2xl mx-auto">Stop fighting skepticism and start building confidence. Show your impact instantly and watch your support grow. Launch your first transparent fundraiser today.</p>
+                    <div class="mt-10">
+                        <a href="#" class="inline-block bg-lm-accent text-white font-bold text-lg px-10 py-4 rounded-lg pulse-btn transition transform hover:scale-105">
+                            Get Started for FREE
+                        </a>
+                        <p class="text-lm-gray text-sm mt-4">0% Platform Fees. 100% Transparency.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-lm-offwhite py-8 relative z-10 border-t border-gray-200">
+        <div class="container mx-auto px-6 text-center text-lm-gray">
+            <p>&copy; 2025 Donation Transparency. All Rights Reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-lm-dark transition">Privacy Policy</a>
+                <a href="#" class="hover:text-lm-dark transition">Terms of Service</a>
+                <a href="#" class="hover:text-lm-dark transition">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- GSAP and Particle.js Initializations ---
+
+        // 1. Particle.js Background for Light Mode
+        particlesJS('particles-js', {
+          "particles": {
+            "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+            "color": { "value": "#6EC1E4" }, /* New accent color */
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.3, "random": true },
+            "size": { "value": 3, "random": true },
+            "line_linked": { "enable": true, "distance": 150, "color": "#6EC1E4", "opacity": 0.2, "width": 1 },
+            "move": { "enable": true, "speed": 1, "direction": "none", "random": false, "straight": false, "out_mode": "out" }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
+            "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+          },
+          "retina_detect": true
+        });
+
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 2. Hero Section Animation
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        tl.to('.hero-headline span', { 
+            y: 0,
+            opacity: 1,
+            rotate: 0,
+            stagger: 0.05,
+            duration: 1
+        })
+        .from('.hero-subheadline', { opacity: 0, y: 20, duration: 0.8 }, "-=0.5")
+        .from('.hero-cta', { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
+        .from('.hero-phone', { opacity: 0, scale: 0.8, duration: 1 }, "-=0.8");
+
+        // 3. Solution Section Scroll-Triggered Animations
+        const solutionSteps = document.querySelectorAll('.solution-step');
+        solutionSteps.forEach((step, index) => {
+            const icon = step.querySelector('.solution-icon');
+            const text = step.querySelector('.solution-text');
+            const isReversed = step.classList.contains('md:flex-row-reverse');
+
+            gsap.from(icon, {
+                scrollTrigger: {
+                    trigger: step,
+                    start: 'top 80%',
+                    end: 'bottom 80%',
+                    toggleActions: 'play none none reverse',
+                },
+                x: isReversed ? 100 : -100,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+            gsap.from(text, {
+                 scrollTrigger: {
+                    trigger: step,
+                    start: 'top 80%',
+                    end: 'bottom 80%',
+                    toggleActions: 'play none none reverse',
+                },
+                x: isReversed ? -100 : 100,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 0.2
+            });
+        });
+
+
+        // Fallback for simple reveals if needed (keeping original logic)
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        revealElements.forEach(el => observer.observe(el));
+    });
+    </script>
+</body>
+</html>

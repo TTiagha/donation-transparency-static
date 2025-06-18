@@ -1,0 +1,13 @@
+version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        - echo "Deploying static site with WordPress proxy"
+  artifacts:
+    baseDirectory: static-pages
+    files:
+      - '**/*'
+      - '_redirects'
+  cache:
+    paths: []

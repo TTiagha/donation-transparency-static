@@ -1,0 +1,27 @@
+# WordPress Admin
+/wp-admin/*  http://52.73.45.190/wp-admin/:splat  200!
+/wp-login.php  http://52.73.45.190/wp-login.php  200!
+
+# WordPress API (Critical for Stripe/Plaid)
+/wp-json/*  http://52.73.45.190/wp-json/:splat  200!
+
+# WordPress Core Files
+/wp-content/*  http://52.73.45.190/wp-content/:splat  200!
+/wp-includes/*  http://52.73.45.190/wp-includes/:splat  200!
+
+# App Routes
+/login  http://52.73.45.190/login  200!
+/register  http://52.73.45.190/register  200!
+/donate/*  http://52.73.45.190/donate/:splat  200!
+/receiver-dashboard/*  http://52.73.45.190/receiver-dashboard/:splat  200!
+/giver-dashboard/*  http://52.73.45.190/giver-dashboard/:splat  200!
+
+# Stripe/Plaid Specific
+/stripe/*  http://52.73.45.190/stripe/:splat  200!
+/plaid/*  http://52.73.45.190/plaid/:splat  200!
+
+# WordPress AJAX
+/wp-admin/admin-ajax.php  http://52.73.45.190/wp-admin/admin-ajax.php  200!
+
+# Default - Serve static content
+/*  /static-pages/:splat  200
