@@ -1,13 +1,13 @@
 version: 1
 frontend:
   phases:
-    # No pre-build or build needed for static HTML
     build:
       commands:
-        - echo "Deploying static site"
+        - echo "Deploying static site with WordPress proxy"
   artifacts:
     baseDirectory: static-pages
     files:
       - '**/*'
+      - '_redirects'
   cache:
     paths: []
