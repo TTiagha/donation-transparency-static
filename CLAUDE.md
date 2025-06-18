@@ -1,12 +1,45 @@
 # Claude.md - Project Documentation
 
+## Waitlist System Management
+
+### How to Disable/Remove Waitlist (Revert to Original)
+
+**Quick Disable (Emergency):**
+```bash
+# Revert the last commit to restore original "Get Started" buttons
+git revert HEAD
+git push origin master:main
+```
+
+**Manual Disable:**
+In `/static-pages/index.html`, change all waitlist buttons back to:
+```html
+<!-- From: -->
+<button onclick="openWaitlistModal()">Get Started</button>
+
+<!-- To: -->
+<a href="https://donationtransparency.org/onboarding/?step=1">Get Started</a>
+```
+
+**What to Preserve When Removing:**
+- Export `/static-pages/waitlist_data.csv` (contains all signups)
+- Save `/static-pages/templates/waitlist_confirmation.html` for future use
+- Keep signup analytics and user data
+
+**Files Added by Waitlist System:**
+- `/static-pages/api/` (all email handling)
+- `/static-pages/templates/` (email templates)
+- `/static-pages/config/` (configuration)
+- Modal HTML in `index.html` (lines ~337-408)
+- JavaScript functions in `main.js` (waitlist functions)
+
 ## Git Sync Configuration
 
 ### Repository Information
 - **Repository Name**: donation-transparency-static
 - **GitHub URL**: https://github.com/TTiagha/donation-transparency-static
-- **Personal Access Token**: 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
-- **Repository URL with Token**: https://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@github.com/TTiagha/donation-transparency-static.git
+- **Personal Access Token**: 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
+- **Repository URL with Token**: https://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@github.com/TTiagha/donation-transparency-static.git
 
 ### Git Sync Process
 
