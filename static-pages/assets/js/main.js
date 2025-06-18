@@ -100,19 +100,20 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     const data = Object.fromEntries(formData);
     
     try {
-        // Send data to your email service
-        // Option 1: Use your EC2 email service (update this URL)
-        const emailServiceUrl = 'https://your-ec2-domain.com/api/waitlist';
-        
-        // Option 2: For testing, use a simple service like FormSpree or EmailJS
-        // const emailServiceUrl = 'https://formspree.io/f/your-form-id';
-        
-        const response = await fetch('/api/waitlist', {
+        // Use FormSpree for static hosting (Amplify doesn't support PHP)
+        const response = await fetch('https://formspree.io/f/xanywpza', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                organizationType: data.organizationType,
+                timestamp: new Date().toISOString(),
+                _subject: 'New Waitlist Signup - Donation Transparency'
+            })
         });
         
         if (response.ok) {
