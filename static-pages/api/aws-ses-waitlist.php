@@ -1,4 +1,15 @@
 <?php
+// Load environment variables
+if (file_exists('../.env')) {
+    $lines = file('../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos($line, '=') !== false && substr($line, 0, 1) !== '#') {
+            list($key, $value) = explode('=', $line, 2);
+            $_ENV[trim($key)] = trim($value);
+        }
+    }
+}
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
@@ -78,8 +89,8 @@ $sesClient = new SesClient([
     'version' => 'latest',
     'region' => 'us-east-1',
     'credentials' => [
-        'key' => 'AKIAXLB4FE56STDSAV6J',
-        'secret' => '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',
+        'key' => $_ENV['AWS_ACCESS_KEY_ID'] ?? '',
+        'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'] ?? '',
     ]
 ]);
 

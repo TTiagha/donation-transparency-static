@@ -38,8 +38,8 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 ### Repository Information
 - **Repository Name**: donation-transparency-static
 - **GitHub URL**: https://github.com/TTiagha/donation-transparency-static
-- **Personal Access Token**: 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
-- **Repository URL with Token**: https://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@github.com/TTiagha/donation-transparency-static.git
+- **Personal Access Token**: [STORED_SECURELY_NOT_IN_CODE]
+- **Repository URL with Token**: https://[TOKEN]@github.com/TTiagha/donation-transparency-static.git
 
 ### Git Sync Process
 

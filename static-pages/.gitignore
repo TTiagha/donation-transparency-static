@@ -1,0 +1,16 @@
+# Environment variables with secrets
+.env
+
+# Vendor directory
+vendor/
+
+# Waitlist data
+waitlist_data.csv
+
+# Log files
+*.log
+error_log
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -245,8 +245,8 @@ $awsConfig = [
     'region' => 'us-east-1',
     'version' => 'latest',
     'credentials' => [
-        'key' => 'AKIAXLB4FE56STDSAV6J',
-        'secret' => 'IT5z0mmN0eQRg53FpruPjWGblXgMxj7w/wGUr/9o',
+        'key' => $_ENV['AWS_ACCESS_KEY_ID'] ?? 'YOUR_AWS_KEY_HERE',
+        'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'] ?? 'YOUR_AWS_SECRET_HERE',
     ]
 ];
 
