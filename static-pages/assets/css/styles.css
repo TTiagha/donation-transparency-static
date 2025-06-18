@@ -24,7 +24,7 @@ body {
 .text-dt-teal { color: #6EC1E4; }
 .border-dt-teal { border-color: #6EC1E4; }
 .shadow-dt-teal { box-shadow: 0 0 15px rgba(110, 193, 228, 0.5); }
-.shadow-soft { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02); }
+.shadow-soft { box-shadow: 0px 1px 10px 2.5px rgba(0,0,0,0.5); transition: box-shadow 0.3s ease-in-out; }
 
 /* Animation for sections fading in on scroll */
 .reveal {
@@ -116,4 +116,41 @@ body {
 .glitch-text:hover {
     color: #d90429;
     text-shadow: 1px 1px 1px #6EC1E4, -1px -1px 1px #fff;
+}
+
+/* Header height optimization - match WordPress app navigation */
+header .container {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Add vertical padding to navigation links instead of header container */
+nav a {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+/* Ensure logo and CTA button maintain proper vertical alignment */
+header img,
+header .bg-dt-charcoal {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Get Started button - pill/capsule style */
+.get-started-btn {
+    background-color: transparent !important;
+    border: 1px solid #CED4DA !important;
+    border-radius: 50px !important;
+    color: #212529 !important;
+    padding: 8px 20px !important;
+    font-weight: 400 !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+}
+
+.get-started-btn:hover {
+    background-color: #6EC1E4 !important;
+    border-color: #6EC1E4 !important;
+    color: white !important;
 }
