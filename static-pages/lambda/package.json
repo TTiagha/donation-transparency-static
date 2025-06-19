@@ -1,0 +1,12 @@
+{
+  "name": "waitlist-handler",
+  "version": "1.0.0",
+  "description": "AWS Lambda function for handling waitlist signups with SES",
+  "main": "waitlist-handler.js",
+  "dependencies": {
+    "aws-sdk": "^2.1500.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}

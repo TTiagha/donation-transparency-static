@@ -100,21 +100,44 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     const data = Object.fromEntries(formData);
     
     try {
-        // Use FormSpree for static hosting (Amplify doesn't support PHP)
-        const response = await fetch('https://formspree.io/f/xanywpza', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                firstName: data.firstName,
-                lastName: data.lastName,
-                email: data.email,
-                organizationType: data.organizationType,
-                timestamp: new Date().toISOString(),
-                _subject: 'New Waitlist Signup - Donation Transparency'
-            })
-        });
+        // Configuration - easily switch between FormSpree and AWS Lambda
+        const USE_AWS_LAMBDA = true; // Set to true when Lambda is deployed
+        const LAMBDA_ENDPOINT = 'https://your-api-id.execute-api.us-east-1.amazonaws.com/prod/waitlist';
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xanywpza';
+        
+        let response;
+        
+        if (USE_AWS_LAMBDA) {
+            // Use AWS Lambda with SES (preferred - uses your paid AWS SES service)
+            response = await fetch(LAMBDA_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    organizationType: data.organizationType
+                })
+            });
+        } else {
+            // Use FormSpree for static hosting (temporary solution)
+            response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    organizationType: data.organizationType,
+                    timestamp: new Date().toISOString(),
+                    _subject: 'New Waitlist Signup - Donation Transparency'
+                })
+            });
+        }
         
         if (response.ok) {
             // Close waitlist modal and show success modal
