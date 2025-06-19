@@ -9,7 +9,7 @@
 *   **Goal:** Create a safe, isolated, and identical copy of the live WordPress site on a new EC2 instance, accessible via a subdomain.
 *   **Assumptions:**
     *   The live site is hosted on an EC2 instance.
-    *   Access to the AWS Management Console is available to create snapshots and launch new instances.
+    *   Access to the AWS Management Conso1le is available to create snapshots and launch new instances.
     *   DNS management access is available to create a new subdomain.
 
 *   **Steps:**
