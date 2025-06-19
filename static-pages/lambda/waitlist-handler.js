@@ -10,12 +10,8 @@ const ses = new SES({
 });
 
 export const handler = async (event, context) => {
-    // CORS headers for Function URLs (configured at Function level, but good to include)
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST'
-    };
+    // CORS headers for Function URLs (only set if not already configured at Function level)
+    const headers = {};
 
     try {
         // Parse request body
