@@ -39,7 +39,7 @@ fi
 echo "🔧 Setting environment variables..."
 aws lambda update-function-configuration \
     --function-name $FUNCTION_NAME \
-    --environment Variables="{ACCESS_KEY_ID=$ACCESS_KEY_ID,SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY,AWS_REGION=$REGION,ADMIN_EMAIL=support@donationtransparency.org}" \
+    --environment Variables="{ACCESS_KEY_ID=$ACCESS_KEY_ID,SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY,REGION=$REGION,ADMIN_EMAIL=support@donationtransparency.org}" \
     --region $REGION
 
 echo "✅ Lambda function deployed successfully!"

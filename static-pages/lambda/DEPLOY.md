@@ -33,7 +33,7 @@ cd /mnt/c/shock/static-pages/lambda
 2. Add these variables:
    - `ACCESS_KEY_ID` = `[Your AWS Access Key ID]`
    - `SECRET_ACCESS_KEY` = `[Your AWS Secret Access Key]`
-   - `AWS_REGION` = `us-east-1`
+   - `REGION` = `us-east-1`
    - `ADMIN_EMAIL` = `support@donationtransparency.org`
 
 **Step 4: Create API Gateway**

@@ -102,7 +102,7 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     try {
         // Configuration - easily switch between FormSpree and AWS Lambda
         const USE_AWS_LAMBDA = true; // Set to true when Lambda is deployed
-        const LAMBDA_ENDPOINT = 'https://your-api-id.execute-api.us-east-1.amazonaws.com/prod/waitlist';
+        const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
         const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xanywpza';
         
         let response;

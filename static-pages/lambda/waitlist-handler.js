@@ -1,28 +1,21 @@
-const AWS = require('aws-sdk');
+import { SES, SendEmailCommand } from '@aws-sdk/client-ses';
 
 // Configure AWS SES
-const ses = new AWS.SES({
-    region: process.env.AWS_REGION || 'us-east-1',
-    accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY
+const ses = new SES({
+    region: process.env.REGION || 'us-east-1',
+    credentials: {
+        accessKeyId: process.env.ACCESS_KEY_ID,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY
+    }
 });
 
-exports.handler = async (event, context) => {
-    // CORS headers
+export const handler = async (event, context) => {
+    // CORS headers for Function URLs (configured at Function level, but good to include)
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+        'Access-Control-Allow-Methods': 'POST'
     };
-
-    // Handle OPTIONS preflight request
-    if (event.httpMethod === 'OPTIONS') {
-        return {
-            statusCode: 200,
-            headers,
-            body: ''
-        };
-    }
 
     try {
         // Parse request body
@@ -86,7 +79,7 @@ exports.handler = async (event, context) => {
 
         // Email parameters for user confirmation
         const userEmailParams = {
-            Source: 'noreply@donationtransparency.com',
+            Source: 'support@donationtransparency.org',
             Destination: {
                 ToAddresses: [email]
             },
@@ -114,7 +107,7 @@ The Donation Transparency Team`
 
         // Email parameters for admin notification
         const adminEmailParams = {
-            Source: 'noreply@donationtransparency.com',
+            Source: 'support@donationtransparency.org',
             Destination: {
                 ToAddresses: [process.env.ADMIN_EMAIL || 'support@donationtransparency.org']
             },
@@ -139,8 +132,8 @@ Source: Donation Transparency Waitlist`
 
         // Send both emails
         await Promise.all([
-            ses.sendEmail(userEmailParams).promise(),
-            ses.sendEmail(adminEmailParams).promise()
+            ses.send(new SendEmailCommand(userEmailParams)),
+            ses.send(new SendEmailCommand(adminEmailParams))
         ]);
 
         return {
