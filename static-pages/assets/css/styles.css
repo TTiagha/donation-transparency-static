@@ -16,7 +16,17 @@ body {
     z-index: -1; /* Place it behind all content */
 }
 
-/* Define custom colors for light mode theme */
+/* Light Mode Design System - Following documentation */
+.bg-lm-white { background-color: #FFFFFF; }
+.bg-lm-offwhite { background-color: #F8F9FA; }
+.text-lm-dark { color: #212529; }
+.text-lm-gray { color: #6C757D; }
+.text-lm-accent { color: #6EC1E4; }
+.bg-lm-accent { background-color: #6EC1E4; }
+.border-lm-accent { border-color: #6EC1E4; }
+.shadow-lm-accent { box-shadow: 0 0 15px rgba(110, 193, 228, 0.5); }
+
+/* Legacy dt-* classes for backward compatibility during transition */
 .bg-dt-navy { background-color: #FFFFFF; }
 .bg-dt-charcoal { background-color: #F8F9FA; }
 .text-dt-slate { color: #6C757D; }
@@ -24,7 +34,9 @@ body {
 .text-dt-teal { color: #6EC1E4; }
 .border-dt-teal { border-color: #6EC1E4; }
 .shadow-dt-teal { box-shadow: 0 0 15px rgba(110, 193, 228, 0.5); }
-.shadow-soft { box-shadow: 0px 1px 10px 2.5px rgba(0,0,0,0.5); transition: box-shadow 0.3s ease-in-out; }
+
+/* Enhanced shadows for light mode */
+.shadow-soft { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02); transition: box-shadow 0.3s ease-in-out; }
 
 /* Animation for sections fading in on scroll */
 .reveal {
@@ -137,7 +149,7 @@ header .bg-dt-charcoal {
     margin-bottom: 0;
 }
 
-/* Get Started button - pill/capsule style */
+/* Get Started button - pill/capsule style using light mode colors */
 .get-started-btn {
     background-color: transparent !important;
     border: 1px solid #CED4DA !important;
