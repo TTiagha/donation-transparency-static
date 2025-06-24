@@ -2,6 +2,33 @@
 
 ## Waitlist System Management
 
+<<<<<<< HEAD
+=======
+### AWS SES Integration Status
+- ✅ **Current**: Using FormSpree (temporary solution)
+- ✅ **Ready**: AWS Lambda function created for your paid SES service
+- ⏳ **Next**: Deploy Lambda to use your AWS SES service
+
+### Switch to AWS SES (Recommended - Uses Your Paid Service)
+1. **Deploy Lambda Function:**
+   - Follow `/static-pages/lambda/DEPLOY.md`
+   - Deploy Lambda function and create API Gateway
+   - Note your API Gateway endpoint URL
+
+2. **Switch Frontend to AWS:**
+   ```javascript
+   // In /static-pages/assets/js/main.js
+   const USE_AWS_LAMBDA = true; // Change from false to true
+   const LAMBDA_ENDPOINT = 'https://YOUR-API-ID.execute-api.us-east-1.amazonaws.com/prod/waitlist';
+   ```
+
+3. **Benefits:**
+   - Uses your paid AWS SES service (no FormSpree dependency)
+   - Professional branded emails with full templates
+   - Admin notifications for every signup
+   - Better email deliverability
+
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 ### How to Disable/Remove Waitlist (Revert to Original)
 
 **Quick Disable (Emergency):**
@@ -21,6 +48,7 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 <a href="https://donationtransparency.org/onboarding/?step=1">Get Started</a>
 ```
 
+<<<<<<< HEAD
 **What to Preserve When Removing:**
 - Export `/static-pages/waitlist_data.csv` (contains all signups)
 - Save `/static-pages/templates/waitlist_confirmation.html` for future use
@@ -30,6 +58,12 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 - `/static-pages/api/` (all email handling)
 - `/static-pages/templates/` (email templates)
 - `/static-pages/config/` (configuration)
+=======
+**Files Added by Waitlist System:**
+- `/static-pages/lambda/` (AWS Lambda function for SES)
+- `/static-pages/api/` (PHP version - not used in Amplify)
+- `/static-pages/templates/` (email templates)
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 - Modal HTML in `index.html` (lines ~337-408)
 - JavaScript functions in `main.js` (waitlist functions)
 
@@ -39,7 +73,11 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 - **Repository Name**: donation-transparency-static
 - **GitHub URL**: https://github.com/TTiagha/donation-transparency-static
 - **Personal Access Token**: [STORED_SECURELY_NOT_IN_CODE]
+<<<<<<< HEAD
 - **Repository URL with Token**: https://[TOKEN]@github.com/TTiagha/donation-transparency-static.git
+=======
+- **Repository URL with Token**: https://[YOUR_TOKEN]@github.com/TTiagha/donation-transparency-static.git
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 
 ### Git Sync Process
 
@@ -48,7 +86,11 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 git init
 git config user.email "admin@donationtransparency.com"
 git config user.name "Donation Transparency"
+<<<<<<< HEAD
 git remote add origin https://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@github.com/TTiagha/donation-transparency-static.git
+=======
+git remote add origin https://[YOUR_TOKEN]@github.com/TTiagha/donation-transparency-static.git
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 ```
 
 #### Standard Sync Workflow

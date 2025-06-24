@@ -87,10 +87,17 @@ use Aws\Exception\AwsException;
 // AWS SES Configuration
 $sesClient = new SesClient([
     'version' => 'latest',
+<<<<<<< HEAD
     'region' => 'us-east-1',
     'credentials' => [
         'key' => $_ENV['AWS_ACCESS_KEY_ID'] ?? '',
         'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'] ?? '',
+=======
+    'region' => $_ENV['REGION'] ?? 'us-east-1',
+    'credentials' => [
+        'key' => $_ENV['ACCESS_KEY_ID'] ?? '',
+        'secret' => $_ENV['SECRET_ACCESS_KEY'] ?? '',
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
     ]
 ]);
 
@@ -185,7 +192,11 @@ Building trust through complete transparency
 https://donationtransparency.org";
 
 // Send notification email to admin
+<<<<<<< HEAD
 $adminEmail = 'admin@donationtransparency.com'; // Update this to your preferred email
+=======
+$adminEmail = $_ENV['ADMIN_EMAIL'] ?? 'admin@donationtransparency.com';
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 $adminSubject = 'New Waitlist Signup - Donation Transparency';
 $totalEntries = $fileExists ? count(file($csvFile)) - 1 : 1;
 $adminMessage = "New waitlist signup:

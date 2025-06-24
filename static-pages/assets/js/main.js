@@ -100,6 +100,7 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     const data = Object.fromEntries(formData);
     
     try {
+<<<<<<< HEAD
         // Send data to your email service
         // Option 1: Use your EC2 email service (update this URL)
         const emailServiceUrl = 'https://your-ec2-domain.com/api/waitlist';
@@ -114,6 +115,46 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
             },
             body: JSON.stringify(data)
         });
+=======
+        // Configuration - easily switch between FormSpree and AWS Lambda
+        const USE_AWS_LAMBDA = true; // Set to true when Lambda is deployed
+        const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xanywpza';
+        
+        let response;
+        
+        if (USE_AWS_LAMBDA) {
+            // Use AWS Lambda with SES (preferred - uses your paid AWS SES service)
+            response = await fetch(LAMBDA_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    organizationType: data.organizationType
+                })
+            });
+        } else {
+            // Use FormSpree for static hosting (temporary solution)
+            response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    organizationType: data.organizationType,
+                    timestamp: new Date().toISOString(),
+                    _subject: 'New Waitlist Signup - Donation Transparency'
+                })
+            });
+        }
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
         
         if (response.ok) {
             // Close waitlist modal and show success modal

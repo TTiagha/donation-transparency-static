@@ -1,7 +1,11 @@
 RewriteEngine On
 
 # API routing
+<<<<<<< HEAD
 RewriteRule ^api/waitlist$ api/aws-ses-waitlist.php [L]
+=======
+RewriteRule ^api/waitlist/?$ api/aws-ses-waitlist.php [L,QSA]
+>>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 
 # Ensure trailing slash redirects work properly
 RewriteCond %{REQUEST_FILENAME} !-f
