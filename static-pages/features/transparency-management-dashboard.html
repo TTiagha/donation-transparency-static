@@ -38,6 +38,53 @@
       "articleSection": "Features"
     }
     </script>
+    
+    <!-- Fix for numbered circle consistency and alignment -->
+    <style>
+        /* Ensure consistent numbered circles */
+        .numbered-circle {
+            width: 2rem !important;
+            height: 2rem !important;
+            background-color: #6EC1E4 !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 0.875rem !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* Ensure proper flexbox alignment for numbered items */
+        .numbered-item {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 1rem !important;
+            margin-bottom: 1rem !important;
+        }
+        
+        /* Ensure text content aligns properly */
+        .numbered-content {
+            flex: 1 !important;
+            line-height: 1.5 !important;
+        }
+        
+        /* Override any conflicting Tailwind styles */
+        .w-8 { width: 2rem !important; }
+        .h-8 { height: 2rem !important; }
+        .rounded-full { border-radius: 50% !important; }
+        .flex { display: flex !important; }
+        .items-center { align-items: center !important; }
+        .items-start { align-items: flex-start !important; }
+        .justify-center { justify-content: center !important; }
+        .gap-4 { gap: 1rem !important; }
+        .space-y-4 > * + * { margin-top: 1rem !important; }
+        .text-white { color: white !important; }
+        .font-bold { font-weight: bold !important; }
+        .text-sm { font-size: 0.875rem !important; }
+    </style>
 </head>
 <body class="bg-lm-white">
     <!-- Particle.js container -->
@@ -353,7 +400,7 @@
 
                                 <!-- Submit Button -->
                                 <div class="text-center pt-4">
-                                    <button onclick="calculateAssessment()" class="bg-dt-teal text-dt-navy font-bold px-6 py-3 rounded-lg hover:scale-105 transition">
+                                    <button onclick="calculateAssessment()" class="bg-lm-accent text-white font-bold px-6 py-3 rounded-lg hover:scale-105 transition">
                                         Get My Transparency Score →
                                     </button>
                                 </div>
@@ -364,7 +411,7 @@
                                     <div id="score-display" class="mb-4"></div>
                                     <div id="recommendations" class="text-lm-gray"></div>
                                     <div class="mt-6">
-                                        <a href="#building-framework" class="inline-block bg-dt-teal text-dt-navy font-bold px-4 py-2 rounded hover:scale-105 transition">
+                                        <a href="#building-framework" class="inline-block bg-lm-accent text-white font-bold px-4 py-2 rounded hover:scale-105 transition">
                                             View Implementation Guide →
                                         </a>
                                     </div>
@@ -399,23 +446,23 @@
                         </div>
                         
                         <div class="space-y-4 mb-8">
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-dt-teal rounded-full flex items-center justify-center text-dt-navy font-bold text-sm">1</div>
-                                <div>
+                            <div class="numbered-item">
+                                <div class="numbered-circle">1</div>
+                                <div class="numbered-content">
                                     <h4 class="text-lm-dark font-semibold">Smart Categorization</h4>
                                     <p class="text-lm-gray">We use a master list of categories (powered by Plaid) for initial, consistent sorting.</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-dt-teal rounded-full flex items-center justify-center text-dt-navy font-bold text-sm">2</div>
-                                <div>
+                            <div class="numbered-item">
+                                <div class="numbered-circle">2</div>
+                                <div class="numbered-content">
                                     <h4 class="text-lm-dark font-semibold">Custom Override Rules</h4>
                                     <p class="text-lm-gray">When you categorize a transaction from "Office Supply Co." as "Office Supplies," you can create an <strong class="text-lm-accent">override rule</strong>. This instantly applies that category to <em>all past and future transactions</em> from that merchant, saving you countless hours and ensuring perfect consistency.</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-dt-teal rounded-full flex items-center justify-center text-dt-navy font-bold text-sm">3</div>
-                                <div>
+                            <div class="numbered-item">
+                                <div class="numbered-circle">3</div>
+                                <div class="numbered-content">
                                     <h4 class="text-lm-dark font-semibold">Custom Categories</h4>
                                     <p class="text-lm-gray">Need a category that's unique to your mission, like "Canine Medical Supplies"? Create your own <strong class="text-lm-accent">custom categories</strong> with a single click.</p>
                                 </div>
@@ -440,16 +487,16 @@
                         </div>
                         
                         <div class="space-y-4 mb-8">
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-dt-teal rounded-full flex items-center justify-center text-dt-navy font-bold text-sm">📝</div>
-                                <div>
+                            <div class="numbered-item">
+                                <div class="numbered-circle">📝</div>
+                                <div class="numbered-content">
                                     <h4 class="text-lm-dark font-semibold">Custom Notes</h4>
                                     <p class="text-lm-gray">Add a simple note to clarify a purchase, such as, <em>"Annual software subscription for our 5-person admin team."</em></p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-dt-teal rounded-full flex items-center justify-center text-dt-navy font-bold text-sm">📎</div>
-                                <div>
+                            <div class="numbered-item">
+                                <div class="numbered-circle">📎</div>
+                                <div class="numbered-content">
                                     <h4 class="text-lm-dark font-semibold">Attachments</h4>
                                     <p class="text-lm-gray">For the ultimate proof, <strong class="text-lm-accent">attach files like receipts or invoices</strong> directly to the transaction. Show <strong class="text-lm-accent">donors</strong> the actual receipt for the new equipment you purchased for your <strong class="text-lm-accent">infrastructure projects</strong>.</p>
                                 </div>
@@ -474,16 +521,16 @@
                         </div>
                         
                         <div class="space-y-4 mb-8">
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-dt-teal rounded-full flex items-center justify-center text-dt-navy font-bold text-sm">✏️</div>
-                                <div>
+                            <div class="numbered-item">
+                                <div class="numbered-circle">✏️</div>
+                                <div class="numbered-content">
                                     <h4 class="text-lm-dark font-semibold">Easy Content Management</h4>
                                     <p class="text-lm-gray">From a simple widget on your <strong class="text-lm-accent">dashboard</strong>, you can write your <strong class="text-lm-accent">organization's</strong> story, set a public funding goal, add a compelling description, and upload a featured image.</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-dt-teal rounded-full flex items-center justify-center text-dt-navy font-bold text-sm">⚡</div>
-                                <div>
+                            <div class="numbered-item">
+                                <div class="numbered-circle">⚡</div>
+                                <div class="numbered-content">
                                     <h4 class="text-lm-dark font-semibold">Built for Ease of Use</h4>
                                     <p class="text-lm-gray">The editor is packed with features to make your life easier, including <strong class="text-lm-accent">auto-saving</strong> to prevent data loss, <strong class="text-lm-accent">drag-and-drop image uploading</strong>, and <strong class="text-lm-accent">real-time character counters</strong>. It's all powered by a modern REST API for a fast, smooth, and reliable experience.</p>
                                 </div>
@@ -549,7 +596,7 @@
                                     <li>• Implementation timeline template</li>
                                     <li>• Budget categories planning sheet</li>
                                 </ul>
-                                <button onclick="downloadCanvas()" class="bg-dt-teal text-dt-navy font-bold px-4 py-2 rounded hover:scale-105 transition">
+                                <button onclick="downloadCanvas()" class="bg-lm-accent text-white font-bold px-4 py-2 rounded hover:scale-105 transition">
                                     Download Free Template
                                 </button>
                             </div>
@@ -583,7 +630,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button onclick="generateChecklist()" class="bg-dt-teal text-dt-navy font-bold px-4 py-2 rounded hover:scale-105 transition">
+                                <button onclick="generateChecklist()" class="bg-lm-accent text-white font-bold px-4 py-2 rounded hover:scale-105 transition">
                                     Generate My Checklist
                                 </button>
                             </div>
@@ -725,10 +772,10 @@
                     Transform donor relationships with a comprehensive transparency management dashboard that provides real-time financial tracking and builds unshakeable trust.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/onboarding/?step=1" class="inline-block bg-dt-teal text-dt-navy font-bold text-lg px-8 py-4 rounded-lg hover:scale-105 transition shadow-lg">
+                    <a href="/onboarding/?step=1" class="inline-block bg-lm-accent text-white font-bold text-lg px-8 py-4 rounded-lg hover:scale-105 transition shadow-lg">
                         Start Building Your Transparency Hub for Free
                     </a>
-                    <a href="../contact.html" class="inline-block border-2 border-lm-accent text-lm-accent font-bold text-lg px-8 py-4 rounded-lg hover:bg-dt-teal hover:text-white transition shadow-lg">
+                    <a href="../contact.html" class="inline-block border-2 border-lm-accent text-lm-accent font-bold text-lg px-8 py-4 rounded-lg hover:bg-lm-accent hover:text-white transition shadow-lg">
                         Schedule a 15-Minute Demo
                     </a>
                 </div>
@@ -966,8 +1013,8 @@ Visit donationtransparency.org for full implementation guide.`;
                 <h3 class="text-xl font-bold text-lm-accent mb-4">Your Custom Implementation Checklist</h3>
                 <div class="space-y-2 mb-6">${checklistHTML}</div>
                 <div class="text-center">
-                    <button onclick="closeChecklist()" class="bg-dt-teal text-dt-navy font-bold px-4 py-2 rounded mr-3">Close</button>
-                    <button onclick="downloadChecklist('${orgSize}', '${currentSystems}')" class="bg-dt-slate text-dt-navy font-bold px-4 py-2 rounded">Download Checklist</button>
+                    <button onclick="closeChecklist()" class="bg-lm-accent text-white font-bold px-4 py-2 rounded mr-3">Close</button>
+                    <button onclick="downloadChecklist('${orgSize}', '${currentSystems}')" class="bg-lm-gray text-white font-bold px-4 py-2 rounded">Download Checklist</button>
                 </div>
             </div>
         `;

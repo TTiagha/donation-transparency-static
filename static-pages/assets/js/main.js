@@ -73,20 +73,28 @@ function closeSuccessModal() {
 }
 
 // Close modal when clicking outside
-document.getElementById('waitlistModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeWaitlistModal();
-    }
-});
+const waitlistModal = document.getElementById('waitlistModal');
+if (waitlistModal) {
+    waitlistModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeWaitlistModal();
+        }
+    });
+}
 
-document.getElementById('successModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeSuccessModal();
-    }
-});
+const successModal = document.getElementById('successModal');
+if (successModal) {
+    successModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeSuccessModal();
+        }
+    });
+}
 
 // Handle form submission
-document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+const waitlistForm = document.getElementById('waitlistForm');
+if (waitlistForm) {
+    waitlistForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const submitButton = this.querySelector('button[type="submit"]');
@@ -100,22 +108,6 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     const data = Object.fromEntries(formData);
     
     try {
-<<<<<<< HEAD
-        // Send data to your email service
-        // Option 1: Use your EC2 email service (update this URL)
-        const emailServiceUrl = 'https://your-ec2-domain.com/api/waitlist';
-        
-        // Option 2: For testing, use a simple service like FormSpree or EmailJS
-        // const emailServiceUrl = 'https://formspree.io/f/your-form-id';
-        
-        const response = await fetch('/api/waitlist', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-=======
         // Configuration - easily switch between FormSpree and AWS Lambda
         const USE_AWS_LAMBDA = true; // Set to true when Lambda is deployed
         const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
@@ -154,7 +146,6 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
                 })
             });
         }
->>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
         
         if (response.ok) {
             // Close waitlist modal and show success modal
@@ -176,7 +167,8 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
         submitButton.textContent = originalText;
         submitButton.disabled = false;
     }
-});
+    });
+}
 
 // Escape key to close modals
 document.addEventListener('keydown', function(e) {
@@ -184,10 +176,10 @@ document.addEventListener('keydown', function(e) {
         const waitlistModal = document.getElementById('waitlistModal');
         const successModal = document.getElementById('successModal');
         
-        if (!waitlistModal.classList.contains('hidden')) {
+        if (waitlistModal && !waitlistModal.classList.contains('hidden')) {
             closeWaitlistModal();
         }
-        if (!successModal.classList.contains('hidden')) {
+        if (successModal && !successModal.classList.contains('hidden')) {
             closeSuccessModal();
         }
     }
