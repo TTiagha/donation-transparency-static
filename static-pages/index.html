@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donation Transparency - Build Unshakeable Donor Trust</title>
-<<<<<<< HEAD
     <script src="https://cdn.tailwindcss.com"></script>
-=======
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <script>
         // Configure Tailwind for production  
         tailwind.config = {
@@ -24,11 +21,73 @@
             }
         }
     </script>
->>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Fix for header navigation visibility -->
+    <style>
+        /* Ensure header navigation is always visible and properly styled */
+        .header-nav {
+            display: none !important;
+        }
+        
+        @media (min-width: 768px) {
+            .header-nav {
+                display: flex !important;
+                align-items: center !important;
+                gap: 2rem !important;
+            }
+        }
+        
+        /* Override Tailwind responsive classes for navigation */
+        .hidden { display: none !important; }
+        @media (min-width: 768px) {
+            .md\:flex { display: flex !important; }
+        }
+        
+        /* Ensure proper spacing and alignment */
+        .space-x-8 > * + * { margin-left: 2rem !important; }
+        
+        /* Header styling fixes */
+        header {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 50 !important;
+            backdrop-filter: blur(4px) !important;
+        }
+        
+        /* Navigation link styling */
+        nav a {
+            color: #6C757D !important;
+            text-decoration: none !important;
+            transition: color 0.2s ease !important;
+        }
+        
+        nav a:hover {
+            color: #212529 !important;
+        }
+        
+        /* Button styling */
+        .get-started-btn {
+            background-color: #F8F9FA !important;
+            color: #212529 !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 0.5rem !important;
+            border: 1px solid #E9ECEF !important;
+            font-weight: bold !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .get-started-btn:hover {
+            background-color: #6EC1E4 !important;
+            color: white !important;
+        }
+    </style>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/logo-final.png">
     <link rel="shortcut icon" type="image/png" href="assets/images/logo-final.png">
@@ -97,7 +156,7 @@
                 <a href="about.html" class="text-dt-slate hover:text-dt-silver transition">About</a>
                 <a href="contact.html" class="text-dt-slate hover:text-dt-silver transition">Contact</a>
             </nav>
-            <button onclick="openWaitlistModal()" class="bg-dt-charcoal text-dt-silver px-4 py-2 rounded-lg hover:bg-dt-teal hover:text-white font-bold transition border border-gray-200">Get Started</button>
+            <button onclick="openWaitlistModal()" class="get-started-btn">Get Started</button>
         </div>
     </header>
 
