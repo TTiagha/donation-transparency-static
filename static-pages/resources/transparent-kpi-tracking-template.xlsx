@@ -1,0 +1,26 @@
+PK                  XL/workbook.xml<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<sheets>
+<sheet name="KPI Tracker" sheetId="1" r:id="rId1"/>
+</sheets>
+</workbook>PK                  XL/worksheets/sheet1.xml<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+<sheetData>
+<row r="1">
+<c r="A1" t="str"><v>Metric Name</v></c>
+<c r="B1" t="str"><v>Formula</v></c>
+<c r="C1" t="str"><v>Current Value</v></c>
+<c r="D1" t="str"><v>Target Value</v></c>
+<c r="E1" t="str"><v>Notes</v></c>
+<c r="F1" t="str"><v>Date Updated</v></c>
+</row>
+<row r="2">
+<c r="A2" t="str"><v>Cost Per Dollar Raised (CPDR)</v></c>
+<c r="B2" t="str"><v>=Total Fundraising Costs / Total Donations</v></c>
+<c r="C2"><v>0.15</v></c>
+<c r="D2"><v>0.12</v></c>
+<c r="E2" t="str"><v>Lower is better - aim for under $0.15</v></c>
+<c r="F2" t="str"><v>2025-01-01</v></c>
+</row>
+</sheetData>
+</worksheet>PK

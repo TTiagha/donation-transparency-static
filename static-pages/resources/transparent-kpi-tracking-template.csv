@@ -1,0 +1,35 @@
+Metric Name,Formula,Current Value,Target Value,Notes,Date Updated
+Cost Per Dollar Raised (CPDR),=Total Fundraising Costs / Total Donations,0.15,$0.12,Lower is better - aim for under $0.15,2025-01-01
+Donor Retention Rate,=((Donors End Period - New Donors) / Donors Start Period) * 100,65%,75%,Industry average is 40-45%,2025-01-01
+Pledge Fulfillment Percentage,=Fulfilled Pledges / Total Pledges * 100,85%,90%,Track quarterly,2025-01-01
+Average Gift Size Growth,=(Current Avg Gift - Previous Avg Gift) / Previous Avg Gift * 100,12%,15%,Year-over-year growth,2025-01-01
+Fundraising ROI (Mission Multiplier),=Total Donations / Total Fundraising Costs,4.2,5.0,Every $1 spent generates $4.20,2025-01-01
+
+INSTRUCTIONS:
+1. Replace sample values with your actual data
+2. Update formulas to reference your actual cells
+3. Track monthly for best results
+4. Share these metrics with transparency angle in newsletters
+5. Use the Mission Multiplier framing for ROI
+
+TRANSPARENT ANGLES FOR SHARING:
+Cost Per Dollar Raised: "We maximize every contribution - only 15¢ of every dollar goes to fundraising"
+Donor Retention Rate: "75% of our supporters give again - proof of our trusted community"
+Pledge Fulfillment: "90% pledge completion shows our supporters' commitment to our mission"
+Gift Size Growth: "Supporters increase giving 15% annually as trust deepens"
+Fundraising ROI: "Every $1 invested in fundraising generates $4.20 for our mission"
+
+MONTHLY TRACKING TEMPLATE:
+Month,CPDR,Retention %,Pledge Fulfillment %,Gift Growth %,ROI
+January,0.15,65%,85%,12%,4.2
+February,,,,,
+March,,,,,
+April,,,,,
+May,,,,,
+June,,,,,
+July,,,,,
+August,,,,,
+September,,,,,
+October,,,,,
+November,,,,,
+December,,,,,
