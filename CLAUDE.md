@@ -84,7 +84,7 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 #### Initial Setup (if repository not initialized)
 ```bash
 git init
-git config user.email "admin@donationtransparency.com"
+git config user.email "support@donationtransparency.org"
 git config user.name "Donation Transparency"
 <<<<<<< HEAD
 git remote add origin https://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@github.com/TTiagha/donation-transparency-static.git

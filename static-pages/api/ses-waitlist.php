@@ -148,7 +148,7 @@ function sendEmailViaSES($to, $subject, $htmlBody, $textBody = null) {
 function sendSimpleEmail($to, $subject, $message) {
     $headers = array(
         'From' => 'Donation Transparency <noreply@donationtransparency.com>',
-        'Reply-To' => 'admin@donationtransparency.com',
+        'Reply-To' => 'support@donationtransparency.org',
         'Content-Type' => 'text/plain; charset=UTF-8',
         'X-Mailer' => 'PHP/' . phpversion()
     );
@@ -196,7 +196,7 @@ Building trust through complete transparency
 https://donationtransparency.org";
 
 // Send notification email to admin
-$adminEmail = 'admin@donationtransparency.com';
+$adminEmail = 'support@donationtransparency.org';
 $adminSubject = 'New Waitlist Signup - Donation Transparency';
 $totalEntries = $fileExists ? count(file($csvFile)) - 1 : 1;
 $adminMessage = "New waitlist signup:

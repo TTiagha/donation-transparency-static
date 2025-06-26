@@ -43,7 +43,7 @@ return [
     // Default Email Settings
     'from_email' => 'noreply@donationtransparency.com',
     'from_name' => 'Donation Transparency',
-    'admin_email' => 'admin@donationtransparency.com',
+    'admin_email' => 'support@donationtransparency.org',
     
     // Email Templates
     'templates' => [

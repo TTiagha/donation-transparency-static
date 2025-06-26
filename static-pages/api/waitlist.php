@@ -124,7 +124,7 @@ https://donationtransparency.org";
 }
 
 // Send notification email to admin
-$adminEmail = 'admin@donationtransparency.com';
+$adminEmail = 'support@donationtransparency.org';
 $adminSubject = 'New Waitlist Signup - Donation Transparency';
 $totalEntries = $fileExists ? count(file($csvFile)) - 1 : 1;
 $adminMessage = "New waitlist signup:
@@ -141,14 +141,14 @@ View all entries: /waitlist_data.csv";
 // Email headers
 $userHeaders = array(
     'From' => 'Donation Transparency <noreply@donationtransparency.com>',
-    'Reply-To' => 'admin@donationtransparency.com',
+    'Reply-To' => 'support@donationtransparency.org',
     'Content-Type' => $contentType . '; charset=UTF-8',
     'X-Mailer' => 'PHP/' . phpversion()
 );
 
 $adminHeaders = array(
     'From' => 'Donation Transparency <noreply@donationtransparency.com>',
-    'Reply-To' => 'admin@donationtransparency.com',
+    'Reply-To' => 'support@donationtransparency.org',
     'Content-Type' => 'text/plain; charset=UTF-8',
     'X-Mailer' => 'PHP/' . phpversion()
 );
@@ -226,7 +226,7 @@ function sendEmailViaSES($to, $subject, $message, $contentType) {
     // This will be replaced with proper SES API call
     $headers = array(
         'From' => 'Donation Transparency <noreply@donationtransparency.com>',
-        'Reply-To' => 'admin@donationtransparency.com',
+        'Reply-To' => 'support@donationtransparency.org',
         'Content-Type' => $contentType . '; charset=UTF-8',
         'X-Mailer' => 'AWS SES via PHP'
     );

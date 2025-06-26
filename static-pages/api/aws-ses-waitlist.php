@@ -195,7 +195,7 @@ https://donationtransparency.org";
 <<<<<<< HEAD
 $adminEmail = 'admin@donationtransparency.com'; // Update this to your preferred email
 =======
-$adminEmail = $_ENV['ADMIN_EMAIL'] ?? 'admin@donationtransparency.com';
+$adminEmail = $_ENV['ADMIN_EMAIL'] ?? 'support@donationtransparency.org';
 >>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 $adminSubject = 'New Waitlist Signup - Donation Transparency';
 $totalEntries = $fileExists ? count(file($csvFile)) - 1 : 1;
