@@ -15,6 +15,82 @@ revealElements.forEach(el => {
     observer.observe(el);
 });
 
+// Premium Mobile Menu Functions with Animations
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    if (!mobileMenu) {
+        console.error('Mobile menu element not found');
+        return;
+    }
+    
+    if (mobileMenu.classList.contains('hidden')) {
+        // Show menu with staggered animation
+        showMobileMenuWithAnimation(mobileMenu);
+    } else {
+        // Hide menu with reverse animation
+        hideMobileMenuWithAnimation(mobileMenu);
+    }
+}
+
+function showMobileMenuWithAnimation(mobileMenu) {
+    // Show the menu container
+    mobileMenu.classList.remove('hidden');
+    
+    // Set initial state for animation
+    mobileMenu.style.opacity = '0';
+    mobileMenu.style.transform = 'translateY(-20px)';
+    mobileMenu.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    
+    // Animate menu container
+    requestAnimationFrame(() => {
+        mobileMenu.style.opacity = '1';
+        mobileMenu.style.transform = 'translateY(0)';
+    });
+    
+    // Animate menu items with stagger
+    const menuItems = mobileMenu.querySelectorAll('a, button');
+    menuItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-20px)';
+        item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateX(0)';
+        }, 100 + (index * 80)); // Staggered delay
+    });
+}
+
+function hideMobileMenuWithAnimation(mobileMenu) {
+    const menuItems = mobileMenu.querySelectorAll('a, button');
+    
+    // Animate items out in reverse order
+    menuItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+        }, index * 60);
+    });
+    
+    // Hide menu container after items animate out
+    setTimeout(() => {
+        mobileMenu.style.opacity = '0';
+        mobileMenu.style.transform = 'translateY(-20px)';
+        
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+            // Reset styles for next animation
+            mobileMenu.style.opacity = '';
+            mobileMenu.style.transform = '';
+            menuItems.forEach(item => {
+                item.style.opacity = '';
+                item.style.transform = '';
+            });
+        }, 300);
+    }, menuItems.length * 60 + 100);
+}
+
 // Waitlist Modal Functions
 function openWaitlistModal() {
     const modal = document.getElementById('waitlistModal');

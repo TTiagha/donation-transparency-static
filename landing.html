@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Transparency Movement</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP CDN for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+        /* Custom styles to override or enhance Tailwind */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Deep purple/blue background */
+            color: #e0e0eb; /* Light text for contrast */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative; /* Needed for particle canvas positioning */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            position: relative; /* Ensure content is above canvas */
+            z-index: 1; /* Place content above the canvas */
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #6a0572, #ab53cf); /* Purple to lighter purple */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #6a0572, #ab53cf);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 9999px; /* Pill shape */
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(171, 83, 207, 0.4);
+            position: relative; /* For potential z-index if needed */
+            z-index: 2; /* Ensure button is clickable over canvas */
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(171, 83, 207, 0.6);
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            background-color: #2b2b4d; /* Slightly lighter dark for inputs */
+            border: 1px solid #4a4a7a;
+            color: #e0e0eb;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            transition: border-color 0.3s ease-in-out;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #ab53cf; /* Accent color on focus */
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(171, 83, 207, 0.3);
+        }
+        .signature-count-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at top left, #6a0572, #4a044d);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(171, 83, 207, 0.5);
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(171, 83, 207, 0.5);
+            }
+            to {
+                transform: scale(1.05);
+                box-shadow: 0 0 40px rgba(171, 83, 207, 0.7);
+            }
+        }
+
+        /* SVG Animation styles */
+        .svg-container {
+            width: 100%;
+            height: 300px; /* Adjust height as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .line-path {
+            stroke: url(#gradient);
+            stroke-width: 3; /* Thicker line */
+            fill: none;
+            /* Filter for glow effect */
+            filter: drop-shadow(0 0 8px rgba(171, 83, 207, 0.8)) drop-shadow(0 0 15px rgba(171, 83, 207, 0.5));
+        }
+        .svg-circle {
+            filter: drop-shadow(0 0 6px rgba(171, 83, 207, 0.7)) drop-shadow(0 0 10px rgba(171, 83, 207, 0.4));
+        }
+
+        /* Message box styles */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #2b2b4d;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            text-align: center;
+            border: 1px solid #ab53cf;
+        }
+        .message-box button {
+            background-color: #ab53cf;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .message-box button:hover {
+            background-color: #8c3bb3;
+        }
+
+        /* Card hover effect */
+        .content-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(171, 83, 207, 0.5);
+        }
+
+        /* Particle background canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind other content */
+            pointer-events: none; /* Allows clicks to pass through */
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .hero-section {
+                flex-direction: row;
+            }
+            .hero-content {
+                text-align: left;
+                width: 60%;
+            }
+            .svg-container {
+                width: 40%;
+            }
+            .signature-count-circle {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Particle Background Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="container py-8">
+        <!-- Hero Section -->
+        <section class="hero-section flex flex-col items-center justify-between text-center md:flex-row md:text-left mb-16 gap-8">
+            <div class="hero-content">
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4">
+                    Join the <span class="gradient-text">Transparency Movement</span>
+                </h1>
+                <p class="text-lg md:text-xl mb-8 text-gray-300">
+                    Are you tired of donor skepticism and the trust gap in charitable giving? We believe that every donor deserves to know exactly how their money is spent, in real time.
+                </p>
+                <button id="signPetitionBtn" class="btn-primary text-lg px-8 py-3">
+                    Sign the Petition
+                </button>
+            </div>
+            <div class="svg-container">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ab53cf" />
+                            <stop offset="100%" stop-color="#6a0572" />
+                        </linearGradient>
+                    </defs>
+                    <path class="line-path" d="M 10 100 C 30 50, 70 50, 90 100 S 130 150, 150 100, 170 50, 190 100" />
+                    <circle class="svg-circle" cx="10" cy="100" r="5" fill="url(#gradient)" />
+                    <circle class="svg-circle" cx="190" cy="100" r="5" fill="url(#gradient)" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- Why Transparency Matters Section -->
+        <section class="mb-16">
+            <h2 class="text-4xl font-bold text-center mb-10">Why Transparency Matters</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-[#2b2b4d] p-6 rounded-lg shadow-xl border border-[#4a4a7a] content-card">
+                    <!-- Icon for Trust (Lock) -->
+                    <svg class="w-12 h-12 mb-4 mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 11C12 8.23858 9.76142 6 7 6C4.23858 6 2 8.23858 2 11V21H12V11Z" fill="url(#gradient)"/>
+                        <path d="M22 11C22 8.23858 19.7614 6 17 6C14.2386 6 12 8.23858 12 11V21H22V11Z" fill="url(#gradient)"/>
+                        <path d="M7 6C7 3.23858 9.23858 1 12 1C14.7614 1 17 3.23858 17 6V11H7V6Z" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ab53cf" />
+                                <stop offset="100%" stop-color="#6a0572" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-3 gradient-text">Build Unshakeable Trust</h3>
+                    <p class="text-gray-300">Your signature helps us build a community of advocates who believe in a new era of trust and accountability in philanthropy. Combat the skepticism head-on.</p>
+                </div>
+                <div class="bg-[#2b2b4d] p-6 rounded-lg shadow-xl border border-[#4a4a7a] content-card">
+                    <!-- Icon for Influence (Lightbulb) -->
+                    <svg class="w-12 h-12 mb-4 mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H15C15 22.1046 14.1046 23 13 23H11C9.89543 23 9 22.1046 9 21Z" fill="url(#gradient)"/>
+                        <path d="M12 2C9.23858 2 7 4.23858 7 7C7 9.80556 8.04167 11.8056 9.83333 13.5C11.6667 15.2222 12 17 12 18H12C12 17 12.3333 15.2222 14.1667 13.5C15.9583 11.8056 17 9.80556 17 7C17 4.23858 14.7614 2 12 2Z" fill="url(#gradient)"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ab53cf" />
+                                <stop offset="100%" stop-color="#6a0572" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-3 gradient-text">Influence the Future of Giving</h3>
+                    <p class="text-gray-300">By standing with us, you're directly influencing policy makers and organizations to adopt radical transparency, transforming how donations are handled globally.</p>
+                </div>
+                <div class="bg-[#2b2b4d] p-6 rounded-lg shadow-xl border border-[#4a4a7a] content-card">
+                    <!-- Icon for Empower (Hands) -->
+                    <svg class="w-12 h-12 mb-4 mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" fill="url(#gradient)"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ab53cf" />
+                                <stop offset="100%" stop-color="#6a0572" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-3 gradient-text">Empower Donors & Fundraisers</h3>
+                    <p class="text-gray-300">A transparent ecosystem benefits everyone. Donors give confidently, and fundraisers can focus on their mission, knowing trust is guaranteed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Petition Form Section -->
+        <section id="petition-form-section" class="bg-[#2b2b4d] p-8 rounded-lg shadow-xl border border-[#4a4a7a] max-w-2xl mx-auto hidden">
+            <h2 class="text-3xl font-bold text-center mb-6 gradient-text">Sign Our Petition for Transparency</h2>
+            <form id="petitionForm" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Your Name:</label>
+                    <input type="text" id="name" name="name" placeholder="John Doe" required class="focus:border-[#ab53cf]">
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email Address:</label>
+                    <input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="focus:border-[#ab53cf]">
+                </div>
+                <div>
+                    <label for="why_it_matters" class="block text-gray-300 text-sm font-bold mb-2">Tell us why transparency matters to you (Optional):</label>
+                    <textarea id="why_it_matters" name="why_it_matters" rows="4" placeholder="Share your thoughts..." class="focus:border-[#ab53cf]"></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full text-lg">
+                    Add My Name to the Petition
+                </button>
+            </form>
+        </section>
+
+        <!-- Signature Count Section (Dynamically updated) -->
+        <section class="flex flex-col items-center justify-center mt-16">
+            <h2 class="text-4xl font-bold text-center mb-8">Our Growing Movement</h2>
+            <div class="signature-count-circle">
+                <span id="signature-count" class="text-5xl font-extrabold text-white">0</span>
+                <span class="text-lg text-gray-300">Signatures</span>
+            </div>
+            <p class="text-lg text-gray-400 mt-4">Join <span class="gradient-text font-semibold">thousands</span> who believe in a transparent future for all donations.</p>
+        </section>
+
+    </div>
+
+    <!-- Message Box -->
+    <div id="messageBox" class="message-box">
+        <p id="messageText" class="text-xl font-semibold"></p>
+        <button id="closeMessageBox">Close</button>
+    </div>
+
+    <script>
+        // --- Message Box Utility Functions ---
+        function showMessageBox(message) {
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            messageText.textContent = message;
+            messageBox.style.display = 'flex';
+        }
+
+        function closeMessageBox() {
+            document.getElementById('messageBox').style.display = 'none';
+        }
+
+        document.getElementById('closeMessageBox').addEventListener('click', closeMessageBox);
+
+        // --- Particle Background Logic ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const numParticles = 80; // Fewer, larger particles for subtlety
+        const particleSize = 1;
+        const particleSpeed = 0.15;
+        const particleColor = 'rgba(171, 83, 207, 0.4)'; // Slightly transparent purple
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Reinitialize particles on resize to avoid gaps
+            createParticles();
+        }
+
+        class Particle {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.size = particleSize;
+                this.alpha = Math.random() * 0.5 + 0.1; // Random opacity for sparkle effect
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor.replace('0.4', this.alpha.toFixed(1)); // Use individual particle alpha
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = particleColor;
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wrap particles around the screen
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+        }
+
+        function createParticles() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const vx = (Math.random() - 0.5) * particleSpeed;
+                const vy = (Math.random() - 0.5) * particleSpeed;
+                particles.push(new Particle(x, y, vx, vy));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+            for (const particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Initialize particles and start animation
+        window.addEventListener('load', () => {
+            resizeCanvas(); // Set initial size
+            animateParticles();
+        });
+        window.addEventListener('resize', resizeCanvas);
+
+
+        // --- Petition Form Logic ---
+        const signPetitionBtn = document.getElementById('signPetitionBtn');
+        const petitionFormSection = document.getElementById('petition-form-section');
+        const petitionForm = document.getElementById('petitionForm');
+        const signatureCountElement = document.getElementById('signature-count');
+
+        // Initial signature count (can be fetched from a backend in a real app)
+        let signatureCount = 12345; // Starting value
+
+        // Simulate fetching initial count or setting a base
+        function fetchInitialSignatureCount() {
+            return Math.floor(Math.random() * 5000) + 10000; // Random starting point for demo
+        }
+
+        signatureCount = fetchInitialSignatureCount();
+        signatureCountElement.textContent = signatureCount.toLocaleString();
+
+        signPetitionBtn.addEventListener('click', () => {
+            // Smooth scroll to the form section
+            petitionFormSection.scrollIntoView({ behavior: 'smooth' });
+            petitionFormSection.classList.remove('hidden'); // Show the form
+        });
+
+        petitionForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const whyItMatters = document.getElementById('why_it_matters').value;
+
+            // Basic validation
+            if (!name || !email) {
+                showMessageBox('Please fill in your name and email address.');
+                return;
+            }
+
+            showMessageBox('Signing your petition...'); // Show loading message
+
+            // --- IMPORTANT: Firebase / Backend Integration Placeholder ---
+            // In a real application, you would connect to Firestore here.
+            // Example using Firestore (requires Firebase SDK setup in global scope or context):
+            /*
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+            // Initialize Firebase if not already
+            if (!window.firebaseApp) {
+                window.firebaseApp = initializeApp(firebaseConfig);
+                window.db = getFirestore(window.firebaseApp);
+                window.auth = getAuth(window.firebaseApp);
+
+                // Sign in anonymously if no auth token is provided
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(window.auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(window.auth);
+                }
+            }
+
+            const userId = window.auth.currentUser?.uid || crypto.randomUUID();
+            const petitionsCollectionRef = collection(window.db, `artifacts/${appId}/public/data/petitions`);
+
+            try {
+                await addDoc(petitionsCollectionRef, {
+                    name: name,
+                    email: email,
+                    whyItMatters: whyItMatters,
+                    timestamp: new Date(),
+                    userId: userId // Store userId for tracking
+                });
+                // Optimistically update count
+                signatureCount++;
+                // Smoothly animate the count-up
+                gsap.to(signatureCountElement, {
+                    duration: 1.5,
+                    innerText: signatureCount,
+                    snap: "innerText",
+                    ease: "power2.out",
+                    onUpdate: function() {
+                        signatureCountElement.textContent = Math.round(this.targets()[0].innerText).toLocaleString();
+                    }
+                });
+                showMessageBox('Thank you for signing the petition! Your support makes a difference.');
+                petitionForm.reset(); // Clear the form
+            } catch (error) {
+                console.error("Error adding document to Firestore: ", error);
+                showMessageBox('There was an error signing the petition. Please try again.');
+            }
+            */
+            // --- END Firebase Placeholder ---
+
+            // For now, simulating success with a delay and GSAP count-up
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+
+            signatureCount++;
+            gsap.to(signatureCountElement, {
+                duration: 1.5,
+                innerText: signatureCount,
+                snap: "innerText",
+                ease: "power2.out",
+                onUpdate: function() {
+                    signatureCountElement.textContent = Math.round(this.targets()[0].innerText).toLocaleString();
+                }
+            });
+            showMessageBox('Thank you for signing the petition! Your support makes a difference.');
+            petitionForm.reset(); // Clear the form
+        });
+
+        // GSAP animation for the SVG path
+        // This animates the stroke-dashoffset to create a drawing effect.
+        if (typeof gsap !== 'undefined') {
+            gsap.fromTo(".line-path",
+                { strokeDashoffset: 1000 },
+                { strokeDashoffset: 0, duration: 4, repeat: -1, ease: "power1.inOut" }
+            );
+        }
+    </script>
+</body>
+</html>

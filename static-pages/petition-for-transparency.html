@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Movement: Donation Transparency Petition | Donation Transparency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure Tailwind for production  
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dt-navy': '#FFFFFF',
+                        'dt-charcoal': '#F8F9FA', 
+                        'dt-slate': '#6C757D',
+                        'dt-silver': '#212529',
+                        'dt-teal': '#6EC1E4'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Header and Footer Templates -->
+    <script src="assets/js/templates/header.js"></script>
+    <script src="assets/js/templates/footer.js"></script>
+    
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/logo-final.png">
+    <link rel="shortcut icon" type="image/png" href="assets/images/logo-final.png">
+    <link rel="apple-touch-icon" href="assets/images/logo-final.png">
+    
+    <!-- Network Animation Styles -->
+    <style>
+        /* Network Path Styling and Glow Effect */
+        .network-path {
+            stroke: url(#gradient);
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 0 5px rgba(110, 193, 228, 0.6)) drop-shadow(0 0 10px rgba(110, 193, 228, 0.3));
+        }
+
+        /* Network Node Styling and Glow Effect */
+        .network-node {
+            fill: url(#gradient);
+            filter: drop-shadow(0 0 4px rgba(110, 193, 228, 0.7)) drop-shadow(0 0 8px rgba(110, 193, 228, 0.3));
+        }
+    </style>
+</head>
+<body class="bg-dt-navy">
+    <!-- Header will be loaded by template -->
+    <div id="header-container"></div>
+
+    <!-- Floating Particles Background -->
+    <div class="floating-particles">
+        <div class="particle" style="left: 10%; width: 6px; height: 6px; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; width: 8px; height: 8px; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; width: 4px; height: 4px; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; width: 10px; height: 10px; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; width: 6px; height: 6px; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; width: 8px; height: 8px; animation-delay: 0.5s;"></div>
+        <div class="particle" style="left: 70%; width: 5px; height: 5px; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 80%; width: 7px; height: 7px; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 90%; width: 9px; height: 9px; animation-delay: 3.5s;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-20 relative">
+        <!-- Hero Section -->
+        <section class="container mx-auto px-6 py-12">
+            <div class="hero-card rounded-3xl p-8 lg:p-12 mb-16">
+                <div class="flex flex-col lg:flex-row items-center justify-between text-center lg:text-left gap-12">
+                    <div class="lg:w-2/3">
+                        <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 text-dt-silver">
+                            Join the <span class="gradient-text">Transparency Movement</span>
+                        </h1>
+                        <p class="text-lg lg:text-xl mb-8 text-dt-slate text-shimmer">
+                            Are you tired of donor skepticism and the trust gap in charitable giving? We believe that every donor deserves to know exactly how their money is spent, in real time.
+                        </p>
+                        <button id="signPetitionBtn" class="pulse-button bg-gradient-to-r from-dt-teal to-blue-500 text-white px-10 py-4 rounded-xl font-bold text-xl transition transform hover:scale-110 shadow-2xl">
+                            🚀 Sign the Petition
+                        </button>
+                    </div>
+                <div class="lg:w-1/3">
+                    <!-- Network Animation -->
+                    <div class="svg-container">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-80 h-80 mx-auto">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6EC1E4" />
+                                    <stop offset="100%" stop-color="#4A90A4" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Abstract Network Representation -->
+                            <path class="network-path" id="path1" d="M20 50 Q 80 20, 100 50 T 180 150" />
+                            <path class="network-path" id="path2" d="M20 150 Q 80 180, 100 150 T 180 50" />
+                            <path class="network-path" id="path3" d="M100 20 L100 180" />
+                            <path class="network-path" id="path4" d="M20 100 L180 100" />
+
+                            <!-- Nodes -->
+                            <circle class="network-node" cx="20" cy="50" r="3" />
+                            <circle class="network-node" cx="100" cy="50" r="3" />
+                            <circle class="network-node" cx="180" cy="50" r="3" />
+                            <circle class="network-node" cx="20" cy="100" r="3" />
+                            <circle class="network-node" cx="100" cy="100" r="4" /> <!-- Central node slightly larger -->
+                            <circle class="network-node" cx="180" cy="100" r="3" />
+                            <circle class="network-node" cx="20" cy="150" r="3" />
+                            <circle class="network-node" cx="100" cy="150" r="3" />
+                            <circle class="network-node" cx="180" cy="150" r="3" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Transparency Matters Section -->
+        <section class="container mx-auto px-6 py-16">
+            <h2 class="text-5xl font-bold text-center mb-16 gradient-text">✨ Why Transparency Matters</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card p-8 rounded-2xl shadow-2xl">
+                    <div class="w-16 h-16 mb-6 mx-auto bg-gradient-to-br from-dt-teal to-blue-500 rounded-full flex items-center justify-center transform rotate-12 hover:rotate-0 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 gradient-text text-center">🛡️ Build Unshakeable Trust</h3>
+                    <p class="text-dt-slate text-center leading-relaxed">Your signature helps us build a community of advocates who believe in a new era of trust and accountability in philanthropy. Combat the skepticism head-on.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl shadow-2xl">
+                    <div class="w-16 h-16 mb-6 mx-auto bg-gradient-to-br from-purple-500 to-dt-teal rounded-full flex items-center justify-center transform -rotate-12 hover:rotate-0 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C9.24 2 7 4.24 7 7C7 9.76 9.24 12 12 12S17 9.76 17 7C17 4.24 14.76 2 12 2ZM9 21H15C15 22.1 14.1 23 13 23H11C9.9 23 9 22.1 9 21Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 gradient-text text-center">💡 Influence the Future of Giving</h3>
+                    <p class="text-dt-slate text-center leading-relaxed">By standing with us, you're directly influencing policy makers and organizations to adopt radical transparency, transforming how donations are handled globally.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl shadow-2xl">
+                    <div class="w-16 h-16 mb-6 mx-auto bg-gradient-to-br from-green-500 to-dt-teal rounded-full flex items-center justify-center transform rotate-6 hover:rotate-0 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21C16.97 21 21 16.97 21 12S16.97 3 12 3 3 7.03 3 12 7.03 21 12 21ZM16 12C16 14.21 14.21 16 12 16S8 14.21 8 12 9.79 8 12 8 16 9.79 16 12Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 gradient-text text-center">⚡ Empower Donors & Fundraisers</h3>
+                    <p class="text-dt-slate text-center leading-relaxed">A transparent ecosystem benefits everyone. Donors give confidently, and fundraisers can focus on their mission, knowing trust is guaranteed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Petition Form Section -->
+        <section id="petition-form-section" class="container mx-auto px-6 py-16 hidden">
+            <div class="max-w-2xl mx-auto form-glass rounded-3xl p-10">
+                <h2 class="text-4xl font-bold text-center mb-8 gradient-text">📝 Sign Our Petition for Transparency</h2>
+                <form id="petitionForm" class="space-y-8">
+                    <div>
+                        <label for="name" class="block text-dt-silver text-sm font-bold mb-3">✨ Your Name:</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required 
+                               class="input-glow w-full px-6 py-4 border-2 border-dt-slate rounded-xl text-dt-silver focus:border-dt-teal focus:outline-none transition-all duration-300 bg-white">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-dt-silver text-sm font-bold mb-3">📧 Email Address:</label>
+                        <input type="email" id="email" name="email" placeholder="john.doe@example.com" required 
+                               class="input-glow w-full px-6 py-4 border-2 border-dt-slate rounded-xl text-dt-silver focus:border-dt-teal focus:outline-none transition-all duration-300 bg-white">
+                    </div>
+                    <div>
+                        <label for="why_it_matters" class="block text-dt-silver text-sm font-bold mb-3">💭 Tell us why transparency matters to you (Optional):</label>
+                        <textarea id="why_it_matters" name="why_it_matters" rows="4" placeholder="Share your thoughts..." 
+                                  class="input-glow w-full px-6 py-4 border-2 border-dt-slate rounded-xl text-dt-silver focus:border-dt-teal focus:outline-none transition-all duration-300 bg-white resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-dt-teal to-blue-500 text-white px-8 py-5 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl">
+                        🚀 Add My Name to the Petition
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Signature Count Section -->
+        <section class="container mx-auto px-6 py-20 text-center relative">
+            <h2 class="text-5xl font-bold mb-28 gradient-text relative z-10">🌟 Our Growing Movement</h2>
+            <div class="signature-circle inline-flex flex-col items-center justify-center w-48 h-48 rounded-full shadow-2xl mb-8 relative">
+                <span id="signature-count" class="text-5xl font-extrabold text-white">12,345</span>
+                <span class="text-lg text-white opacity-90 font-semibold">Signatures</span>
+                <div class="absolute inset-0 rounded-full bg-gradient-to-r from-dt-teal to-blue-500 opacity-20 animate-ping"></div>
+            </div>
+            <p class="text-xl text-dt-slate max-w-2xl mx-auto leading-relaxed">
+                Join <span class="gradient-text font-bold text-2xl">thousands</span> of passionate advocates who believe in a transparent future for all donations. 
+                <span class="block mt-2 text-lg opacity-75">Together, we're changing the world! 🌍✨</span>
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer will be loaded by template -->
+    <div id="footer-container"></div>
+
+
+    <!-- Waitlist Modal -->
+    <div id="waitlistModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+        <div class="bg-dt-charcoal rounded-2xl p-8 max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-dt-teal rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-dt-navy" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-dt-silver mb-2">Join the Access Queue</h3>
+                <p class="text-dt-slate mb-6">We're carefully rolling out access to ensure every user gets the attention they deserve. Join our queue and we'll reach out personally when it's your turn to transform your fundraising with complete transparency.</p>
+                
+                <form id="waitlistForm" class="space-y-4">
+                    <div>
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name" required 
+                               class="w-full px-4 py-3 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver placeholder-dt-slate focus:border-dt-teal focus:outline-none transition">
+                    </div>
+                    <div>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required 
+                               class="w-full px-4 py-3 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver placeholder-dt-slate focus:border-dt-teal focus:outline-none transition">
+                    </div>
+                    <div>
+                        <input type="email" id="email" name="email" placeholder="Email Address" required 
+                               class="w-full px-4 py-3 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver placeholder-dt-slate focus:border-dt-teal focus:outline-none transition">
+                    </div>
+                    <div>
+                        <select id="organizationType" name="organizationType" required 
+                                class="w-full px-4 py-3 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none transition">
+                            <option value="">What best describes you?</option>
+                            <option value="new-charity">New Charity/Nonprofit</option>
+                            <option value="established-nonprofit">Established Nonprofit</option>
+                            <option value="local-community">Local Community Leader</option>
+                            <option value="individual-fundraiser">Individual Fundraiser</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button type="button" onclick="closeWaitlistModal()" 
+                                class="flex-1 px-6 py-3 border border-dt-slate text-dt-slate rounded-lg hover:bg-dt-slate hover:text-dt-navy transition">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="flex-1 px-6 py-3 bg-dt-teal text-dt-navy rounded-lg font-bold hover:bg-dt-silver transition">
+                            Join Queue
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="waitlistSuccess" class="hidden">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-dt-silver mb-2">You're In!</h3>
+                    <p class="text-dt-slate mb-6">Thanks for joining our access queue. We'll be in touch soon with your invitation to experience complete fundraising transparency.</p>
+                    <button onclick="closeWaitlistModal()" 
+                            class="w-full px-6 py-3 bg-dt-teal text-dt-navy rounded-lg font-bold hover:bg-dt-silver transition">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Load templates -->
+    <script>
+        // Load header and footer templates
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof loadHeader === 'function') {
+                loadHeader();
+            }
+            if (typeof loadFooter === 'function') {
+                loadFooter();
+            }
+        });
+    </script>
+    <!-- GSAP CDN for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+    // GSAP Network Animation
+    if (typeof gsap !== 'undefined') {
+        const paths = gsap.utils.toArray(".network-path");
+        paths.forEach((path, i) => {
+            const length = path.getTotalLength();
+            path.style.strokeDasharray = length;
+            gsap.fromTo(path,
+                { strokeDashoffset: length },
+                {
+                    strokeDashoffset: 0,
+                    duration: 3 + i * 0.5,
+                    repeat: -1,
+                    ease: "power1.inOut",
+                    yoyo: true
+                }
+            );
+        });
+
+        // Animate the nodes for a subtle pulse/fade effect
+        gsap.fromTo(".network-node",
+            { scale: 0.8, opacity: 0.5 },
+            {
+                scale: 1.2,
+                opacity: 1,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                stagger: 0.2,
+                ease: "power2.inOut"
+            }
+        );
+    }
+    </script>
+    <script>
+        // Enhanced Network Visualization Animations
+        if (typeof gsap !== 'undefined') {
+            // Animate the network paths with flowing data effect
+            const paths = gsap.utils.toArray(".network-path");
+            paths.forEach((path, i) => {
+                const length = path.getTotalLength();
+                path.style.strokeDasharray = length;
+                gsap.fromTo(path,
+                    { strokeDashoffset: length },
+                    {
+                        strokeDashoffset: 0,
+                        duration: 3 + i * 0.5,
+                        repeat: -1,
+                        ease: "power1.inOut",
+                        yoyo: true
+                    }
+                );
+            });
+
+            // Animate the nodes for a subtle pulse/fade effect
+            gsap.fromTo(".network-node",
+                { scale: 0.8, opacity: 0.5 },
+                {
+                    scale: 1.2,
+                    opacity: 1,
+                    duration: 1.5,
+                    repeat: -1,
+                    yoyo: true,
+                    stagger: 0.2,
+                    ease: "power2.inOut"
+                }
+            );
+        }
+
+        // Petition Form Logic
+        const signPetitionBtn = document.getElementById('signPetitionBtn');
+        const petitionFormSection = document.getElementById('petition-form-section');
+        const petitionForm = document.getElementById('petitionForm');
+        const signatureCountElement = document.getElementById('signature-count');
+
+        // Initial signature count
+        let signatureCount = 12345;
+
+        signPetitionBtn.addEventListener('click', () => {
+            // Smooth scroll to the form section
+            petitionFormSection.scrollIntoView({ behavior: 'smooth' });
+            petitionFormSection.classList.remove('hidden'); // Show the form
+        });
+
+        petitionForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const whyItMatters = document.getElementById('why_it_matters').value;
+
+            // Basic validation
+            if (!name || !email) {
+                alert('Please fill in your name and email address.');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = petitionForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '🔄 Signing petition...';
+            submitBtn.disabled = true;
+
+            try {
+                // Use the same waitlist logic but for petition
+                const USE_AWS_LAMBDA = true;
+                const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
+                const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xanywpza';
+
+                let response;
+                
+                if (USE_AWS_LAMBDA) {
+                    // Submit to AWS Lambda
+                    response = await fetch(LAMBDA_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            firstName: name.split(' ')[0] || name,
+                            lastName: name.split(' ').slice(1).join(' ') || '',
+                            email: email,
+                            organizationType: 'Petition Signer',
+                            source: 'Transparency Petition',
+                            message: whyItMatters || 'Signed the transparency petition'
+                        })
+                    });
+                } else {
+                    // Fallback to FormSpree
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('email', email);
+                    formData.append('message', whyItMatters || 'Signed the transparency petition');
+                    formData.append('source', 'Transparency Petition');
+
+                    response = await fetch(FORMSPREE_ENDPOINT, {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+
+                if (response.ok) {
+                    // Update signature count
+                    signatureCount++;
+                    signatureCountElement.textContent = signatureCount.toLocaleString();
+
+                    // Show success message
+                    alert('🎉 Thank you for signing the petition! Your support makes a difference. You should receive a confirmation email shortly.');
+                    
+                    // Reset form
+                    petitionForm.reset();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error submitting petition:', error);
+                alert('⚠️ There was an error signing the petition. Please try again or contact support@donationtransparency.org');
+            } finally {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
