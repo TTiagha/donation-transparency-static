@@ -20,6 +20,79 @@ function getBasePath() {
     return '';
 }
 
+function generateBreadcrumbs() {
+    const path = window.location.pathname;
+    const currentPage = getCurrentPage();
+    const basePath = getBasePath();
+    
+    // Don't show breadcrumbs on home page
+    if (currentPage === 'home') return '';
+    
+    let breadcrumbs = [];
+    breadcrumbs.push({ text: 'Home', href: `${basePath}index.html` });
+    
+    // Add section breadcrumb
+    if (path.includes('/features/')) {
+        breadcrumbs.push({ text: 'Features', href: `${basePath}features/index.html` });
+        
+        // Add specific page if not on section index
+        if (!path.endsWith('/features/index.html') && !path.endsWith('/features/')) {
+            const filename = path.split('/').pop();
+            const pageName = filename.replace('.html', '').split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            breadcrumbs.push({ text: pageName, href: null }); // Current page, no link
+        }
+    } else if (path.includes('/guides/')) {
+        breadcrumbs.push({ text: 'Guides', href: `${basePath}guides/index.html` });
+        
+        if (!path.endsWith('/guides/index.html') && !path.endsWith('/guides/')) {
+            const filename = path.split('/').pop();
+            const pageName = filename.replace('.html', '').split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            breadcrumbs.push({ text: pageName, href: null });
+        }
+    } else if (path.includes('/transparency/')) {
+        breadcrumbs.push({ text: 'Transparency', href: `${basePath}transparency/index.html` });
+        
+        if (!path.endsWith('/transparency/index.html') && !path.endsWith('/transparency/')) {
+            const filename = path.split('/').pop();
+            const pageName = filename.replace('.html', '').split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            breadcrumbs.push({ text: pageName, href: null });
+        }
+    } else {
+        // Single pages (About, Contact, Petition)
+        if (currentPage === 'about') breadcrumbs.push({ text: 'About', href: null });
+        if (currentPage === 'contact') breadcrumbs.push({ text: 'Contact', href: null });
+        if (currentPage === 'petition') breadcrumbs.push({ text: 'Join the Movement', href: null });
+    }
+    
+    // Generate breadcrumb HTML
+    if (breadcrumbs.length <= 1) return '';
+    
+    const breadcrumbItems = breadcrumbs.map((crumb, index) => {
+        const isLast = index === breadcrumbs.length - 1;
+        if (isLast) {
+            return `<span class="text-dt-silver font-medium" aria-current="page">${crumb.text}</span>`;
+        } else {
+            return `<a href="${crumb.href}" class="text-dt-slate hover:text-dt-silver transition-colors">${crumb.text}</a>`;
+        }
+    }).join('<span class="mx-2 text-dt-slate" aria-hidden="true">/</span>');
+    
+    return `
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb">
+        <div class="container mx-auto px-6 py-3">
+            <ol class="flex items-center space-x-0 text-sm md:text-base">
+                ${breadcrumbItems}
+            </ol>
+        </div>
+    </nav>`;
+}
+
 function createHeaderHTML() {
     const currentPage = getCurrentPage();
     const basePath = getBasePath();
@@ -28,6 +101,54 @@ function createHeaderHTML() {
     <style>
         /* Premium Header Styling */
         
+        /* Breadcrumb Styling */
+        nav[aria-label="Breadcrumb"] {
+            background-color: #F8F9FA !important;
+            border-bottom: 1px solid #E9ECEF !important;
+        }
+        
+        nav[aria-label="Breadcrumb"] a {
+            color: #6C757D !important;
+            text-decoration: none !important;
+            transition: color 0.2s ease !important;
+            padding: 0.25rem 0 !important;
+            border-radius: 0.25rem !important;
+        }
+        
+        nav[aria-label="Breadcrumb"] a:hover {
+            color: #212529 !important;
+        }
+        
+        nav[aria-label="Breadcrumb"] span[aria-current="page"] {
+            color: #212529 !important;
+            font-weight: 500 !important;
+        }
+        
+        /* Mobile breadcrumb optimizations */
+        @media (max-width: 768px) {
+            nav[aria-label="Breadcrumb"] {
+                padding: 0.5rem 0 !important;
+            }
+            
+            nav[aria-label="Breadcrumb"] ol {
+                font-size: 0.875rem !important;
+                overflow-x: auto !important;
+                white-space: nowrap !important;
+                scrollbar-width: none !important;
+                -ms-overflow-style: none !important;
+            }
+            
+            nav[aria-label="Breadcrumb"] ol::-webkit-scrollbar {
+                display: none !important;
+            }
+            
+            nav[aria-label="Breadcrumb"] a,
+            nav[aria-label="Breadcrumb"] span {
+                min-width: max-content !important;
+                padding: 0.5rem 0.25rem !important;
+            }
+        }
+
         /* Mobile menu specific display rules */
         #mobileMenu.hidden {
             display: none !important;
@@ -238,7 +359,12 @@ function createHeaderHTML() {
                     </svg>
                 </button>
             </div>
-            
+        </div>
+        
+        <!-- Breadcrumbs -->
+        ${generateBreadcrumbs()}
+        
+        <div class="container mx-auto px-6">
             <!-- Mobile Menu -->
             <div id="mobileMenu" class="hidden lg:hidden mt-4 pb-6 border-t border-dt-slate pt-6">
                 <!-- Navigation Items - Context-Aware -->
