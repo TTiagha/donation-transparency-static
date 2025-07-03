@@ -3,28 +3,29 @@
 ## Waitlist System Management
 
 ### AWS SES Integration Status
-- ✅ **Current**: Using FormSpree (temporary solution)
-- ✅ **Ready**: AWS Lambda function created for your paid SES service
-- ⏳ **Next**: Deploy Lambda to use your AWS SES service
+- ✅ **ACTIVE**: AWS Lambda with AWS SES (fully deployed and operational)
+- ✅ **Endpoint**: `https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/`
+- ✅ **Configuration**: `USE_AWS_LAMBDA = true` in `/static-pages/assets/js/main.js`
 
-### Switch to AWS SES (Recommended - Uses Your Paid Service)
-1. **Deploy Lambda Function:**
-   - Follow `/static-pages/lambda/DEPLOY.md`
-   - Deploy Lambda function and create API Gateway
-   - Note your API Gateway endpoint URL
+### Current Waitlist System (Fully Operational)
+**✅ Deployed AWS Infrastructure:**
+- **Lambda Function**: Deployed with Function URL
+- **Email Service**: AWS SES with professional templates
+- **From Address**: support@donationtransparency.org
+- **Admin Notifications**: Automatic admin alerts for every signup
+- **User Experience**: Branded confirmation emails with queue position
 
-2. **Switch Frontend to AWS:**
-   ```javascript
-   // In /static-pages/assets/js/main.js
-   const USE_AWS_LAMBDA = true; // Change from false to true
-   const LAMBDA_ENDPOINT = 'https://YOUR-API-ID.execute-api.us-east-1.amazonaws.com/prod/waitlist';
-   ```
+**✅ Active Features:**
+- Professional HTML email templates
+- CORS-enabled public access
+- Client and server-side validation
+- Queue position tracking
+- Branded styling and animations
 
-3. **Benefits:**
-   - Uses your paid AWS SES service (no FormSpree dependency)
-   - Professional branded emails with full templates
-   - Admin notifications for every signup
-   - Better email deliverability
+**✅ Alternative PHP Endpoint Available:**
+- Backup PHP version at `/static-pages/api/waitlist.php`
+- CSV data storage option
+- Can be activated if needed
 ### How to Disable/Remove Waitlist (Revert to Original)
 
 **Quick Disable (Emergency):**
