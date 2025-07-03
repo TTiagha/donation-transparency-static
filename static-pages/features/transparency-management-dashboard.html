@@ -1018,10 +1018,24 @@ Visit donationtransparency.org for full implementation guide.`;
             existingModal.remove();
         }
         
+        // Fix: Force hide success modal that might be stuck open
+        setTimeout(() => {
+            const successModal = document.getElementById('successModal');
+            if (successModal) {
+                successModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }, 100);
+        
         // Add escape key functionality
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeChecklist();
+                // Also close success modal if open
+                const successModal = document.getElementById('successModal');
+                if (successModal && !successModal.classList.contains('hidden')) {
+                    closeSuccessModal();
+                }
             }
         });
     });
