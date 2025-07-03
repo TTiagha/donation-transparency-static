@@ -2,8 +2,6 @@
 
 ## Waitlist System Management
 
-<<<<<<< HEAD
-=======
 ### AWS SES Integration Status
 - ✅ **Current**: Using FormSpree (temporary solution)
 - ✅ **Ready**: AWS Lambda function created for your paid SES service
@@ -27,8 +25,6 @@
    - Professional branded emails with full templates
    - Admin notifications for every signup
    - Better email deliverability
-
->>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 ### How to Disable/Remove Waitlist (Revert to Original)
 
 **Quick Disable (Emergency):**
@@ -48,22 +44,16 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 <a href="https://donationtransparency.org/onboarding/?step=1">Get Started</a>
 ```
 
-<<<<<<< HEAD
 **What to Preserve When Removing:**
 - Export `/static-pages/waitlist_data.csv` (contains all signups)
 - Save `/static-pages/templates/waitlist_confirmation.html` for future use
 - Keep signup analytics and user data
 
 **Files Added by Waitlist System:**
-- `/static-pages/api/` (all email handling)
-- `/static-pages/templates/` (email templates)
-- `/static-pages/config/` (configuration)
-=======
-**Files Added by Waitlist System:**
 - `/static-pages/lambda/` (AWS Lambda function for SES)
 - `/static-pages/api/` (PHP version - not used in Amplify)
 - `/static-pages/templates/` (email templates)
->>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
+- `/static-pages/config/` (configuration)
 - Modal HTML in `index.html` (lines ~337-408)
 - JavaScript functions in `main.js` (waitlist functions)
 
@@ -73,11 +63,7 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 - **Repository Name**: donation-transparency-static
 - **GitHub URL**: https://github.com/TTiagha/donation-transparency-static
 - **Personal Access Token**: [STORED_SECURELY_NOT_IN_CODE]
-<<<<<<< HEAD
-- **Repository URL with Token**: https://[TOKEN]@github.com/TTiagha/donation-transparency-static.git
-=======
 - **Repository URL with Token**: https://[YOUR_TOKEN]@github.com/TTiagha/donation-transparency-static.git
->>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 
 ### Git Sync Process
 
@@ -86,11 +72,7 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 git init
 git config user.email "support@donationtransparency.org"
 git config user.name "Donation Transparency"
-<<<<<<< HEAD
-git remote add origin https://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@github.com/TTiagha/donation-transparency-static.git
-=======
 git remote add origin https://[YOUR_TOKEN]@github.com/TTiagha/donation-transparency-static.git
->>>>>>> f799a233ae1023e5a288adf6e6e3705d89fe4026
 ```
 
 #### Standard Sync Workflow
