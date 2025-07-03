@@ -350,7 +350,7 @@ function createHeaderHTML() {
                 </nav>
                 
                 <!-- Desktop Get Started Button -->
-                <button onclick="openWaitlistModal()" class="hidden lg:block get-started-btn">Start Your Transparent Fundraiser</button>
+                <button onclick="${currentPage === 'home' ? 'openWaitlistModal()' : `window.location.href='${basePath}index.html'`}" class="hidden lg:block get-started-btn">Start Your Transparent Fundraiser</button>
                 
                 <!-- Mobile Menu Button -->
                 <button onclick="toggleMobileMenu()" class="mobile-menu-btn text-dt-slate hover:text-dt-silver transition">
@@ -442,7 +442,7 @@ function createHeaderHTML() {
                 
                 <!-- CTA Buttons at Bottom - Centered & Smaller -->
                 <div class="flex flex-col items-center mt-8 space-y-3 px-4">
-                    <button onclick="openWaitlistModal()" class="mobile-cta-button w-full h-12 bg-dt-teal text-white font-semibold px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center">
+                    <button onclick="${currentPage === 'home' ? 'openWaitlistModal()' : `window.location.href='${basePath}index.html'`}" class="mobile-cta-button w-full h-12 bg-dt-teal text-white font-semibold px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center">
                         Start Your Transparent Fundraiser
                     </button>
                     <a href="${basePath}petition-for-transparency.html" class="mobile-cta-button w-full h-12 text-dt-teal border border-dt-teal font-semibold px-4 rounded-lg hover:bg-dt-teal hover:text-white transition-colors flex items-center justify-center text-center">
@@ -453,6 +453,7 @@ function createHeaderHTML() {
         </div>
     </header>
 
+    ${currentPage === 'home' ? `
     <!-- Waitlist Modal -->
     <div id="waitlistModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
         <div class="bg-dt-charcoal rounded-2xl p-8 max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
@@ -524,7 +525,8 @@ function createHeaderHTML() {
                 </button>
             </div>
         </div>
-    </div>`;
+    </div>
+    ` : ''}`;
 }
 
 // Initialize header when DOM is loaded
