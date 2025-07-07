@@ -354,6 +354,40 @@ window.testWaitlistModal = function() {
     openWaitlistModal();
 };
 
+// Debug function to manually test form submission
+window.testFormSubmission = function() {
+    console.log('🧪 Testing form submission manually...');
+    const form = document.getElementById('waitlistForm');
+    if (form) {
+        const formData = new FormData(form);
+        console.log('Form data:', Object.fromEntries(formData));
+        
+        // Fill out form for testing
+        form.firstName.value = 'Test';
+        form.lastName.value = 'User';  
+        form.email.value = 'test@example.com';
+        form.organizationType.value = 'individual-fundraiser';
+        
+        // Trigger submit event
+        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+    } else {
+        console.error('Form not found');
+    }
+};
+
+// Add global click monitoring
+document.addEventListener('click', function(e) {
+    if (e.target.type === 'submit' || e.target.tagName === 'BUTTON') {
+        console.log('🖱️ Button/submit clicked:', {
+            element: e.target,
+            type: e.target.type,
+            form: e.target.form,
+            id: e.target.id,
+            className: e.target.className
+        });
+    }
+}, true);
+
 // Escape key to close modals
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
