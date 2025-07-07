@@ -60,7 +60,7 @@
                         <!-- Contact Form -->
                         <div class="bg-dt-charcoal p-8 rounded-lg border border-gray-200">
                             <h2 class="text-2xl font-bold text-dt-teal mb-6">Send us a message</h2>
-                            <form class="space-y-6">
+                            <form id="contact-form" class="space-y-6">
                                 <div>
                                     <label for="name" class="block text-dt-silver mb-2">Name</label>
                                     <input type="text" id="name" name="name" class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none">
@@ -77,10 +77,14 @@
                                     <label for="message" class="block text-dt-silver mb-2">Message</label>
                                     <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none"></textarea>
                                 </div>
-                                <button type="submit" class="w-full bg-dt-teal text-dt-navy font-bold py-3 rounded-lg hover:shadow-dt-teal transition shadow-lg">
-                                    Send Message
+                                <button type="submit" id="contact-submit-btn" class="w-full bg-dt-teal text-dt-navy font-bold py-3 rounded-lg hover:shadow-dt-teal transition shadow-lg">
+                                    <span id="contact-btn-text">Send Message</span>
+                                    <span id="contact-btn-loading" class="hidden">Sending...</span>
                                 </button>
                             </form>
+                            <div id="contact-form-message" class="mt-4 text-center hidden">
+                                <p id="contact-message-text" class="text-sm"></p>
+                            </div>
                         </div>
                         
                         <!-- Contact Info -->
@@ -129,5 +133,101 @@
     
 
     <script src="assets/js/main.js"></script>
+    
+    <script>
+    // Contact Form Handler
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contact-form');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('contact-submit-btn');
+                const btnText = document.getElementById('contact-btn-text');
+                const btnLoading = document.getElementById('contact-btn-loading');
+                const messageDiv = document.getElementById('contact-form-message');
+                const messageText = document.getElementById('contact-message-text');
+                
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const subjectInput = document.getElementById('subject');
+                const messageInput = document.getElementById('message');
+                
+                // Basic validation
+                if (!nameInput.value || !emailInput.value || !subjectInput.value || !messageInput.value) {
+                    messageText.textContent = '❌ Please fill in all fields.';
+                    messageText.className = 'text-sm text-red-400';
+                    messageDiv.classList.remove('hidden');
+                    setTimeout(() => messageDiv.classList.add('hidden'), 3000);
+                    return;
+                }
+                
+                // Show loading state
+                btnText.classList.add('hidden');
+                btnLoading.classList.remove('hidden');
+                submitBtn.disabled = true;
+                messageDiv.classList.add('hidden');
+                
+                try {
+                    // Use same Lambda endpoint as waitlist
+                    const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
+                    
+                    const response = await fetch(LAMBDA_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            firstName: nameInput.value.split(' ')[0] || nameInput.value,
+                            lastName: nameInput.value.split(' ').slice(1).join(' ') || 'Contact',
+                            email: emailInput.value,
+                            organizationType: 'Contact Form Message',
+                            source: 'contact-page',
+                            type: 'contact-message',
+                            subject: subjectInput.value,
+                            message: messageInput.value
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        // Success
+                        messageText.textContent = '✅ Thank you! Your message has been sent. We\'ll get back to you soon.';
+                        messageText.className = 'text-sm text-dt-teal';
+                        messageDiv.classList.remove('hidden');
+                        
+                        // Clear form
+                        nameInput.value = '';
+                        emailInput.value = '';
+                        subjectInput.value = '';
+                        messageInput.value = '';
+                        
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            messageDiv.classList.add('hidden');
+                        }, 5000);
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                } catch (error) {
+                    console.error('Contact form submission error:', error);
+                    messageText.textContent = '❌ There was an error sending your message. Please try again.';
+                    messageText.className = 'text-sm text-red-400';
+                    messageDiv.classList.remove('hidden');
+                    
+                    // Hide error message after 5 seconds
+                    setTimeout(() => {
+                        messageDiv.classList.add('hidden');
+                    }, 5000);
+                } finally {
+                    // Reset button state
+                    btnText.classList.remove('hidden');
+                    btnLoading.classList.add('hidden');
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>

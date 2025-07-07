@@ -16,7 +16,7 @@ export const handler = async (event, context) => {
     try {
         // Parse request body
         const body = JSON.parse(event.body);
-        const { firstName, lastName, email, organizationType, type, source } = body;
+        const { firstName, lastName, email, organizationType, type, source, subject, message } = body;
 
         // Validate required fields
         if (!firstName || !lastName || !email || !organizationType) {
@@ -29,6 +29,7 @@ export const handler = async (event, context) => {
 
         // Determine email template based on request type
         const isDemoNotification = type === 'demo-notification';
+        const isContactMessage = type === 'contact-message';
         
         // Email template for demo notifications
         const demoNotificationEmailHtml = `
@@ -67,7 +68,7 @@ export const handler = async (event, context) => {
             <p>📞 <strong>Personal demo available now</strong> - Don't want to wait? Schedule a live demo!</p>
         </div>
         
-        <p>Can't wait for the enhanced demo? <a href="https://donationtransparency.org/onboarding/?step=1" style="color: #6EC1E4; text-decoration: none;"><strong>Schedule a personal demo right now</strong></a> and see our transparency platform in action today.</p>
+        <p>Can't wait for the enhanced demo? <a href="https://donationtransparency.org/contact.html" style="color: #6EC1E4; text-decoration: none;"><strong>Contact us for a personal demo right now</strong></a> and see our transparency platform in action today.</p>
         
         <p>Best regards,<br><strong>The Donation Transparency Team</strong></p>
         
@@ -122,26 +123,85 @@ export const handler = async (event, context) => {
 </body>
 </html>`;
 
+        // Email template for contact messages
+        const contactMessageEmailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .highlight { background: #6EC1E4; color: white; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .steps { background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thank You for Contacting Us!</h1>
+        </div>
+        
+        <p>Hi ${firstName},</p>
+        
+        <div class="highlight">
+            <h3>📧 Message Received!</h3>
+            <p>Thank you for reaching out to Donation Transparency. We've received your message and will get back to you soon.</p>
+        </div>
+        
+        <p>Your message about "${subject || 'General Inquiry'}" is important to us, and our team will review it carefully. We typically respond within 24 hours during business days.</p>
+        
+        <div class="steps">
+            <h3>What happens next:</h3>
+            <p>📥 <strong>Message received</strong> - Your inquiry is in our system</p>
+            <p>👀 <strong>Team review</strong> - We'll carefully read your message</p>
+            <p>📞 <strong>Personal response</strong> - We'll get back to you directly</p>
+            <p>🤝 <strong>Next steps</strong> - We'll help with your specific needs</p>
+        </div>
+        
+        <p>In the meantime, feel free to explore our <a href="https://donationtransparency.org/features/" style="color: #6EC1E4; text-decoration: none;">transparency features</a> or learn more about <a href="https://donationtransparency.org/transparency/" style="color: #6EC1E4; text-decoration: none;">radical openness in fundraising</a>.</p>
+        
+        <p>Best regards,<br><strong>The Donation Transparency Team</strong></p>
+        
+        <p style="font-style: italic; color: #666;">P.S. If your message is urgent, feel free to reply to this email and we'll prioritize it!</p>
+    </div>
+</body>
+</html>`;
+
         // Select appropriate template
-        const userEmailHtml = isDemoNotification ? demoNotificationEmailHtml : waitlistEmailHtml;
+        const userEmailHtml = isContactMessage ? contactMessageEmailHtml : 
+                             isDemoNotification ? demoNotificationEmailHtml : 
+                             waitlistEmailHtml;
 
         // Email subject and text content based on type
-        const emailSubject = isDemoNotification 
-            ? "Demo Notification Requested - Donation Transparency"
-            : "You're In The Queue - Donation Transparency";
-            
-        const textContent = isDemoNotification 
-            ? `Hi there,
+        const emailSubject = isContactMessage 
+            ? "Thank You for Contacting Us - Donation Transparency"
+            : isDemoNotification 
+                ? "Demo Notification Requested - Donation Transparency"
+                : "You're In The Queue - Donation Transparency";
+                
+        const textContent = isContactMessage 
+            ? `Hi ${firstName},
+
+Thank you for reaching out to Donation Transparency! We've received your message about "${subject || 'General Inquiry'}" and will get back to you soon.
+
+We typically respond within 24 hours during business days. Your inquiry is important to us and our team will review it carefully.
+
+Best regards,
+The Donation Transparency Team`
+            : isDemoNotification 
+                ? `Hi there,
 
 Thank you for your interest in our enhanced sample nonprofit profile demonstration!
 
 We're working on creating an even more powerful interactive demo that will showcase radical transparency in action. You'll be among the first to know when it's ready.
 
-Can't wait? Schedule a personal demo right now: https://donationtransparency.org/onboarding/?step=1
+Can't wait? Contact us for a personal demo: https://donationtransparency.org/contact.html
 
 Best regards,
 The Donation Transparency Team`
-            : `Hi ${firstName},
+                : `Hi ${firstName},
 
 Your spot is reserved! We've added you to our access queue.
 
@@ -172,12 +232,27 @@ The Donation Transparency Team`;
         };
 
         // Admin notification subject and content based on type
-        const adminSubject = isDemoNotification 
-            ? 'New Demo Notification Request - Donation Transparency'
-            : 'New Waitlist Signup - Donation Transparency';
-            
-        const adminContent = isDemoNotification 
-            ? `New demo notification request:
+        const adminSubject = isContactMessage 
+            ? 'New Contact Form Message - Donation Transparency'
+            : isDemoNotification 
+                ? 'New Demo Notification Request - Donation Transparency'
+                : 'New Waitlist Signup - Donation Transparency';
+                
+        const adminContent = isContactMessage 
+            ? `New contact form message:
+
+Name: ${firstName} ${lastName}
+Email: ${email}
+Subject: ${subject || 'No subject'}
+Source: ${source || 'contact-page'}
+Timestamp: ${new Date().toISOString()}
+
+Message:
+${message || 'No message provided'}
+
+Please respond to this inquiry promptly.`
+            : isDemoNotification 
+                ? `New demo notification request:
 
 Email: ${email}
 Request Type: Demo Notification
@@ -185,7 +260,7 @@ Source: ${source || 'sample-profile-page'}
 Timestamp: ${new Date().toISOString()}
 
 This person wants to be notified when the enhanced sample profile demo is ready.`
-            : `New waitlist signup:
+                : `New waitlist signup:
 
 Name: ${firstName} ${lastName}
 Email: ${email}
