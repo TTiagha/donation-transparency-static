@@ -193,16 +193,36 @@ console.log('Waitlist form found:', !!waitlistForm);
 
 if (waitlistForm) {
     console.log('✅ Attaching event listener to waitlist form');
+    
+    // Add multiple ways to catch the form submission
+    // Add button click debugging too
+    const submitButton = waitlistForm.querySelector('button[type="submit"]');
+    if (submitButton) {
+        console.log('✅ Submit button found, adding click listener');
+        submitButton.addEventListener('click', function(e) {
+            console.log('🖱️ SUBMIT BUTTON CLICKED!');
+            console.log('Button click event:', e);
+        });
+    } else {
+        console.error('❌ Submit button not found in form');
+    }
+    
     waitlistForm.addEventListener('submit', async function(e) {
         console.log('🚀 FORM SUBMISSION TRIGGERED!');
-    e.preventDefault();
+        console.log('Event object:', e);
+        
+        // Prevent default immediately
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('✅ Default prevented, starting custom handling...');
     
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
+    const formSubmitButton = this.querySelector('button[type="submit"]');
+    const originalText = formSubmitButton.textContent;
     
     // Show loading state
-    submitButton.textContent = 'Getting In Line...';
-    submitButton.disabled = true;
+    formSubmitButton.textContent = 'Getting In Line...';
+    formSubmitButton.disabled = true;
     
     const formData = new FormData(this);
     const data = Object.fromEntries(formData);
@@ -301,8 +321,8 @@ if (waitlistForm) {
     } finally {
         // Reset button state
         console.log('Resetting button state...');
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
+        formSubmitButton.textContent = originalText;
+        formSubmitButton.disabled = false;
     }
     });
 } else {
