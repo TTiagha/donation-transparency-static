@@ -10,6 +10,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     
+    <!-- Anti-spam CSS -->
+    <style>
+        .honeypot-field {
+            position: absolute !important;
+            left: -9999px !important;
+            width: 1px !important;
+            height: 1px !important;
+            overflow: hidden !important;
+            clip: rect(1px, 1px, 1px, 1px) !important;
+            white-space: nowrap !important;
+        }
+    </style>
+    
     <!-- Header and Footer Templates -->
     <script src="assets/js/templates/header.js"></script>
     <script src="assets/js/templates/footer.js"></script>
@@ -77,6 +90,15 @@
                                     <label for="message" class="block text-dt-silver mb-2">Message</label>
                                     <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none"></textarea>
                                 </div>
+                                
+                                <!-- Honeypot field - hidden from users, visible to bots -->
+                                <div class="honeypot-field">
+                                    <label for="website">Website (leave blank)</label>
+                                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                                </div>
+                                
+                                <!-- Timestamp for time-based validation -->
+                                <input type="hidden" id="form-timestamp" name="timestamp" value="">
                                 <button type="submit" id="contact-submit-btn" class="w-full bg-dt-teal text-dt-navy font-bold py-3 rounded-lg hover:shadow-dt-teal transition shadow-lg">
                                     <span id="contact-btn-text">Send Message</span>
                                     <span id="contact-btn-loading" class="hidden">Sending...</span>
@@ -137,6 +159,12 @@
     <script>
     // Contact Form Handler
     document.addEventListener('DOMContentLoaded', function() {
+        // Set form timestamp for time-based validation
+        const timestampField = document.getElementById('form-timestamp');
+        if (timestampField) {
+            timestampField.value = Date.now().toString();
+        }
+        
         const contactForm = document.getElementById('contact-form');
         
         if (contactForm) {
@@ -171,6 +199,8 @@
                 const emailInput = document.getElementById('email');
                 const subjectInput = document.getElementById('subject');
                 const messageInput = document.getElementById('message');
+                const honeypotInput = document.getElementById('website');
+                const timestampInput = document.getElementById('form-timestamp');
                 
                 // Additional debugging for email field specifically
                 console.log('Email field details:', {
@@ -182,10 +212,45 @@
                 });
                 
                 // Check if we found all elements
-                if (!nameInput || !emailInput || !subjectInput || !messageInput) {
+                if (!nameInput || !emailInput || !subjectInput || !messageInput || !honeypotInput || !timestampInput) {
                     alert('Error: Could not find form elements. Missing: ' + 
-                          [!nameInput && 'name', !emailInput && 'email', !subjectInput && 'subject', !messageInput && 'message']
+                          [!nameInput && 'name', !emailInput && 'email', !subjectInput && 'subject', !messageInput && 'message', !honeypotInput && 'honeypot', !timestampInput && 'timestamp']
                           .filter(Boolean).join(', '));
+                    return;
+                }
+                
+                // Anti-spam validation
+                const honeypotValue = honeypotInput.value.trim();
+                const formTimestamp = parseInt(timestampInput.value);
+                const currentTime = Date.now();
+                const timeElapsed = currentTime - formTimestamp;
+                
+                // Check honeypot field (should be empty)
+                if (honeypotValue) {
+                    console.log('Spam detected: Honeypot field filled');
+                    messageText.textContent = '❌ There was an error submitting your message. Please try again.';
+                    messageText.className = 'text-sm text-red-400';
+                    messageDiv.classList.remove('hidden');
+                    setTimeout(() => messageDiv.classList.add('hidden'), 5000);
+                    return;
+                }
+                
+                // Check submission timing (too fast or too slow)
+                if (timeElapsed < 3000) { // Less than 3 seconds
+                    console.log('Spam detected: Form submitted too quickly');
+                    messageText.textContent = '❌ Please take a moment to review your message before submitting.';
+                    messageText.className = 'text-sm text-red-400';
+                    messageDiv.classList.remove('hidden');
+                    setTimeout(() => messageDiv.classList.add('hidden'), 5000);
+                    return;
+                }
+                
+                if (timeElapsed > 1800000) { // More than 30 minutes
+                    console.log('Spam detected: Form submission too old');
+                    messageText.textContent = '❌ Form session expired. Please refresh the page and try again.';
+                    messageText.className = 'text-sm text-red-400';
+                    messageDiv.classList.remove('hidden');
+                    setTimeout(() => messageDiv.classList.add('hidden'), 5000);
                     return;
                 }
                 
@@ -275,7 +340,10 @@
                             source: 'contact-page',
                             type: 'contact-message',
                             subject: subject,
-                            message: message
+                            message: message,
+                            honeypot: honeypotValue,
+                            timestamp: formTimestamp,
+                            submissionTime: currentTime
                         })
                     });
                     

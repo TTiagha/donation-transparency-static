@@ -9,6 +9,46 @@ const ses = new SES({
     }
 });
 
+// In-memory rate limiting storage (resets when Lambda cold starts)
+const rateLimitStorage = new Map();
+
+// Spam prevention utilities
+function isSpamContent(message, subject) {
+    const spamKeywords = [
+        'viagra', 'casino', 'lottery', 'winner', 'click here', 'free money',
+        'make money fast', 'work from home', 'guaranteed income', 'no obligation',
+        'urgent', 'act now', 'limited time', 'congratulations you have won'
+    ];
+    
+    const content = `${message} ${subject}`.toLowerCase();
+    return spamKeywords.some(keyword => content.includes(keyword));
+}
+
+function checkRateLimit(ip) {
+    const now = Date.now();
+    const windowMs = 60 * 60 * 1000; // 1 hour
+    const maxRequests = 3;
+    
+    if (!rateLimitStorage.has(ip)) {
+        rateLimitStorage.set(ip, []);
+    }
+    
+    const requests = rateLimitStorage.get(ip);
+    
+    // Remove old requests outside the window
+    const recentRequests = requests.filter(timestamp => now - timestamp < windowMs);
+    
+    if (recentRequests.length >= maxRequests) {
+        return false; // Rate limited
+    }
+    
+    // Add current request
+    recentRequests.push(now);
+    rateLimitStorage.set(ip, recentRequests);
+    
+    return true; // Allowed
+}
+
 export const handler = async (event, context) => {
     // CORS headers for Function URLs (only set if not already configured at Function level)
     const headers = {};
@@ -16,7 +56,69 @@ export const handler = async (event, context) => {
     try {
         // Parse request body
         const body = JSON.parse(event.body);
-        const { firstName, lastName, email, organizationType, type, source, subject, message } = body;
+        const { firstName, lastName, email, organizationType, type, source, subject, message, honeypot, timestamp, submissionTime } = body;
+
+        // Get client IP for rate limiting
+        const clientIP = event.requestContext?.http?.sourceIp || 
+                        event.headers?.['x-forwarded-for']?.split(',')[0] || 
+                        event.headers?.['x-real-ip'] || 
+                        'unknown';
+
+        // Anti-spam validation
+        console.log(`Submission from IP: ${clientIP}`);
+        
+        // Check rate limiting
+        if (!checkRateLimit(clientIP)) {
+            console.log(`Rate limit exceeded for IP: ${clientIP}`);
+            return {
+                statusCode: 429,
+                headers,
+                body: JSON.stringify({ error: 'Too many requests. Please try again later.' })
+            };
+        }
+
+        // Server-side honeypot validation
+        if (honeypot && honeypot.trim()) {
+            console.log(`Spam detected: Honeypot filled by IP: ${clientIP}`);
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: 'Invalid submission' })
+            };
+        }
+
+        // Server-side time validation
+        if (timestamp && submissionTime) {
+            const timeElapsed = submissionTime - timestamp;
+            if (timeElapsed < 3000) {
+                console.log(`Spam detected: Too fast submission by IP: ${clientIP} (${timeElapsed}ms)`);
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Please take more time to complete the form' })
+                };
+            }
+            if (timeElapsed > 1800000) { // 30 minutes
+                console.log(`Spam detected: Expired form by IP: ${clientIP} (${timeElapsed}ms)`);
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Form session expired' })
+                };
+            }
+        }
+
+        // Content-based spam detection (for contact messages)
+        if (type === 'contact-message' && message && subject) {
+            if (isSpamContent(message, subject)) {
+                console.log(`Spam detected: Spam content by IP: ${clientIP}`);
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Message could not be processed' })
+                };
+            }
+        }
 
         // Validate required fields
         if (!firstName || !lastName || !email || !organizationType) {
@@ -245,10 +347,18 @@ Name: ${firstName} ${lastName}
 Email: ${email}
 Subject: ${subject || 'No subject'}
 Source: ${source || 'contact-page'}
+Client IP: ${clientIP}
 Timestamp: ${new Date().toISOString()}
+Form Time: ${timestamp ? Math.round((submissionTime - timestamp) / 1000) : 'N/A'} seconds
 
 Message:
 ${message || 'No message provided'}
+
+Spam Checks Passed:
+✓ Honeypot validation
+✓ Rate limiting
+✓ Time validation
+✓ Content filtering
 
 Please respond to this inquiry promptly.`
             : isDemoNotification 
