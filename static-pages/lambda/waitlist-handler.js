@@ -24,10 +24,11 @@ function isSpamContent(message, subject) {
     return spamKeywords.some(keyword => content.includes(keyword));
 }
 
-function checkRateLimit(ip) {
+function checkRateLimit(ip, isContactMessage = false) {
     const now = Date.now();
     const windowMs = 60 * 60 * 1000; // 1 hour
-    const maxRequests = 3;
+    // More lenient for waitlist submissions
+    const maxRequests = isContactMessage ? 3 : 5;
     
     if (!rateLimitStorage.has(ip)) {
         rateLimitStorage.set(ip, []);
@@ -37,6 +38,8 @@ function checkRateLimit(ip) {
     
     // Remove old requests outside the window
     const recentRequests = requests.filter(timestamp => now - timestamp < windowMs);
+    
+    console.log(`Rate limit check for ${ip}: ${recentRequests.length}/${maxRequests} requests in last hour`);
     
     if (recentRequests.length >= maxRequests) {
         return false; // Rate limited
@@ -65,11 +68,18 @@ export const handler = async (event, context) => {
                         'unknown';
 
         // Anti-spam validation
-        console.log(`Submission from IP: ${clientIP}`);
+        console.log(`Submission from IP: ${clientIP}`, {
+            type: type || 'waitlist',
+            hasHoneypot: !!honeypot,
+            hasTimestamp: !!timestamp,
+            hasSubmissionTime: !!submissionTime,
+            isContactMessage: type === 'contact-message'
+        });
         
         // Check rate limiting
-        if (!checkRateLimit(clientIP)) {
-            console.log(`Rate limit exceeded for IP: ${clientIP}`);
+        const isContactMessage = type === 'contact-message';
+        if (!checkRateLimit(clientIP, isContactMessage)) {
+            console.log(`Rate limit exceeded for IP: ${clientIP}, type: ${type || 'waitlist'}`);
             return {
                 statusCode: 429,
                 headers,
@@ -404,17 +414,24 @@ Source: Donation Transparency Waitlist`;
             ses.send(new SendEmailCommand(adminEmailParams))
         ]);
 
+        console.log(`Successfully processed ${type || 'waitlist'} submission for ${email} from IP: ${clientIP}`);
+        
         return {
             statusCode: 200,
             headers,
             body: JSON.stringify({
                 success: true,
-                message: 'Successfully joined waitlist'
+                message: 'Successfully processed submission'
             })
         };
 
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Lambda function error:', {
+            error: error.message,
+            stack: error.stack,
+            event: JSON.stringify(event, null, 2)
+        });
+        
         return {
             statusCode: 500,
             headers,
