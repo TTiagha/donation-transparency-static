@@ -63,19 +63,19 @@
                             <form id="contact-form" class="space-y-6">
                                 <div>
                                     <label for="name" class="block text-dt-silver mb-2">Name</label>
-                                    <input type="text" id="name" name="name" class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none">
+                                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none">
                                 </div>
                                 <div>
                                     <label for="email" class="block text-dt-silver mb-2">Email</label>
-                                    <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none">
+                                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none">
                                 </div>
                                 <div>
                                     <label for="subject" class="block text-dt-silver mb-2">Subject</label>
-                                    <input type="text" id="subject" name="subject" class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none">
+                                    <input type="text" id="subject" name="subject" required class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none">
                                 </div>
                                 <div>
                                     <label for="message" class="block text-dt-silver mb-2">Message</label>
-                                    <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none"></textarea>
+                                    <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 bg-dt-navy border border-dt-slate rounded-lg text-dt-silver focus:border-dt-teal focus:outline-none"></textarea>
                                 </div>
                                 <button type="submit" id="contact-submit-btn" class="w-full bg-dt-teal text-dt-navy font-bold py-3 rounded-lg hover:shadow-dt-teal transition shadow-lg">
                                     <span id="contact-btn-text">Send Message</span>
@@ -154,12 +154,25 @@
                 const subjectInput = document.getElementById('subject');
                 const messageInput = document.getElementById('message');
                 
-                // Basic validation
-                if (!nameInput.value || !emailInput.value || !subjectInput.value || !messageInput.value) {
-                    messageText.textContent = '❌ Please fill in all fields.';
+                // Basic validation - trim whitespace and check each field
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const subject = subjectInput.value.trim();
+                const message = messageInput.value.trim();
+                
+                console.log('Form validation:', { name, email, subject, message }); // Debug log
+                
+                if (!name || !email || !subject || !message) {
+                    const emptyFields = [];
+                    if (!name) emptyFields.push('Name');
+                    if (!email) emptyFields.push('Email');
+                    if (!subject) emptyFields.push('Subject');
+                    if (!message) emptyFields.push('Message');
+                    
+                    messageText.textContent = `❌ Please fill in: ${emptyFields.join(', ')}`;
                     messageText.className = 'text-sm text-red-400';
                     messageDiv.classList.remove('hidden');
-                    setTimeout(() => messageDiv.classList.add('hidden'), 3000);
+                    setTimeout(() => messageDiv.classList.add('hidden'), 5000);
                     return;
                 }
                 
@@ -179,14 +192,14 @@
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            firstName: nameInput.value.split(' ')[0] || nameInput.value,
-                            lastName: nameInput.value.split(' ').slice(1).join(' ') || 'Contact',
-                            email: emailInput.value,
+                            firstName: name.split(' ')[0] || name,
+                            lastName: name.split(' ').slice(1).join(' ') || 'Contact',
+                            email: email,
                             organizationType: 'Contact Form Message',
                             source: 'contact-page',
                             type: 'contact-message',
-                            subject: subjectInput.value,
-                            message: messageInput.value
+                            subject: subject,
+                            message: message
                         })
                     });
                     
