@@ -187,9 +187,14 @@ if (successModal) {
 }
 
 // Handle form submission
+console.log('🔍 Looking for waitlist form...');
 const waitlistForm = document.getElementById('waitlistForm');
+console.log('Waitlist form found:', !!waitlistForm);
+
 if (waitlistForm) {
+    console.log('✅ Attaching event listener to waitlist form');
     waitlistForm.addEventListener('submit', async function(e) {
+        console.log('🚀 FORM SUBMISSION TRIGGERED!');
     e.preventDefault();
     
     const submitButton = this.querySelector('button[type="submit"]');
@@ -300,7 +305,34 @@ if (waitlistForm) {
         submitButton.disabled = false;
     }
     });
+} else {
+    console.error('❌ Waitlist form not found! Available forms:', 
+        Array.from(document.querySelectorAll('form')).map(f => ({ id: f.id, innerHTML: f.innerHTML.substring(0, 100) }))
+    );
 }
+
+// Test modal functions on page load
+console.log('🧪 Testing modal elements...');
+setTimeout(() => {
+    const waitlistModal = document.getElementById('waitlistModal');
+    const successModal = document.getElementById('successModal');
+    console.log('Modal elements check:', {
+        waitlistModal: !!waitlistModal,
+        successModal: !!successModal,
+        waitlistForm: !!document.getElementById('waitlistForm')
+    });
+}, 1000);
+
+// Debug function - make it globally available for testing
+window.testSuccessModal = function() {
+    console.log('🧪 Testing success modal manually...');
+    openSuccessModal();
+};
+
+window.testWaitlistModal = function() {
+    console.log('🧪 Testing waitlist modal manually...');
+    openWaitlistModal();
+};
 
 // Escape key to close modals
 document.addEventListener('keydown', function(e) {
