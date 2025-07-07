@@ -93,9 +93,16 @@ function hideMobileMenuWithAnimation(mobileMenu) {
 
 // Waitlist Modal Functions
 function openWaitlistModal() {
+    console.log('🔄 Opening waitlist modal...');
     const modal = document.getElementById('waitlistModal');
     const modalContent = document.getElementById('modalContent');
     
+    if (!modal || !modalContent) {
+        console.error('❌ Waitlist modal elements not found:', { modal: !!modal, modalContent: !!modalContent });
+        return;
+    }
+    
+    console.log('Waitlist modal elements found, showing modal...');
     modal.classList.remove('hidden');
     modal.classList.add('flex', 'items-center', 'justify-center');
     document.body.style.overflow = 'hidden';
@@ -104,6 +111,7 @@ function openWaitlistModal() {
     setTimeout(() => {
         modalContent.classList.remove('scale-95', 'opacity-0');
         modalContent.classList.add('scale-100', 'opacity-100');
+        console.log('✅ Waitlist modal animation complete');
     }, 10);
 }
 
