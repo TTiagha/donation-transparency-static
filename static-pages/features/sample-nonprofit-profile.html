@@ -124,11 +124,15 @@
                     <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200">
                         <h3 class="text-dt-teal font-semibold mb-4">Be the First to Experience Our Interactive Demo</h3>
                         <p class="text-dt-slate mb-4">Enter your email to be notified when our enhanced sample profile is ready:</p>
-                        <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                            <input type="email" placeholder="your@email.com" class="flex-1 px-4 py-3 bg-dt-navy text-dt-silver rounded-lg border border-gray-600 focus:border-dt-teal focus:outline-none">
-                            <button class="bg-dt-teal text-dt-navy font-bold px-6 py-3 rounded-lg hover:scale-105 transition">
-                                Notify Me
+                        <form id="demo-notification-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                            <input type="email" id="demo-email" name="email" placeholder="your@email.com" required class="flex-1 px-4 py-3 bg-dt-navy text-dt-silver rounded-lg border border-gray-600 focus:border-dt-teal focus:outline-none">
+                            <button type="submit" id="demo-submit-btn" class="bg-dt-teal text-dt-navy font-bold px-6 py-3 rounded-lg hover:scale-105 transition">
+                                <span id="demo-btn-text">Notify Me</span>
+                                <span id="demo-btn-loading" class="hidden">Sending...</span>
                             </button>
+                        </form>
+                        <div id="demo-form-message" class="mt-4 text-center hidden">
+                            <p id="demo-message-text" class="text-sm"></p>
                         </div>
                     </div>
                 </div>
@@ -179,6 +183,80 @@
         "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
       },
       "retina_detect": true
+    });
+
+    // Demo Notification Form Handler
+    document.addEventListener('DOMContentLoaded', function() {
+        const demoForm = document.getElementById('demo-notification-form');
+        
+        if (demoForm) {
+            demoForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('demo-submit-btn');
+                const btnText = document.getElementById('demo-btn-text');
+                const btnLoading = document.getElementById('demo-btn-loading');
+                const messageDiv = document.getElementById('demo-form-message');
+                const messageText = document.getElementById('demo-message-text');
+                const emailInput = document.getElementById('demo-email');
+                
+                // Show loading state
+                btnText.classList.add('hidden');
+                btnLoading.classList.remove('hidden');
+                submitBtn.disabled = true;
+                messageDiv.classList.add('hidden');
+                
+                try {
+                    // Use same Lambda endpoint as homepage waitlist
+                    const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
+                    
+                    const response = await fetch(LAMBDA_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            firstName: 'Demo',
+                            lastName: 'Notification',
+                            email: emailInput.value,
+                            organizationType: 'Demo Notification Request',
+                            source: 'sample-profile-page',
+                            type: 'demo-notification'
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        // Success
+                        messageText.textContent = '✅ Thank you! We\'ll notify you when the enhanced demo is ready.';
+                        messageText.className = 'text-sm text-dt-teal';
+                        messageDiv.classList.remove('hidden');
+                        emailInput.value = '';
+                        
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            messageDiv.classList.add('hidden');
+                        }, 5000);
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    messageText.textContent = '❌ There was an error. Please try again or schedule a demo directly.';
+                    messageText.className = 'text-sm text-red-400';
+                    messageDiv.classList.remove('hidden');
+                    
+                    // Hide error message after 5 seconds
+                    setTimeout(() => {
+                        messageDiv.classList.add('hidden');
+                    }, 5000);
+                } finally {
+                    // Reset button state
+                    btnText.classList.remove('hidden');
+                    btnLoading.classList.add('hidden');
+                    submitBtn.disabled = false;
+                }
+            });
+        }
     });
     </script>
 </body>
