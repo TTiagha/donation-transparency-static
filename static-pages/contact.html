@@ -140,8 +140,25 @@
         const contactForm = document.getElementById('contact-form');
         
         if (contactForm) {
+            // Add debugging for email field interactions
+            const emailField = document.getElementById('email');
+            if (emailField) {
+                emailField.addEventListener('input', function() {
+                    console.log('Email input event - value:', this.value);
+                });
+                emailField.addEventListener('change', function() {
+                    console.log('Email change event - value:', this.value);
+                });
+                emailField.addEventListener('blur', function() {
+                    console.log('Email blur event - value:', this.value);
+                });
+            }
+            
             contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
+                
+                // Small delay to ensure autofill completes
+                await new Promise(resolve => setTimeout(resolve, 100));
                 
                 const submitBtn = document.getElementById('contact-submit-btn');
                 const btnText = document.getElementById('contact-btn-text');
@@ -155,6 +172,15 @@
                 const subjectInput = document.getElementById('subject');
                 const messageInput = document.getElementById('message');
                 
+                // Additional debugging for email field specifically
+                console.log('Email field details:', {
+                    element: emailInput,
+                    id: emailInput ? emailInput.id : 'NOT_FOUND',
+                    type: emailInput ? emailInput.type : 'NOT_FOUND',
+                    value: emailInput ? emailInput.value : 'NOT_FOUND',
+                    innerHTML: emailInput ? emailInput.outerHTML : 'NOT_FOUND'
+                });
+                
                 // Check if we found all elements
                 if (!nameInput || !emailInput || !subjectInput || !messageInput) {
                     alert('Error: Could not find form elements. Missing: ' + 
@@ -165,9 +191,28 @@
                 
                 // Basic validation - trim whitespace and check each field
                 const name = nameInput ? nameInput.value.trim() : '';
-                const email = emailInput ? emailInput.value.trim() : '';
+                let email = emailInput ? emailInput.value.trim() : '';
                 const subject = subjectInput ? subjectInput.value.trim() : '';
                 const message = messageInput ? messageInput.value.trim() : '';
+                
+                // Try alternative methods to get email value if it's empty
+                if (!email && emailInput) {
+                    console.log('Email is empty, trying alternative methods...');
+                    // Try getAttribute
+                    const attrValue = emailInput.getAttribute('value');
+                    console.log('getAttribute value:', attrValue);
+                    
+                    // Try FormData
+                    const formData = new FormData(contactForm);
+                    const formEmail = formData.get('email');
+                    console.log('FormData email:', formEmail);
+                    
+                    // Use FormData value if available
+                    if (formEmail && formEmail.trim()) {
+                        email = formEmail.trim();
+                        console.log('Using FormData email value:', email);
+                    }
+                }
                 
                 // Detailed debugging
                 console.log('Form elements found:', {
