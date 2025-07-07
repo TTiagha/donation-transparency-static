@@ -108,8 +108,14 @@ function openWaitlistModal() {
 }
 
 function closeWaitlistModal() {
+    console.log('🔄 Closing waitlist modal...');
     const modal = document.getElementById('waitlistModal');
     const modalContent = document.getElementById('modalContent');
+    
+    if (!modal || !modalContent) {
+        console.error('❌ Modal elements not found:', { modal: !!modal, modalContent: !!modalContent });
+        return;
+    }
     
     // Animate out
     modalContent.classList.remove('scale-100', 'opacity-100');
@@ -119,13 +125,21 @@ function closeWaitlistModal() {
         modal.classList.add('hidden');
         modal.classList.remove('flex', 'items-center', 'justify-center');
         document.body.style.overflow = 'auto';
+        console.log('✅ Waitlist modal closed');
     }, 300);
 }
 
 function openSuccessModal() {
+    console.log('🎉 Opening success modal...');
     const modal = document.getElementById('successModal');
     const modalContent = document.getElementById('successModalContent');
     
+    if (!modal || !modalContent) {
+        console.error('❌ Success modal elements not found:', { modal: !!modal, modalContent: !!modalContent });
+        return;
+    }
+    
+    console.log('Success modal elements found, showing modal...');
     modal.classList.remove('hidden');
     modal.classList.add('flex', 'items-center', 'justify-center');
     document.body.style.overflow = 'hidden';
@@ -134,6 +148,7 @@ function openSuccessModal() {
     setTimeout(() => {
         modalContent.classList.remove('scale-95', 'opacity-0');
         modalContent.classList.add('scale-100', 'opacity-100');
+        console.log('✅ Success modal animation complete');
     }, 10);
 }
 
@@ -193,21 +208,37 @@ if (waitlistForm) {
         const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
         const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xanywpza';
         
+        console.log('Waitlist form submission starting...', data);
+        
         let response;
         
         if (USE_AWS_LAMBDA) {
+            console.log('Using AWS Lambda endpoint:', LAMBDA_ENDPOINT);
+            
+            const requestBody = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                organizationType: data.organizationType,
+                source: 'homepage-waitlist'
+            };
+            
+            console.log('Sending request with body:', requestBody);
+            
             // Use AWS Lambda with SES (preferred - uses your paid AWS SES service)
             response = await fetch(LAMBDA_ENDPOINT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    email: data.email,
-                    organizationType: data.organizationType
-                })
+                body: JSON.stringify(requestBody)
+            });
+            
+            console.log('Response received:', {
+                status: response.status,
+                statusText: response.statusText,
+                ok: response.ok,
+                headers: Object.fromEntries(response.headers.entries())
             });
         } else {
             // Use FormSpree for static hosting (temporary solution)
@@ -227,23 +258,44 @@ if (waitlistForm) {
             });
         }
         
+        // Try to get response text for debugging
+        let responseText = '';
+        try {
+            responseText = await response.text();
+            console.log('Response text:', responseText);
+        } catch (e) {
+            console.log('Could not read response text:', e);
+        }
+        
         if (response.ok) {
+            console.log('✅ Success! Showing success modal...');
             // Close waitlist modal and show success modal
             closeWaitlistModal();
             setTimeout(() => {
                 openSuccessModal();
+                console.log('Success modal should now be visible');
             }, 400);
             
             // Reset form
             this.reset();
         } else {
-            throw new Error('Failed to join waitlist');
+            console.error('❌ Request failed:', {
+                status: response.status,
+                statusText: response.statusText,
+                responseText: responseText
+            });
+            throw new Error(`Failed to join waitlist: ${response.status} ${response.statusText}`);
         }
     } catch (error) {
-        console.error('Error:', error);
-        alert('Sorry, there was an error joining the waitlist. Please try again.');
+        console.error('❌ Form submission error:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+        });
+        alert(`Sorry, there was an error joining the waitlist: ${error.message}`);
     } finally {
         // Reset button state
+        console.log('Resetting button state...');
         submitButton.textContent = originalText;
         submitButton.disabled = false;
     }
