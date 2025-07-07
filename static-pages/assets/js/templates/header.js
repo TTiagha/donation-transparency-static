@@ -454,7 +454,7 @@ function createHeaderHTML() {
     </header>
 
     <!-- Waitlist Modal -->
-    <div id="waitlistModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+    <div id="waitlistModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden">
         <div class="bg-dt-charcoal rounded-2xl p-8 max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
             <div class="text-center">
                 <div class="w-16 h-16 bg-dt-teal rounded-full flex items-center justify-center mx-auto mb-4">
@@ -506,7 +506,7 @@ function createHeaderHTML() {
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden">
         <div class="bg-dt-charcoal rounded-2xl p-8 max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="successModalContent">
             <div class="text-center">
                 <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -531,4 +531,23 @@ function createHeaderHTML() {
 document.addEventListener('DOMContentLoaded', function() {
     // Insert header at the beginning of body
     document.body.insertAdjacentHTML('afterbegin', createHeaderHTML());
+    
+    // Ensure modals are properly hidden on page load
+    setTimeout(() => {
+        const waitlistModal = document.getElementById('waitlistModal');
+        const successModal = document.getElementById('successModal');
+        
+        if (waitlistModal) {
+            waitlistModal.classList.add('hidden');
+            waitlistModal.classList.remove('flex', 'items-center', 'justify-center');
+        }
+        
+        if (successModal) {
+            successModal.classList.add('hidden');
+            successModal.classList.remove('flex', 'items-center', 'justify-center');
+        }
+        
+        // Ensure body scrolling is enabled
+        document.body.style.overflow = 'auto';
+    }, 50);
 });

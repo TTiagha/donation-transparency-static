@@ -965,7 +965,7 @@ Visit donationtransparency.org for full implementation guide.`;
             </div>`
         ).join('');
         
-        // Create modal or display area
+        // Remove any existing modals first
         const existingModal = document.getElementById('checklist-modal');
         if (existingModal) {
             existingModal.remove();
@@ -974,18 +974,32 @@ Visit donationtransparency.org for full implementation guide.`;
         const modal = document.createElement('div');
         modal.id = 'checklist-modal';
         modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+        
+        // Add click outside to close functionality
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeChecklist();
+            }
+        });
+        
         modal.innerHTML = `
-            <div class="bg-lm-white p-6 rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto border border-lm-accent">
-                <h3 class="text-xl font-bold text-lm-accent mb-4">Your Custom Implementation Checklist</h3>
+            <div class="bg-lm-white p-6 rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto border border-lm-accent shadow-2xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-lm-accent">Your Custom Implementation Checklist</h3>
+                    <button onclick="closeChecklist()" class="text-lm-gray hover:text-lm-dark text-2xl font-bold">&times;</button>
+                </div>
                 <div class="space-y-2 mb-6">${checklistHTML}</div>
                 <div class="text-center">
-                    <button onclick="closeChecklist()" class="bg-lm-accent text-white font-bold px-4 py-2 rounded mr-3">Close</button>
-                    <button onclick="downloadChecklist('${orgSize}', '${currentSystems}')" class="bg-lm-gray text-white font-bold px-4 py-2 rounded">Download Checklist</button>
+                    <button onclick="closeChecklist()" class="bg-lm-accent text-white font-bold px-4 py-2 rounded mr-3 hover:scale-105 transition">Close</button>
+                    <button onclick="downloadChecklist('${orgSize}', '${currentSystems}')" class="bg-lm-gray text-white font-bold px-4 py-2 rounded hover:scale-105 transition">Download Checklist</button>
                 </div>
             </div>
         `;
         
         document.body.appendChild(modal);
+        
+        // Focus the modal for accessibility
+        modal.focus();
     }
 
     // Close Checklist Modal
@@ -995,6 +1009,22 @@ Visit donationtransparency.org for full implementation guide.`;
             modal.remove();
         }
     }
+    
+    // Clear any leftover modals on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Remove any existing modals that might be stuck
+        const existingModal = document.getElementById('checklist-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Add escape key functionality
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeChecklist();
+            }
+        });
+    });
 
     // Download Checklist Function
     function downloadChecklist(orgSize, currentSystems) {

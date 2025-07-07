@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,29 @@
     <meta name="description" content="A step-by-step framework for building trust through transparency in community fundraising. Learn proven strategies for local projects, school events, and neighborhood initiatives.">
     <meta name="keywords" content="community fundraising, local fundraising guide, neighborhood fundraising, school fundraising, transparent fundraising, community projects">
     
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="The Ultimate Guide to Community & Local Fundraising">
+    <meta property="og:description" content="A step-by-step framework for building trust through transparency in community fundraising. Learn proven strategies for local projects, school events, and neighborhood initiatives.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://donationtransparency.org/guides/community-local-fundraising.html">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure Tailwind for production  
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dt-navy': '#FFFFFF',
+                        'dt-charcoal': '#F8F9FA', 
+                        'dt-slate': '#6C757D',
+                        'dt-silver': '#212529',
+                        'dt-teal': '#6EC1E4'
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
@@ -21,389 +44,27 @@
     <link rel="shortcut icon" type="image/png" href="../assets/images/logo-final.png">
     <link rel="apple-touch-icon" href="../assets/images/logo-final.png">
     
-    <style>
-        /* Basic page styling to ensure proper display */
-        body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #FFFFFF;
-            color: #212529;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-        
-        .main-content {
-            padding-top: 6rem;
-            max-width: 56rem;
-            margin: 0 auto;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-        }
-        
-        .hero-section {
-            padding: 5rem 0;
-            text-align: center;
-        }
-        
-        .content-section {
-            padding: 2rem 0;
-            margin-bottom: 3rem;
-        }
-        
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: #212529;
-            margin-bottom: 1.5rem;
-        }
-        
-        h2 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: #212529;
-            margin-bottom: 1rem;
-            margin-top: 2rem;
-        }
-        
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #6EC1E4;
-            margin-bottom: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        h4 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: #6EC1E4;
-            margin-bottom: 0.5rem;
-        }
-        
-        p {
-            font-size: 1.125rem;
-            color: #6C757D;
-            margin-bottom: 1.5rem;
-        }
-        
-        .intro-text {
-            font-size: 1.25rem;
-            color: #6C757D;
-            margin-bottom: 2rem;
-        }
-        
-        .highlight-box {
-            background-color: #F8F9FA;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid #6EC1E4;
-            margin: 1.5rem 0;
-        }
-        
-        .meta-info {
-            background-color: #F8F9FA;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1.5rem 0;
-            font-size: 0.875rem;
-            color: #6C757D;
-        }
-        
-        .toc {
-            background-color: #F8F9FA;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            margin: 2rem 0;
-        }
-        
-        .toc h2 {
-            margin-top: 0;
-        }
-        
-        .toc ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .toc li {
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            border-left: 3px solid #6EC1E4;
-            background: white;
-            border-radius: 0.25rem;
-        }
-        
-        .toc a {
-            color: #6EC1E4;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .toc a:hover {
-            color: #212529;
-        }
-        
-        .step-box {
-            background-color: #F8F9FA;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid #E9ECEF;
-            margin: 1rem 0;
-        }
-        
-        .checklist {
-            background: white;
-            border: 1px solid #E9ECEF;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .checklist li {
-            margin: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .checklist li:before {
-            content: "✓";
-            color: #6EC1E4;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-        
-        ul {
-            padding-left: 1.5rem;
-        }
-        
-        strong {
-            color: #6EC1E4;
-        }
-        
-        em {
-            font-style: italic;
-            color: #212529;
-        }
-        
-        .accent-text {
-            color: #6EC1E4;
-        }
-        
-        .section-divider {
-            height: 3px;
-            background: linear-gradient(to right, #6EC1E4, transparent);
-            margin: 3rem 0;
-            border-radius: 2px;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .benefit-card {
-            background: #F8F9FA;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid #E9ECEF;
-            text-align: center;
-        }
-        
-        .benefit-card h4 {
-            margin-top: 0.5rem;
-            color: #6EC1E4;
-        }
-        
-        .benefit-card .icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .case-study {
-            background: linear-gradient(135deg, #6EC1E4 0%, #5AB3D9 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            margin: 2rem 0;
-        }
-        
-        .case-study h3 {
-            color: white;
-            margin-top: 0;
-        }
-        
-        .case-study strong {
-            color: white;
-        }
-        
-        .faq-item {
-            background: #F8F9FA;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid #E9ECEF;
-            margin: 1rem 0;
-        }
-        
-        .faq-item h4 {
-            color: #212529;
-            margin-bottom: 1rem;
-        }
-        
-        .toolkit-cta {
-            background: linear-gradient(135deg, #6EC1E4 0%, #5AB3D9 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            margin: 2rem 0;
-        }
-        
-        .toolkit-cta h3 {
-            color: white;
-            margin-top: 0;
-        }
-        
-        .toolkit-cta strong {
-            color: white;
-        }
-        
-        .cta-button {
-            background: white;
-            color: #6EC1E4;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 1rem;
-            transition: transform 0.2s;
-        }
-        
-        .cta-button:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Navigation Display Classes - Critical Fix */
-        .hidden { display: none; }
-        @media (min-width: 768px) {
-            .md\:flex { display: flex !important; }
-            h1 {
-                font-size: 3rem;
-            }
-        }
-        
-        /* Navigation Styling */
-        nav {
-            align-items: center;
-        }
-        
-        nav a {
-            color: #6C757D;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        
-        nav a:hover {
-            color: #212529;
-        }
-        
-        .space-x-8 > * + * {
-            margin-left: 2rem;
-        }
-        
-        /* Header Styling - Missing Tailwind Classes */
-        .fixed { position: fixed; }
-        .top-0 { top: 0; }
-        .left-0 { left: 0; }
-        .right-0 { right: 0; }
-        .z-50 { z-index: 50; }
-        .bg-opacity-80 { background-color: rgba(255, 255, 255, 0.8); }
-        .backdrop-blur-sm { backdrop-filter: blur(4px); }
-        .flex { display: flex; }
-        .justify-between { justify-content: space-between; }
-        .items-center { align-items: center; }
-        .mx-auto { margin-left: auto; margin-right: auto; }
-        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-        .h-12 { height: 3rem; }
-        .hidden { display: none; }
-        .space-x-8 > * + * { margin-left: 2rem; }
-        .ml-2 { margin-left: 0.5rem; }
-        .transition { transition: all 0.15s ease-in-out; }
-        .hover\\:text-lm-dark:hover { color: #212529; }
-        
-        @media (min-width: 768px) {
-            .md\\:flex { display: flex; }
-            .md\\:ml-4 { margin-left: 1rem; }
-        }
-        
-        @media (min-width: 1024px) {
-            .lg\\:ml-6 { margin-left: 1.5rem; }
-        }
-        
-        /* Additional Missing Classes for Full Page Layout */
-        .pt-24 { padding-top: 6rem; }
-        .text-sm { font-size: 0.875rem; }
-        .text-xl { font-size: 1.25rem; }
-        .text-4xl { font-size: 2.25rem; }
-        .font-bold { font-weight: 700; }
-        .mb-2 { margin-bottom: 0.5rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mb-8 { margin-bottom: 2rem; }
-        .mb-12 { margin-bottom: 3rem; }
-        .mt-2 { margin-top: 0.5rem; }
-        .mt-4 { margin-top: 1rem; }
-        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
-        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
-        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
-        .max-w-4xl { max-width: 56rem; }
-        .max-w-3xl { max-width: 48rem; }
-        .text-center { text-align: center; }
-        .rounded-lg { border-radius: 0.5rem; }
-        .justify-center { justify-content: center; }
-        .text-xs { font-size: 0.75rem; }
-        .space-x-6 > * + * { margin-left: 1.5rem; }
-        
-        @media (min-width: 768px) {
-            .md\\:text-5xl { font-size: 3rem; }
-        }
-        
-        /* Additional Layout Classes */
-        .text-2xl { font-size: 1.5rem; }
-        .mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
-        
-        /* Footer Styling Classes */
-        .flex { display: flex; }
-        .justify-center { justify-content: center; }
-        .space-x-6 > * + * { margin-left: 1.5rem; }
-        .mt-4 { margin-top: 1rem; }
-        .hover\\:text-lm-dark:hover { color: #212529; }
-        .transition { transition: all 0.15s ease-in-out; }
-        
-        /* Additional Header Styling Classes */
-        .shadow-soft { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02); }
-        .bg-lm-white { background-color: #FFFFFF; }
-        .text-lm-gray { color: #6C757D; }
-        .text-lm-dark { color: #212529; }
-        
-        /* Navigation Display Classes - Critical Fix */
-        .hidden { display: none; }
-        @media (min-width: 768px) {
-            .md\\:flex { display: flex !important; }
-        }
-    </style>
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "The Ultimate Guide to Community & Local Fundraising",
+      "description": "A step-by-step framework for building trust through transparency in community fundraising. Learn proven strategies for local projects, school events, and neighborhood initiatives.",
+      "author": {
+        "@type": "Organization",
+        "name": "Donation Transparency"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Donation Transparency"
+      },
+      "wordCount": "4500",
+      "articleSection": "Fundraising Guides"
+    }
+    </script>
 </head>
-<body class="bg-lm-white">
+<body class="bg-dt-navy">
     <!-- Particle.js container -->
     <div id="particles-js"></div>
 
@@ -414,19 +75,19 @@
         <section class="py-20">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-5xl font-bold text-lm-dark mb-6">The Ultimate Guide to Community & Local Fundraising: <span class="accent-text">A Step-by-Step Framework for Building Trust Through Transparency</span></h1>
+                    <h1 class="text-4xl md:text-5xl font-bold text-dt-silver mb-6">The Ultimate Guide to Community & Local Fundraising: <span class="text-dt-teal">A Step-by-Step Framework for Building Trust Through Transparency</span></h1>
                     
-                    <p class="text-xl text-lm-gray mb-8">
+                    <p class="text-xl text-dt-slate mb-8">
                         You have an idea that can change your corner of the world—a new playground for the local school, a revitalized park, support for a neighbor in need. You see the potential for real impact, and you know that when people come together, incredible things happen. But how do you turn that vision into a fully funded reality? <em>The answer is more than just a good fundraising idea; it's trust.</em>
                     </p>
                     
-                    <div class="highlight-box">
-                        <p style="font-size: 1.125rem; color: #6C757D; margin-bottom: 0;">
-                            <strong>This guide goes beyond simple lists of local fundraising ideas.</strong> We're providing a proven, step-by-step framework to engage your community, raise funds effectively, and build lasting support for your community projects. You'll discover that transparency isn't a chore—it's the most powerful tool you have.
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-dt-teal my-6">
+                        <p class="text-lg text-dt-slate mb-0">
+                            <strong class="text-dt-teal">This guide goes beyond simple lists of local fundraising ideas.</strong> We're providing a proven, step-by-step framework to engage your community, raise funds effectively, and build lasting support for your community projects. You'll discover that transparency isn't a chore—it's the most powerful tool you have.
                         </p>
                     </div>
                     
-                    <div class="meta-info">
+                    <div class="bg-dt-charcoal p-4 rounded-lg my-6 text-sm text-dt-slate">
                         🏘️ 18-minute read &nbsp;&nbsp;&nbsp; 🎯 Complete framework & templates &nbsp;&nbsp;&nbsp; 💪 Build unshakeable community trust
                     </div>
                 </div>
@@ -434,18 +95,18 @@
         </section>
 
         <!-- Table of Contents -->
-        <section class="py-8 bg-lm-offwhite">
+        <section class="py-8 bg-dt-charcoal">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto">
-                    <h2 class="text-2xl font-bold text-lm-dark mb-6">What You'll Learn</h2>
-                    <div class="toc">
-                        <ul>
-                            <li><a href="#transparency-weapon">Why Transparency is Your Secret Weapon</a></li>
-                            <li><a href="#framework">The 5-Step Framework for Success</a></li>
-                            <li><a href="#toolkit">Your Toolkit for Transparency Reporting</a></li>
-                            <li><a href="#case-study">Case Study: Neighborhood Project Success</a></li>
-                            <li><a href="#faq">Frequently Asked Questions</a></li>
-                            <li><a href="#start-today">Start Your Transparent Fundraiser Today</a></li>
+                    <h2 class="text-2xl font-bold text-dt-silver mb-6">What You'll Learn</h2>
+                    <div class="bg-dt-charcoal p-8 rounded-lg my-8">
+                        <ul class="list-none p-0">
+                            <li class="my-2 p-2 border-l-4 border-dt-teal bg-white rounded"><a href="#transparency-weapon" class="text-dt-teal no-underline font-semibold hover:text-dt-silver transition">Why Transparency is Your Secret Weapon</a></li>
+                            <li class="my-2 p-2 border-l-4 border-dt-teal bg-white rounded"><a href="#framework" class="text-dt-teal no-underline font-semibold hover:text-dt-silver transition">The 5-Step Framework for Success</a></li>
+                            <li class="my-2 p-2 border-l-4 border-dt-teal bg-white rounded"><a href="#toolkit" class="text-dt-teal no-underline font-semibold hover:text-dt-silver transition">Your Toolkit for Transparency Reporting</a></li>
+                            <li class="my-2 p-2 border-l-4 border-dt-teal bg-white rounded"><a href="#case-study" class="text-dt-teal no-underline font-semibold hover:text-dt-silver transition">Case Study: Neighborhood Project Success</a></li>
+                            <li class="my-2 p-2 border-l-4 border-dt-teal bg-white rounded"><a href="#faq" class="text-dt-teal no-underline font-semibold hover:text-dt-silver transition">Frequently Asked Questions</a></li>
+                            <li class="my-2 p-2 border-l-4 border-dt-teal bg-white rounded"><a href="#start-today" class="text-dt-teal no-underline font-semibold hover:text-dt-silver transition">Start Your Transparent Fundraiser Today</a></li>
                         </ul>
                     </div>
                 </div>
@@ -459,73 +120,73 @@
 
             <!-- Transparency Weapon Section -->
             <div id="transparency-weapon">
-                <h2>Why Transparency is Your Secret Weapon in Community Fundraising</h2>
+                <h2 class="text-3xl font-bold text-dt-silver mb-4 mt-8">Why Transparency is Your Secret Weapon in Community Fundraising</h2>
                 
-                <p>
+                <p class="text-lg text-dt-slate mb-6">
                     In the world of local fundraising, success isn't just about the amount of money you raise; it's about the strength of the community you build. A transparent fundraising campaign is the bedrock of that strength. It transforms a simple ask into a collaborative effort, motivating people to give more and stay involved for the long haul. Here's why making transparency your #1 priority will revolutionize your fundraising efforts.
                 </p>
                 
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="icon">🤝</div>
-                        <h4>Build Unshakeable Community Trust</h4>
-                        <p>Trust is the currency of any successful community fundraiser. When potential donors know exactly where their money is going—from a clear budget for a new roof to a specific cost for a charity run—their confidence soars. Vague goals like "improving the park" create uncertainty. A specific, transparent goal like "raising $5,000 for a new wheelchair-accessible swing set" inspires belief and a genuine desire to help.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 text-center">
+                        <div class="text-4xl mb-4">🤝</div>
+                        <h4 class="text-lg font-semibold text-dt-teal mb-2 mt-2">Build Unshakeable Community Trust</h4>
+                        <p class="text-dt-slate">Trust is the currency of any successful community fundraiser. When potential donors know exactly where their money is going—from a clear budget for a new roof to a specific cost for a charity run—their confidence soars. Vague goals like "improving the park" create uncertainty. A specific, transparent goal like "raising $5,000 for a new wheelchair-accessible swing set" inspires belief and a genuine desire to help.</p>
                     </div>
                     
-                    <div class="benefit-card">
-                        <div class="icon">💸</div>
-                        <h4>Attract More Donors and Larger Contributions</h4>
-                        <p>A commitment to openness makes your fundraiser stand out. In an era of skepticism, people are looking for assurance that their contribution will make a difference. By proactively sharing your plans and finances, you provide that assurance. This confidence doesn't just attract more community members; it often leads to larger donations because supporters feel secure in their investment.</p>
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 text-center">
+                        <div class="text-4xl mb-4">💸</div>
+                        <h4 class="text-lg font-semibold text-dt-teal mb-2 mt-2">Attract More Donors and Larger Contributions</h4>
+                        <p class="text-dt-slate">A commitment to openness makes your fundraiser stand out. In an era of skepticism, people are looking for assurance that their contribution will make a difference. By proactively sharing your plans and finances, you provide that assurance. This confidence doesn't just attract more community members; it often leads to larger donations because supporters feel secure in their investment.</p>
                     </div>
                     
-                    <div class="benefit-card">
-                        <div class="icon">💖</div>
-                        <h4>Turn One-Time Supporters into Lifelong Champions</h4>
-                        <p>The biggest mistake in fundraising is treating a donation like a final transaction. When you report back to the community on how you used their contributions, you close the loop and show them their impact. Seeing photos of the new team uniforms or reading a thank you note from the family you helped turns a one-time donor into a lifelong champion for your cause.</p>
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 text-center">
+                        <div class="text-4xl mb-4">💖</div>
+                        <h4 class="text-lg font-semibold text-dt-teal mb-2 mt-2">Turn One-Time Supporters into Lifelong Champions</h4>
+                        <p class="text-dt-slate">The biggest mistake in fundraising is treating a donation like a final transaction. When you report back to the community on how you used their contributions, you close the loop and show them their impact. Seeing photos of the new team uniforms or reading a thank you note from the family you helped turns a one-time donor into a lifelong champion for your cause.</p>
                     </div>
                     
-                    <div class="benefit-card">
-                        <div class="icon">🛡️</div>
-                        <h4>Prevent Common Pitfalls and Community Backlash</h4>
-                        <p>Whispers and questions can quickly undermine a well-intentioned local fundraiser. "Where did the money from the bake sale actually go?" "Why haven't we seen any progress?" A transparent approach gets ahead of these issues. By providing regular updates and maintaining an open line of communication via email or social media, you answer questions before they're even asked.</p>
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 text-center">
+                        <div class="text-4xl mb-4">🛡️</div>
+                        <h4 class="text-lg font-semibold text-dt-teal mb-2 mt-2">Prevent Common Pitfalls and Community Backlash</h4>
+                        <p class="text-dt-slate">Whispers and questions can quickly undermine a well-intentioned local fundraiser. "Where did the money from the bake sale actually go?" "Why haven't we seen any progress?" A transparent approach gets ahead of these issues. By providing regular updates and maintaining an open line of communication via email or social media, you answer questions before they're even asked.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="section-divider"></div>
+            <div class="h-1 bg-gradient-to-r from-dt-teal to-transparent my-12 rounded"></div>
 
             <!-- Framework Section -->
             <div id="framework">
-                <h2>The 5-Step Framework for a Transparent and Successful Local Fundraiser</h2>
+                <h2 class="text-3xl font-bold text-dt-silver mb-4 mt-8">The 5-Step Framework for a Transparent and Successful Local Fundraiser</h2>
                 
-                <p>
+                <p class="text-lg text-dt-slate mb-6">
                     A successful community fundraising campaign doesn't happen by accident. It's built on a clear, repeatable process. This 5-step framework is your roadmap. We've designed it to infuse every stage of your fundraiser—from initial idea to final thank you—with the trust-building power of transparency.
                 </p>
                 
-                <h3>Step 1: Define Your Mission with Crystal Clarity 🎯</h3>
+                <h3 class="text-2xl font-bold text-dt-teal mb-4 mt-6">Step 1: Define Your Mission with Crystal Clarity 🎯</h3>
                 
-                <p>Before you can raise money, you must define your purpose with absolute precision. This is your foundation.</p>
+                <p class="text-lg text-dt-slate mb-6">Before you can raise money, you must define your purpose with absolute precision. This is your foundation.</p>
                 
-                <div class="step-box">
-                    <h4>Set a Specific, Measurable Goal</h4>
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
+                    <h4 class="text-lg font-semibold text-dt-teal mb-2">Set a Specific, Measurable Goal</h4>
                     <p>Move beyond vague ideas. Instead of "helping the animal shelter," create a goal like, "Raise $2,500 by August 1st to cover the adoption fees for 20 senior dogs." This gives your community a tangible finish line to cross with you.</p>
                 </div>
                 
-                <div class="step-box">
-                    <h4>Create a Public-Facing Budget</h4>
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
+                    <h4 class="text-lg font-semibold text-dt-teal mb-2">Create a Public-Facing Budget</h4>
                     <p>How will the funds raised be used? Create a simple, public breakdown. It doesn't need to be complicated—a few lines on your fundraiser page showing costs for materials, fees, and the final project allocation can make a world of difference in building immediate donor confidence.</p>
                 </div>
                 
-                <h3>Step 2: Assemble Your Team and Rally the Community 🤝</h3>
+                <h3 class="text-2xl font-bold text-dt-teal mb-4 mt-6">Step 2: Assemble Your Team and Rally the Community 🤝</h3>
                 
-                <p>You can't do this alone. True community involvement means giving people meaningful roles.</p>
+                <p class="text-lg text-dt-slate mb-6">You can't do this alone. True community involvement means giving people meaningful roles.</p>
                 
-                <div class="step-box">
-                    <h4>Identify Key Stakeholders</h4>
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
+                    <h4 class="text-lg font-semibold text-dt-teal mb-2">Identify Key Stakeholders</h4>
                     <p>Make a list of essential community members, local leaders, and even a supportive local business or two who can partner with you.</p>
                 </div>
                 
-                <div class="step-box">
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
                     <h4>Assign a "Transparency Lead"</h4>
                     <p>Designate one person on your team whose job is to manage updates and answer questions from the community. Having a clear point of contact makes your commitment to openness official and shows you're serious about accountability.</p>
                 </div>
@@ -536,19 +197,19 @@
                 
                 <h4>Classic Community Events</h4>
                 
-                <div class="step-box">
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
                     <h4>Community Dinner or Bake Sale</h4>
                     <p>A timeless way to gather people.</p>
                     <p><strong>Transparency Tip:</strong> At the event, use a large poster or whiteboard to display your fundraising goals and show a live "thermometer" of donations as they come in. List the exact cost of what the funds will purchase (e.g., "$15 buys one new library book").</p>
                 </div>
                 
-                <div class="step-box">
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
                     <h4>Walk-a-Thons or Charity Run</h4>
                     <p>Great for active communities.</p>
                     <p><strong>Transparency Tip:</strong> On the sign-up form, clearly state what percentage of the entry fee goes to event costs versus the actual cause. This proactive honesty builds immense trust.</p>
                 </div>
                 
-                <div class="step-box">
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
                     <h4>Local Talent Show or Concert</h4>
                     <p>Showcase the creative spirit of your town.</p>
                     <p><strong>Transparency Tip:</strong> Create a simple program for the event. In it, include a one-page summary of your project budget and a QR code linking to your main fundraiser page for real-time updates.</p>
@@ -556,14 +217,14 @@
                 
                 <h4>School & Religious Fundraising</h4>
                 
-                <div class="step-box">
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
                     <p>These events require deep trust with parents and congregation members. A silent auction or school carnival can be a huge success.</p>
                     <p><strong>Transparency Tip:</strong> After the event, send a dedicated email to all participants detailing the exact amount raised and celebrating the specific items or programs that will now be funded thanks to their generosity.</p>
                 </div>
                 
                 <h4>Modern & Digital-First Ideas</h4>
                 
-                <div class="step-box">
+                <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 my-4">
                     <h4>Online Crowdfunding</h4>
                     <p>Use a trusted online fundraising platform for your local project.</p>
                     <p><strong>Transparency Tip:</strong> Choose a platform that allows for public progress bars and regular updates. Post updates at least twice a week, even if it's just to say, "We're 5% closer to our goal today, thank you!" This keeps the momentum going.</p>
@@ -593,7 +254,7 @@
                 </div>
             </div>
 
-            <div class="section-divider"></div>
+            <div class="h-1 bg-gradient-to-r from-dt-teal to-transparent my-12 rounded"></div>
 
             <!-- Toolkit Section -->
             <div id="toolkit">
@@ -603,20 +264,20 @@
                     Moving from theory to action is the most important step. To make your fundraiser as simple and effective as possible, we've created a toolkit with everything you need to manage your campaign with total transparency. These resources are designed to be low-cost, easy to use, and will help you maximize donations.
                 </p>
                 
-                <div class="benefits-grid">
-                    <div class="benefit-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 text-center">
                         <div class="icon">📊</div>
                         <h4>The Simple Fundraiser Budget Template</h4>
                         <p>Take the guesswork out of your financial planning. This easy-to-use spreadsheet is pre-formatted to help you track expenses and income, giving you a crystal-clear budget to share with your community.</p>
                     </div>
                     
-                    <div class="benefit-card">
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 text-center">
                         <div class="icon">📄</div>
                         <h4>The One-Page Transparency Report Template</h4>
                         <p>Don't know how to report your results? We've made it easy. This customizable template provides a professional-looking summary of your campaign's success. Simply fill in the numbers, add a photo, and share it to instantly show donors the impact of their support.</p>
                     </div>
                     
-                    <div class="benefit-card">
+                    <div class="bg-dt-charcoal p-6 rounded-lg border border-gray-200 text-center">
                         <div class="icon">✅</div>
                         <h4>The Accountable Fundraising Checklist</h4>
                         <p>From start to finish, this checklist is your guide. It walks you through every transparency action item—from setting a public goal to sending a post-campaign report—ensuring you don't miss a single step in building community trust.</p>
@@ -624,7 +285,7 @@
                 </div>
             </div>
 
-            <div class="section-divider"></div>
+            <div class="h-1 bg-gradient-to-r from-dt-teal to-transparent my-12 rounded"></div>
 
             <!-- Case Study Section -->
             <div id="case-study">
@@ -645,7 +306,7 @@
                 </div>
             </div>
 
-            <div class="section-divider"></div>
+            <div class="h-1 bg-gradient-to-r from-dt-teal to-transparent my-12 rounded"></div>
 
             <!-- FAQ Section -->
             <div id="faq">
@@ -685,11 +346,11 @@
                 </div>
             </div>
 
-            <div class="section-divider"></div>
+            <div class="h-1 bg-gradient-to-r from-dt-teal to-transparent my-12 rounded"></div>
 
             <!-- Conclusion -->
             <div>
-                <h2>Conclusion: Your Community is Ready to Give. Earn Their Trust.</h2>
+                <h2 class="text-3xl font-bold text-dt-silver mb-4 mt-8">Conclusion: Your Community is Ready to Give. Earn Their Trust.</h2>
                 
                 <p>
                     The desire to create change and support local causes exists in every community. Your neighbors, friends, and local businesses are ready and willing to contribute to projects that make their home a better place. The gap between a great idea and a funded reality is not a lack of generosity—it is a lack of trust.
@@ -698,18 +359,18 @@
                 <p>You now have the framework to bridge that gap. By choosing to lead with transparency, you are doing more than just launching a fundraiser; you are building a movement. You are inviting people into a shared mission, honoring their contributions with accountability, and creating a cycle of goodwill that will last long after your fundraising goals are met. Stop just asking for support, and start earning their trust.</p>
             </div>
 
-            <div class="section-divider"></div>
+            <div class="h-1 bg-gradient-to-r from-dt-teal to-transparent my-12 rounded"></div>
 
             <!-- Start Today Section -->
             <div id="start-today">
-                <div class="toolkit-cta">
-                    <h3>Start Your Transparent Fundraiser Today [Free Toolkit]</h3>
+                <div class="bg-gradient-to-br from-dt-teal to-blue-500 text-white p-8 rounded-lg text-center my-8">
+                    <h3 class="text-2xl font-bold text-white mb-4 mt-0">Start Your Transparent Fundraiser Today [Free Toolkit]</h3>
                     
-                    <p>Ready to launch a fundraiser that your community will not only support but celebrate? Download our complete Transparent Fundraising Toolkit now.</p>
+                    <p class="text-white mb-4">Ready to launch a fundraiser that your community will not only support but celebrate? Download our complete Transparent Fundraising Toolkit now.</p>
                     
-                    <p>It includes every resource mentioned in this guide—the budget template, the one-page impact report, and the accountable fundraising checklist. We've given you the strategy and the tools. Now go make a real impact.</p>
+                    <p class="text-white mb-6">It includes every resource mentioned in this guide—the budget template, the one-page impact report, and the accountable fundraising checklist. We've given you the strategy and the tools. Now go make a real impact.</p>
                     
-                    <a href="/onboarding/?step=1" class="cta-button">Download the Free Toolkit Now</a>
+                    <a href="/onboarding/?step=1" class="bg-white text-dt-teal py-4 px-8 rounded-lg font-bold text-lg inline-block mt-4 hover:scale-105 transition no-underline">Download the Free Toolkit Now</a>
                 </div>
             </div>
         </section>

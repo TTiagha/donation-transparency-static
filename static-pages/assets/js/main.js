@@ -97,6 +97,7 @@ function openWaitlistModal() {
     const modalContent = document.getElementById('modalContent');
     
     modal.classList.remove('hidden');
+    modal.classList.add('flex', 'items-center', 'justify-center');
     document.body.style.overflow = 'hidden';
     
     // Animate in
@@ -116,6 +117,7 @@ function closeWaitlistModal() {
     
     setTimeout(() => {
         modal.classList.add('hidden');
+        modal.classList.remove('flex', 'items-center', 'justify-center');
         document.body.style.overflow = 'auto';
     }, 300);
 }
@@ -125,6 +127,7 @@ function openSuccessModal() {
     const modalContent = document.getElementById('successModalContent');
     
     modal.classList.remove('hidden');
+    modal.classList.add('flex', 'items-center', 'justify-center');
     document.body.style.overflow = 'hidden';
     
     // Animate in
@@ -144,6 +147,7 @@ function closeSuccessModal() {
     
     setTimeout(() => {
         modal.classList.add('hidden');
+        modal.classList.remove('flex', 'items-center', 'justify-center');
         document.body.style.overflow = 'auto';
     }, 300);
 }
