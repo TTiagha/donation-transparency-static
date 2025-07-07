@@ -77,8 +77,7 @@ export const handler = async (event, context) => {
         });
         
         // Check rate limiting
-        const isContactMessage = type === 'contact-message';
-        if (!checkRateLimit(clientIP, isContactMessage)) {
+        if (!checkRateLimit(clientIP, type === 'contact-message')) {
             console.log(`Rate limit exceeded for IP: ${clientIP}, type: ${type || 'waitlist'}`);
             return {
                 statusCode: 429,
