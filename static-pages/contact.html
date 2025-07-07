@@ -149,25 +149,56 @@
                 const messageDiv = document.getElementById('contact-form-message');
                 const messageText = document.getElementById('contact-message-text');
                 
+                // Get form elements with error checking
                 const nameInput = document.getElementById('name');
                 const emailInput = document.getElementById('email');
                 const subjectInput = document.getElementById('subject');
                 const messageInput = document.getElementById('message');
                 
-                // Basic validation - trim whitespace and check each field
-                const name = nameInput.value.trim();
-                const email = emailInput.value.trim();
-                const subject = subjectInput.value.trim();
-                const message = messageInput.value.trim();
+                // Check if we found all elements
+                if (!nameInput || !emailInput || !subjectInput || !messageInput) {
+                    alert('Error: Could not find form elements. Missing: ' + 
+                          [!nameInput && 'name', !emailInput && 'email', !subjectInput && 'subject', !messageInput && 'message']
+                          .filter(Boolean).join(', '));
+                    return;
+                }
                 
-                console.log('Form validation:', { name, email, subject, message }); // Debug log
+                // Basic validation - trim whitespace and check each field
+                const name = nameInput ? nameInput.value.trim() : '';
+                const email = emailInput ? emailInput.value.trim() : '';
+                const subject = subjectInput ? subjectInput.value.trim() : '';
+                const message = messageInput ? messageInput.value.trim() : '';
+                
+                // Detailed debugging
+                console.log('Form elements found:', {
+                    nameInput: !!nameInput,
+                    emailInput: !!emailInput, 
+                    subjectInput: !!subjectInput,
+                    messageInput: !!messageInput
+                });
+                console.log('Raw values:', {
+                    nameRaw: nameInput ? nameInput.value : 'INPUT NOT FOUND',
+                    emailRaw: emailInput ? emailInput.value : 'INPUT NOT FOUND',
+                    subjectRaw: subjectInput ? subjectInput.value : 'INPUT NOT FOUND',
+                    messageRaw: messageInput ? messageInput.value : 'INPUT NOT FOUND'
+                });
+                console.log('Trimmed values:', { name, email, subject, message });
+                console.log('Length check:', {
+                    nameLength: name.length,
+                    emailLength: email.length,
+                    subjectLength: subject.length,
+                    messageLength: message.length
+                });
                 
                 if (!name || !email || !subject || !message) {
                     const emptyFields = [];
                     if (!name) emptyFields.push('Name');
-                    if (!email) emptyFields.push('Email');
+                    if (!email) emptyFields.push('Email'); 
                     if (!subject) emptyFields.push('Subject');
                     if (!message) emptyFields.push('Message');
+                    
+                    // Additional debug alert
+                    alert(`Debug info:\nEmpty fields: ${emptyFields.join(', ')}\nEmail value: "${email}"\nEmail length: ${email.length}\nCheck console for more details.`);
                     
                     messageText.textContent = `❌ Please fill in: ${emptyFields.join(', ')}`;
                     messageText.className = 'text-sm text-red-400';
