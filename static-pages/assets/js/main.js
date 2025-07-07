@@ -91,8 +91,8 @@ function hideMobileMenuWithAnimation(mobileMenu) {
     }, menuItems.length * 60 + 100);
 }
 
-// Waitlist Modal Functions
-function openWaitlistModal() {
+// Waitlist Modal Functions - make globally accessible
+window.openWaitlistModal = function openWaitlistModal() {
     console.log('🔄 Opening waitlist modal...');
     const modal = document.getElementById('waitlistModal');
     const modalContent = document.getElementById('modalContent');
@@ -115,7 +115,7 @@ function openWaitlistModal() {
     }, 10);
 }
 
-function closeWaitlistModal() {
+window.closeWaitlistModal = function closeWaitlistModal() {
     console.log('🔄 Closing waitlist modal...');
     const modal = document.getElementById('waitlistModal');
     const modalContent = document.getElementById('modalContent');
@@ -137,7 +137,7 @@ function closeWaitlistModal() {
     }, 300);
 }
 
-function openSuccessModal() {
+window.openSuccessModal = function openSuccessModal() {
     console.log('🎉 Opening success modal...');
     const modal = document.getElementById('successModal');
     const modalContent = document.getElementById('successModalContent');
@@ -160,7 +160,7 @@ function openSuccessModal() {
     }, 10);
 }
 
-function closeSuccessModal() {
+window.closeSuccessModal = function closeSuccessModal() {
     const modal = document.getElementById('successModal');
     const modalContent = document.getElementById('successModalContent');
     
@@ -391,8 +391,21 @@ document.addEventListener('click', function(e) {
             type: e.target.type,
             form: e.target.form,
             id: e.target.id,
-            className: e.target.className
+            className: e.target.className,
+            formId: e.target.form ? e.target.form.id : 'NO_FORM',
+            textContent: e.target.textContent.trim()
         });
+        
+        // Special check for waitlist form submit button
+        if (e.target.form && e.target.form.id === 'waitlistForm' && e.target.type === 'submit') {
+            console.log('🎯 WAITLIST FORM SUBMIT BUTTON DETECTED!');
+            console.log('Form validation state:', {
+                firstName: e.target.form.firstName.value,
+                lastName: e.target.form.lastName.value,
+                email: e.target.form.email.value,
+                organizationType: e.target.form.organizationType.value
+            });
+        }
     }
 }, true);
 
