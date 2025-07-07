@@ -315,143 +315,74 @@ if (waitlistForm) {
     console.log('✅ Attaching event listener to waitlist form');
     
     // Add multiple ways to catch the form submission
-    // Add button click debugging and manual form submission
+    // Add button click debugging and manual form submission with multiple event capture methods
     const submitButton = waitlistForm.querySelector('button[type="submit"]');
     if (submitButton) {
-        console.log('✅ Submit button found, adding click listener');
+        console.log('✅ Submit button found, adding multiple click listeners');
+        
+        // Method 1: Click event with capture
         submitButton.addEventListener('click', function(e) {
-            console.log('🖱️ MODAL SUBMIT BUTTON CLICKED!');
+            console.log('🖱️ MODAL SUBMIT BUTTON CLICKED (capture phase)!');
             console.log('Preventing default and manually handling submission...');
             
             // Prevent default button behavior
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
             
             // Manually trigger our form handling
             handleWaitlistFormSubmission(waitlistForm);
-        });
+            return false;
+        }, true); // Use capture phase
+        
+        // Method 2: Click event without capture
+        submitButton.addEventListener('click', function(e) {
+            console.log('🖱️ MODAL SUBMIT BUTTON CLICKED (bubble phase)!');
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            return false;
+        }, false);
+        
+        // Method 3: Override the button's onclick if it exists
+        if (submitButton.onclick) {
+            console.log('Found existing onclick, overriding...');
+        }
+        submitButton.onclick = function(e) {
+            console.log('🖱️ MODAL SUBMIT BUTTON ONCLICK!');
+            e.preventDefault();
+            e.stopPropagation();
+            handleWaitlistFormSubmission(waitlistForm);
+            return false;
+        };
+        
     } else {
         console.error('❌ Submit button not found in form');
     }
     
-    waitlistForm.addEventListener('submit', async function(e) {
-        console.log('🚀 FORM SUBMISSION TRIGGERED!');
+    // Method 4: Aggressive form submit prevention
+    waitlistForm.addEventListener('submit', function(e) {
+        console.log('🚀 FORM SUBMISSION TRIGGERED - PREVENTING!');
         console.log('Event object:', e);
         
         // Prevent default immediately
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         
-        console.log('✅ Default prevented, starting custom handling...');
+        console.log('✅ Default prevented, calling manual handler...');
+        handleWaitlistFormSubmission(waitlistForm);
+        return false;
+    }, true); // Use capture phase
     
-    const formSubmitButton = this.querySelector('button[type="submit"]');
-    const originalText = formSubmitButton.textContent;
-    
-    // Show loading state
-    formSubmitButton.textContent = 'Getting In Line...';
-    formSubmitButton.disabled = true;
-    
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    try {
-        // Configuration - easily switch between FormSpree and AWS Lambda
-        const USE_AWS_LAMBDA = true; // Set to true when Lambda is deployed
-        const LAMBDA_ENDPOINT = 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/';
-        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xanywpza';
-        
-        console.log('Waitlist form submission starting...', data);
-        
-        let response;
-        
-        if (USE_AWS_LAMBDA) {
-            console.log('Using AWS Lambda endpoint:', LAMBDA_ENDPOINT);
-            
-            const requestBody = {
-                firstName: data.firstName,
-                lastName: data.lastName,
-                email: data.email,
-                organizationType: data.organizationType,
-                source: 'homepage-waitlist'
-            };
-            
-            console.log('Sending request with body:', requestBody);
-            
-            // Use AWS Lambda with SES (preferred - uses your paid AWS SES service)
-            response = await fetch(LAMBDA_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody)
-            });
-            
-            console.log('Response received:', {
-                status: response.status,
-                statusText: response.statusText,
-                ok: response.ok,
-                headers: Object.fromEntries(response.headers.entries())
-            });
-        } else {
-            // Use FormSpree for static hosting (temporary solution)
-            response = await fetch(FORMSPREE_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    email: data.email,
-                    organizationType: data.organizationType,
-                    timestamp: new Date().toISOString(),
-                    _subject: 'New Waitlist Signup - Donation Transparency'
-                })
-            });
-        }
-        
-        // Try to get response text for debugging
-        let responseText = '';
-        try {
-            responseText = await response.text();
-            console.log('Response text:', responseText);
-        } catch (e) {
-            console.log('Could not read response text:', e);
-        }
-        
-        if (response.ok) {
-            console.log('✅ Success! Showing success modal...');
-            // Close waitlist modal and show success modal
-            closeWaitlistModal();
-            setTimeout(() => {
-                openSuccessModal();
-                console.log('Success modal should now be visible');
-            }, 400);
-            
-            // Reset form
-            this.reset();
-        } else {
-            console.error('❌ Request failed:', {
-                status: response.status,
-                statusText: response.statusText,
-                responseText: responseText
-            });
-            throw new Error(`Failed to join waitlist: ${response.status} ${response.statusText}`);
-        }
-    } catch (error) {
-        console.error('❌ Form submission error:', {
-            name: error.name,
-            message: error.message,
-            stack: error.stack
-        });
-        alert(`Sorry, there was an error joining the waitlist: ${error.message}`);
-    } finally {
-        // Reset button state
-        console.log('Resetting button state...');
-        formSubmitButton.textContent = originalText;
-        formSubmitButton.disabled = false;
-    }
-    });
+    // Additional submit prevention
+    waitlistForm.addEventListener('submit', function(e) {
+        console.log('🚀 FORM SUBMISSION TRIGGERED (bubble) - PREVENTING!');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        return false;
+    }, false);
 } else {
     console.error('❌ Waitlist form not found! Available forms:', 
         Array.from(document.querySelectorAll('form')).map(f => ({ id: f.id, innerHTML: f.innerHTML.substring(0, 100) }))
