@@ -1,87 +1,42 @@
 User-agent: *
 
-# This robots.txt is for app.donationtransparency.org
-# Public donation pages are allowed, private areas are blocked
+# EMERGENCY BLOCK - Preventing keyword cannibalization
+# This robots.txt blocks ALL content except donation pages
 
-# Allow public donation pages to be indexed
+# Block everything by default
+Disallow: /
+
+# Only allow donation pages
 Allow: /donate/
 
-# Block all private/internal areas
-Disallow: /dashboard/
-Disallow: /account/
-Disallow: /admin/
-Disallow: /api/
-Disallow: /auth/
-Disallow: /settings/
-Disallow: /transactions/
-Disallow: /analytics/
-Disallow: /reports/
-Disallow: /profile/
-Disallow: /user/
+# Allow WordPress AJAX for functionality
+Allow: /wp-admin/admin-ajax.php
+Allow: /wp-json/
 
-# Block authentication and session pages
-Disallow: /login
-Disallow: /register
-Disallow: /logout
-Disallow: /password-reset
-Disallow: /verify-email
-Disallow: /forgot-password
+# Block all article paths explicitly
+Disallow: /how-to-*/
+Disallow: /building-*/
+Disallow: /nonprofit-*/
+Disallow: /key-principles-*/
+Disallow: /understanding/
+Disallow: /category/
+Disallow: /tag/
+Disallow: /author/
+Disallow: /blog/
+Disallow: /articles/
+Disallow: /empowering-*/
+Disallow: /financial-*/
 
-# Block WordPress admin and system areas
+# Block WordPress areas
 Disallow: /wp-admin/
 Disallow: /wp-includes/
-Disallow: /wp-content/plugins/
-Disallow: /wp-content/themes/
-Disallow: /wp-content/uploads/
+Disallow: /wp-content/
 Disallow: /wp-login.php
-Disallow: /wp-register.php
-Disallow: /wp-config.php
-Disallow: /xmlrpc.php
-Disallow: /readme.html
-Disallow: /license.txt
+Disallow: /?s=
+Disallow: /search/
 
-# Block WordPress system files and directories
-Disallow: /*.php$
-Disallow: /cgi-bin/
-Disallow: /?author=*
-Disallow: /*?replytocom
-Disallow: /comment-page-*
-Disallow: /*?attachment_id=*
-Disallow: /feed/
-Disallow: /*/feed/
-Disallow: /*/trackback/
-Disallow: /*/*/feed/
-Disallow: /*/*/trackback/
-
-# Block any user session, temporary, or system files
-Disallow: /*.json$
-Disallow: /*.xml$
-Disallow: /temp/
-Disallow: /tmp/
-Disallow: /cache/
-Disallow: /backup/
-Disallow: /backups/
-Disallow: /_next/
-Disallow: /node_modules/
-
-# Allow robots to access assets for proper page rendering
-Allow: /assets/
-Allow: /static/
-Allow: /_next/static/
-Allow: /images/
-Allow: /css/
-Allow: /js/
-Allow: /*.css$
-Allow: /*.js$
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.png$
-Allow: /*.gif$
-Allow: /*.svg$
-Allow: /*.ico$
-
-# Crawl delay to be respectful
+# Crawl delay
 Crawl-delay: 1
 
-# Sitemap for public donation pages (create this when you have multiple campaigns)
-# Sitemap: https://app.donationtransparency.org/sitemap-donate.xml
+# Sitemap (only if you create one for donation pages)
+# Sitemap: https://app.donationtransparency.org/sitemap-donations.xml
