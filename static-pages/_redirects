@@ -23,5 +23,12 @@
 # WordPress AJAX
 /wp-admin/admin-ajax.php  http://52.73.45.190/wp-admin/admin-ajax.php  200!
 
+# Features Section Redirects (301 for SEO)
+/static-pages/features/trust-dashboard.html  /static-pages/features/transparency-management-dashboard.html  301!
+/static-pages/features/donation-visibility.html  /static-pages/features/real-time-tracking.html  301!
+/static-pages/features/fundraising-performance-analytics-new.html  /static-pages/features/fundraising-performance-analytics.html  301!
+/static-pages/features/fundraising-performance-analytics-backup.html  /static-pages/features/fundraising-performance-analytics.html  301!
+
 # Default - Serve static content
 /*  /static-pages/:splat  200
+/transparency/donor-confidence.html    /guides/building-donor-trust.html    301
