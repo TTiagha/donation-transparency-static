@@ -1,24 +1,25 @@
 User-agent: *
 
-# Block incomplete content sections
-Disallow: /transparency/
-Disallow: /guides/
-Disallow: /features/
-
-# Allow completed articles
-Allow: /transparency/definitive-guide-financial-transparency.html
-Allow: /guides/building-donor-trust.html
-
-# Allow main pages
+# Allow all main content (now complete and optimized)
 Allow: /
-Allow: /index.html
-Allow: /about.html
-Allow: /contact.html
+Allow: /transparency/
+Allow: /guides/
+Allow: /features/
 
-# Standard exclusions
+# Standard exclusions - internal files only
 Disallow: /api/
 Disallow: /lambda/
 Disallow: /templates/
 Disallow: /config/
+Disallow: /assets/js/templates/
+Disallow: /*.json$
+Disallow: /*.md$
+
+# Development/test files
+Disallow: /index2.html
+Disallow: /favicon.html
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
 
 Sitemap: https://donationtransparency.org/sitemap.xml

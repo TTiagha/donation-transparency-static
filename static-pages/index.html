@@ -36,14 +36,19 @@
     <link rel="shortcut icon" type="image/png" href="assets/images/logo-final.png">
     <link rel="apple-touch-icon" href="assets/images/logo-final.png">
     
-    <!-- LocalBusiness Schema Markup -->
+    <!-- Enhanced Organization Schema Markup -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["Organization", "WebSite"],
       "name": "Donation Transparency",
-      "description": "Transparent fundraising platform for real-time donation tracking and donor trust building",
+      "alternateName": "DT",
       "url": "https://donationtransparency.org",
+      "logo": "https://donationtransparency.org/assets/images/logo-final.png",
+      "description": "Revolutionary fundraising platform providing real-time donation tracking and transparency tools to build unshakeable donor trust",
+      "slogan": "Your Transparent Fundraising Platform",
+      "foundingDate": "2023",
+      "email": "support@donationtransparency.org",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "300 Peachtree Street NE, Suite 24A",
@@ -52,32 +57,44 @@
         "postalCode": "30308",
         "addressCountry": "US"
       },
-      "serviceArea": {
+      "areaServed": {
         "@type": "Place",
-        "name": "Global"
+        "name": "Worldwide"
       },
-      "areaServed": "Worldwide",
-      "category": "Software Company",
-      "priceRange": "Free",
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Transparent Fundraising Services",
-        "itemListElement": [
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://donationtransparency.org/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "0",
+        "offerCount": "3",
+        "offers": [
           {
             "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Real-time Donation Tracking",
-              "description": "Automated expense tracking and donor notifications"
-            }
+            "name": "Real-Time Donation Tracking",
+            "description": "Live tracking of every donation with automated donor notifications",
+            "price": "0",
+            "priceCurrency": "USD"
           },
           {
             "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Transparent Fundraising Platform",
-              "description": "Complete transparency tools for nonprofits and fundraisers"
-            }
+            "name": "Transparency Dashboard",
+            "description": "Comprehensive dashboard for complete financial transparency",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          {
+            "@type": "Offer",
+            "name": "Impact Reporting",
+            "description": "Automated impact reports showing exactly how donations are used",
+            "price": "0",
+            "priceCurrency": "USD"
           }
         ]
       }
