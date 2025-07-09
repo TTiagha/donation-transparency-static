@@ -1,5 +1,8 @@
 User-agent: *
 
+# This robots.txt applies to donationtransparency.org only
+# For app.donationtransparency.org, see separate robots.txt
+
 # Allow all main content (now complete and optimized)
 Allow: /
 Allow: /transparency/

@@ -1,0 +1,87 @@
+User-agent: *
+
+# This robots.txt is for app.donationtransparency.org
+# Public donation pages are allowed, private areas are blocked
+
+# Allow public donation pages to be indexed
+Allow: /donate/
+
+# Block all private/internal areas
+Disallow: /dashboard/
+Disallow: /account/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /settings/
+Disallow: /transactions/
+Disallow: /analytics/
+Disallow: /reports/
+Disallow: /profile/
+Disallow: /user/
+
+# Block authentication and session pages
+Disallow: /login
+Disallow: /register
+Disallow: /logout
+Disallow: /password-reset
+Disallow: /verify-email
+Disallow: /forgot-password
+
+# Block WordPress admin and system areas
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/themes/
+Disallow: /wp-content/uploads/
+Disallow: /wp-login.php
+Disallow: /wp-register.php
+Disallow: /wp-config.php
+Disallow: /xmlrpc.php
+Disallow: /readme.html
+Disallow: /license.txt
+
+# Block WordPress system files and directories
+Disallow: /*.php$
+Disallow: /cgi-bin/
+Disallow: /?author=*
+Disallow: /*?replytocom
+Disallow: /comment-page-*
+Disallow: /*?attachment_id=*
+Disallow: /feed/
+Disallow: /*/feed/
+Disallow: /*/trackback/
+Disallow: /*/*/feed/
+Disallow: /*/*/trackback/
+
+# Block any user session, temporary, or system files
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /temp/
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /backup/
+Disallow: /backups/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Allow robots to access assets for proper page rendering
+Allow: /assets/
+Allow: /static/
+Allow: /_next/static/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Crawl delay to be respectful
+Crawl-delay: 1
+
+# Sitemap for public donation pages (create this when you have multiple campaigns)
+# Sitemap: https://app.donationtransparency.org/sitemap-donate.xml
