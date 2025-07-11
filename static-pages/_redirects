@@ -1,28 +1,28 @@
 
 # WordPress Admin
-/wp-admin/*  http://52.73.45.190/wp-admin/:splat  200!
-/wp-login.php  http://52.73.45.190/wp-login.php  200!
+/wp-admin/*  https://app.donationtransparency.org/wp-admin/:splat  200!
+/wp-login.php  https://app.donationtransparency.org/wp-login.php  200!
 
 # WordPress API (Critical for Stripe/Plaid)
-/wp-json/*  http://52.73.45.190/wp-json/:splat  200!
+/wp-json/*  https://app.donationtransparency.org/wp-json/:splat  200!
 
 # WordPress Core Files
-/wp-content/*  http://52.73.45.190/wp-content/:splat  200!
-/wp-includes/*  http://52.73.45.190/wp-includes/:splat  200!
+/wp-content/*  https://app.donationtransparency.org/wp-content/:splat  200!
+/wp-includes/*  https://app.donationtransparency.org/wp-includes/:splat  200!
 
 # App Routes
-/login  http://52.73.45.190/login  200!
-/register  http://52.73.45.190/register  200!
-/donate/*  http://52.73.45.190/donate/:splat  200!
-/receiver-dashboard/*  http://52.73.45.190/receiver-dashboard/:splat  200!
-/giver-dashboard/*  http://52.73.45.190/giver-dashboard/:splat  200!
+/login  https://app.donationtransparency.org/login  200!
+/register  https://app.donationtransparency.org/register  200!
+/donate/*  https://app.donationtransparency.org/donate/:splat  200!
+/receiver-dashboard/*  https://app.donationtransparency.org/receiver-dashboard/:splat  200!
+/giver-dashboard/*  https://app.donationtransparency.org/giver-dashboard/:splat  200!
 
 # Stripe/Plaid Specific
-/stripe/*  http://52.73.45.190/stripe/:splat  200!
-/plaid/*  http://52.73.45.190/plaid/:splat  200!
+/stripe/*  https://app.donationtransparency.org/stripe/:splat  200!
+/plaid/*  https://app.donationtransparency.org/plaid/:splat  200!
 
 # WordPress AJAX
-/wp-admin/admin-ajax.php  http://52.73.45.190/wp-admin/admin-ajax.php  200!
+/wp-admin/admin-ajax.php  https://app.donationtransparency.org/wp-admin/admin-ajax.php  200!
 
 # Features Section Redirects (301 for SEO)
 /static-pages/features/trust-dashboard.html  /static-pages/features/transparency-management-dashboard.html  301!
@@ -32,8 +32,8 @@
 
 # Short URL Redirects for Donation Pages (must be before catch-all)
 # Using proxy (200!) instead of redirect (301!) to handle on EC2 server
-/fadoa  http://52.73.45.190/fadoa  200!
-/fadoa/*  http://52.73.45.190/fadoa/:splat  200!
+/fadoa  https://app.donationtransparency.org/fadoa  200!
+/fadoa/*  https://app.donationtransparency.org/fadoa/:splat  200!
 
 # Default - Serve static content
 /*  /static-pages/:splat  200!
