@@ -1,6 +1,3 @@
-# Short URL Redirects for Donation Pages
-/fadoa  https://app.donationtransparency.org/donate/?username=fadoa  301!
-/fadoa/  https://app.donationtransparency.org/donate/?username=fadoa  301!
 
 # WordPress Admin
 /wp-admin/*  http://52.73.45.190/wp-admin/:splat  200!
@@ -32,6 +29,10 @@
 /static-pages/features/donation-visibility.html  /static-pages/features/real-time-tracking.html  301!
 /static-pages/features/fundraising-performance-analytics-new.html  /static-pages/features/fundraising-performance-analytics.html  301!
 /static-pages/features/fundraising-performance-analytics-backup.html  /static-pages/features/fundraising-performance-analytics.html  301!
+
+# Short URL Redirects for Donation Pages (must be before catch-all)
+/fadoa  https://app.donationtransparency.org/donate/?username=fadoa  301!
+/fadoa/  https://app.donationtransparency.org/donate/?username=fadoa  301!
 
 # Default - Serve static content
 /*  /static-pages/:splat  200
