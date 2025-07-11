@@ -32,8 +32,10 @@
 
 # Short URL Redirects for Donation Pages (must be before catch-all)
 /fadoa  https://app.donationtransparency.org/donate/?username=fadoa  301!
-/fadoa/  https://app.donationtransparency.org/donate/?username=fadoa  301!
+/fadoa/*  https://app.donationtransparency.org/donate/?username=fadoa  301!
 
 # Default - Serve static content
-/*  /static-pages/:splat  200
-/transparency/donor-confidence.html    /guides/building-donor-trust.html    301
+/*  /static-pages/:splat  200!
+
+# Additional redirects
+/transparency/donor-confidence.html  /guides/building-donor-trust.html  301!
