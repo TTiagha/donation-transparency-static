@@ -1,5 +1,6 @@
 # Short URL Redirects for Donation Pages
 /fadoa  https://app.donationtransparency.org/donate/?username=fadoa  301!
+/fadoa/  https://app.donationtransparency.org/donate/?username=fadoa  301!
 
 # WordPress Admin
 /wp-admin/*  http://52.73.45.190/wp-admin/:splat  200!
