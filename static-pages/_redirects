@@ -31,8 +31,8 @@
 /static-pages/features/fundraising-performance-analytics-backup.html  /static-pages/features/fundraising-performance-analytics.html  301!
 
 # Short URL Redirects for Donation Pages (must be before catch-all)
-/fadoa  https://app.donationtransparency.org/donate/?username=fadoa  301!
-/fadoa/*  https://app.donationtransparency.org/donate/?username=fadoa  301!
+/fadoa  https://app.donationtransparency.org/fadoa  301!
+/fadoa/*  https://app.donationtransparency.org/fadoa  301!
 
 # Default - Serve static content
 /*  /static-pages/:splat  200!
