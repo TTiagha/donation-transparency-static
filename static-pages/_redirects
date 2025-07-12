@@ -30,10 +30,6 @@
 /static-pages/features/fundraising-performance-analytics-new.html  /static-pages/features/fundraising-performance-analytics.html  301!
 /static-pages/features/fundraising-performance-analytics-backup.html  /static-pages/features/fundraising-performance-analytics.html  301!
 
-# Short URL Redirects for Donation Pages (must be before catch-all)
-# Using proxy (200!) instead of redirect (301!) to handle on EC2 server
-/fadoa  https://app.donationtransparency.org/fadoa  200!
-/fadoa/*  https://app.donationtransparency.org/fadoa/:splat  200!
 
 # Default - Serve static content
 /*  /static-pages/:splat  200!
