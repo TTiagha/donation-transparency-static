@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Donation Transparency</title>
+    <meta name="description" content="The page you're looking for couldn't be found. If you're looking for a donation page, please check the URL format.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure Tailwind for production  
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dt-navy': '#FFFFFF',
+                        'dt-charcoal': '#F8F9FA', 
+                        'dt-slate': '#6C757D',
+                        'dt-silver': '#212529',
+                        'dt-teal': '#6EC1E4'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    
+    <!-- Header and Footer Templates -->
+    <script src="/assets/js/templates/header.js"></script>
+    <script src="/assets/js/templates/footer.js"></script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/logo-final.png">
+    <link rel="shortcut icon" type="image/png" href="/assets/images/logo-final.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo-final.png">
+    
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-dt-navy text-dt-silver">
+    <!-- Header will be injected here -->
+    <div id="header-placeholder"></div>
+
+    <!-- 404 Content -->
+    <main class="min-h-screen flex items-center justify-center px-6 py-24">
+        <div class="max-w-2xl mx-auto text-center fade-in">
+            <!-- Large 404 -->
+            <h1 class="text-8xl md:text-9xl font-bold text-dt-teal mb-4">404</h1>
+            
+            <!-- Main message -->
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Page Not Found</h2>
+            
+            <!-- Explanation -->
+            <p class="text-xl text-dt-slate mb-8">
+                Sorry, we couldn't find the page you're looking for.
+            </p>
+            
+            <!-- Donation page hint -->
+            <div class="bg-dt-charcoal rounded-lg p-6 mb-8 border border-gray-200">
+                <h3 class="text-xl font-semibold mb-3">Looking for someone's donation page?</h3>
+                <p class="text-dt-slate mb-4">
+                    Donation pages are located at:
+                </p>
+                <code class="bg-white px-3 py-1 rounded text-dt-teal font-mono text-sm">
+                    donationtransparency.org/donate/[username]
+                </code>
+                <p class="text-sm text-dt-slate mt-3">
+                    For example: <span class="text-dt-teal">donationtransparency.org/donate/fadoa</span>
+                </p>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/" class="inline-block px-8 py-3 bg-dt-teal text-white rounded-lg font-semibold hover:bg-opacity-90 transition">
+                    Go to Homepage
+                </a>
+                <a href="/contact.html" class="inline-block px-8 py-3 bg-dt-charcoal text-dt-silver rounded-lg font-semibold hover:bg-gray-200 transition border border-gray-300">
+                    Contact Support
+                </a>
+            </div>
+            
+            <!-- Additional help -->
+            <div class="mt-12 text-sm text-dt-slate">
+                <p>Need help? You can also:</p>
+                <ul class="mt-2 space-y-1">
+                    <li>• Browse our <a href="/guides/" class="text-dt-teal hover:underline">guides</a></li>
+                    <li>• Learn about <a href="/features/" class="text-dt-teal hover:underline">our features</a></li>
+                    <li>• Read about <a href="/transparency/" class="text-dt-teal hover:underline">fundraising transparency</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be injected here -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Load header and footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inject header
+            const headerPlaceholder = document.getElementById('header-placeholder');
+            if (headerPlaceholder && typeof headerTemplate !== 'undefined') {
+                headerPlaceholder.innerHTML = headerTemplate;
+            }
+            
+            // Inject footer
+            const footerPlaceholder = document.getElementById('footer-placeholder');
+            if (footerPlaceholder && typeof footerTemplate !== 'undefined') {
+                footerPlaceholder.innerHTML = footerTemplate;
+            }
+        });
+    </script>
+</body>
+</html>
