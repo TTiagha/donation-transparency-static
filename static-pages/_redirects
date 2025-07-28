@@ -30,6 +30,30 @@
 /static-pages/features/fundraising-performance-analytics-new.html  /static-pages/features/fundraising-performance-analytics.html  301!
 /static-pages/features/fundraising-performance-analytics-backup.html  /static-pages/features/fundraising-performance-analytics.html  301!
 
+# Known Deleted Pages (from CLAUDE.md - redirect to relevant alternatives)
+/static-pages/features/automated-reporting.html  /static-pages/features/fundraising-performance-analytics.html  301!
+/static-pages/features/donor-notifications.html  /static-pages/features/real-time-tracking.html  301!
+/static-pages/features/receipt-management.html  /static-pages/features/transparency-management-dashboard.html  301!
+/static-pages/transparency/ethical-fundraising.html  /static-pages/transparency/index.html  301!
+/static-pages/transparency/transparency-vs-competitors.html  /static-pages/transparency/index.html  301!
+
+# Legitimate WordPress Functionality (Keep these for actual app functionality)
+/my-account/*  https://app.donationtransparency.org/my-account/:splat  301!
+/registration/*  https://app.donationtransparency.org/registration/:splat  301!
+/select-role  https://app.donationtransparency.org/select-role  301!
+/donor-dash  https://app.donationtransparency.org/donor-dashboard  301!
+/donor-sim-dashboard  https://app.donationtransparency.org/donor-sim  301!
+
+# Incorrect Static Path Corrections (Keep these - they fix legitimate path issues)
+/guides/trust-dashboard.html  /static-pages/features/transparency-management-dashboard.html  301!
+/guides/automated-reporting.html  /static-pages/features/fundraising-performance-analytics.html  301!
+/guides/real-time-tracking.html  /static-pages/features/real-time-tracking.html  301!
+
+# Misc Redirects (Keep these legitimate ones)
+/fadoa  /static-pages/fadoa  301!
+/contact-us  /static-pages/contact.html  301!
+/about-us  /static-pages/about.html  301!
+
 
 # Default - Serve static content
 /*  /static-pages/:splat  200!

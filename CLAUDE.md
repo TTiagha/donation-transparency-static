@@ -222,7 +222,7 @@ This document provides the writing team with a comprehensive roadmap for buildin
 ### Remaining SEO Tasks (8%)
 1. **Analytics & Tracking Setup** (4%)
    - Google Analytics 4 implementation
-   - Google Search Console verification
+   - ✅ Google Search Console verification (COMPLETED)
    - Conversion tracking setup
 
 2. **Content Expansion** (3%)
@@ -233,3 +233,46 @@ This document provides the writing team with a comprehensive roadmap for buildin
 3. **Performance Optimization** (1%)
    - Core Web Vitals improvements
    - Page speed optimization
+
+## Google Search Console Access
+
+### Quick Start - Check Indexing Status
+```bash
+python3 check_search_console.py
+```
+
+### Service Account Configuration
+- **Credentials File**: `/mnt/c/shock/makedotcom-422712-49bd5846f0b5.json`
+- **Service Account Email**: `search-console-mcp@makedotcom-422712.iam.gserviceaccount.com`
+- **Properties Verified**: 
+  - `sc-domain:donationtransparency.org` (main site)
+  - `sc-domain:app.donationtransparency.org` (WordPress blog)
+
+### MCP Configuration (Future Use)
+The GSC MCP server is configured in `~/.config/claude-code/mcp_config.json` but not currently active. To check indexing status, use the Python script above.
+
+### What the Script Shows
+1. **Verified Sites** - Lists all properties the service account can access
+2. **Indexed Pages** - Shows pages with search impressions in the last 7 days including:
+   - Page URL
+   - Clicks
+   - Impressions
+   - CTR (Click-through rate)
+   - Average position
+3. **URL Inspection** - For key pages, shows:
+   - Coverage state (indexed, not indexed, etc.)
+   - Verdict (PASS, NEUTRAL, FAIL)
+   - Last crawl date
+
+### Current Indexing Status (as of January 2025)
+- **Total Indexed Pages**: 27 pages showing impressions
+- **Homepage**: Indexed ✅ (Position 31)
+- **Features**: Indexed ✅ 
+- **Transparency**: Crawled but NOT indexed ❌ (needs fixing)
+- **Guides**: Indexed ✅
+- **About**: Indexed ✅
+
+### Known Issues
+1. `/transparency/` main page not indexed despite being crawled
+2. Low average positions (need better on-page SEO)
+3. Zero clicks despite impressions (need better meta descriptions)
