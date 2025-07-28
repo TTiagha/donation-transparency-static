@@ -55,8 +55,8 @@
 /about-us  /static-pages/about.html  301!
 
 
-# Google Site Verification
-/google6dbb6b5c8fc70224.html  /static-pages/google6dbb6b5c8fc70224.html  200!
+# Google Site Verification  
+/google6dbb6b5c8fc70224.html  /google6dbb6b5c8fc70224.html  200!
 
 # Default - Serve static content
 /*  /static-pages/:splat  200!
