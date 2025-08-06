@@ -3,7 +3,7 @@
 
 function getBasePath() {
     const path = window.location.pathname;
-    if (path.includes('/features/') || path.includes('/guides/') || path.includes('/transparency/')) {
+    if (path.includes('/features/') || path.includes('/guides/') || path.includes('/transparency/') || path.includes('/blog/')) {
         return '../';
     }
     return '';

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Donation Transparency</title>
+    <meta name="description" content="Insights and analysis on fundraising transparency, platform design, and building trust in online donations.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://donationtransparency.org/blog/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dt-navy': '#FFFFFF',
+                        'dt-charcoal': '#F8F9FA', 
+                        'dt-slate': '#6C757D',
+                        'dt-silver': '#212529',
+                        'dt-teal': '#6EC1E4'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    
+    <!-- Header and Footer Templates -->
+    <script src="../assets/js/templates/header.js"></script>
+    <script src="../assets/js/templates/footer.js"></script>
+    <script src="../assets/js/main.js" defer></script>
+    
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            padding-top: 80px;
+        }
+    </style>
+</head>
+<body class="bg-dt-navy">
+
+    <!-- Header -->
+    <div class="bg-dt-charcoal py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-dt-silver">Blog</h1>
+            <p class="mt-4 text-lg text-dt-slate">Insights on transparency, trust, and the future of fundraising</p>
+        </div>
+    </div>
+
+    <!-- Blog Posts -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            
+            <!-- Blog Post Card -->
+            <article class="bg-dt-charcoal rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <a href="/blog/bluesky-fundraising-analysis.html" class="block">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="inline-block px-3 py-1 text-xs font-semibold text-dt-teal bg-dt-navy rounded-full">Research & Analysis</span>
+                            <span class="text-dt-slate text-sm ml-auto">August 6, 2025</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-dt-silver mb-3">The Trust Gap in Online Fundraising</h2>
+                        <p class="text-dt-slate mb-4">What 100 BlueSky campaigns reveal about systemic barriers to transparency. People in crisis shouldn't have to be marketing experts.</p>
+                        <div class="flex items-center text-dt-teal font-semibold">
+                            Read more
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </div>
+                </a>
+            </article>
+
+        </div>
+    </main>
+
+</body>
+</html>

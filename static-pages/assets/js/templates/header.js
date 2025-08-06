@@ -6,6 +6,7 @@ function getCurrentPage() {
     if (path.includes('/features/')) return 'features';
     if (path.includes('/guides/')) return 'guides';
     if (path.includes('/transparency/')) return 'transparency';
+    if (path.includes('/blog/')) return 'blog';
     if (path.includes('about.html')) return 'about';
     if (path.includes('contact.html')) return 'contact';
     if (path.includes('petition-for-transparency.html')) return 'petition';
@@ -14,7 +15,7 @@ function getCurrentPage() {
 
 function getBasePath() {
     const path = window.location.pathname;
-    if (path.includes('/features/') || path.includes('/guides/') || path.includes('/transparency/')) {
+    if (path.includes('/features/') || path.includes('/guides/') || path.includes('/transparency/') || path.includes('/blog/')) {
         return '../';
     }
     return '';
@@ -57,6 +58,16 @@ function generateBreadcrumbs() {
         breadcrumbs.push({ text: 'Transparency', href: `${basePath}transparency/index.html` });
         
         if (!path.endsWith('/transparency/index.html') && !path.endsWith('/transparency/')) {
+            const filename = path.split('/').pop();
+            const pageName = filename.replace('.html', '').split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            breadcrumbs.push({ text: pageName, href: null });
+        }
+    } else if (path.includes('/blog/')) {
+        breadcrumbs.push({ text: 'Blog', href: `${basePath}blog/index.html` });
+        
+        if (!path.endsWith('/blog/index.html') && !path.endsWith('/blog/')) {
             const filename = path.split('/').pop();
             const pageName = filename.replace('.html', '').split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)

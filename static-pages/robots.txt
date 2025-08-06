@@ -8,6 +8,7 @@ Allow: /
 Allow: /transparency/
 Allow: /guides/
 Allow: /features/
+Allow: /blog/
 
 # Standard exclusions - internal files only
 Disallow: /api/
