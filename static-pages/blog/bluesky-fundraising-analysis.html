@@ -123,7 +123,7 @@
 <body class="antialiased bg-dt-navy">
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto py-12 px-6">
+    <main class="max-w-5xl mx-auto py-12 px-6">
         
         <!-- Article Header -->
         <header class="mb-12 text-center">
@@ -134,6 +134,13 @@
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-dt-silver">The Trust Gap in Online Fundraising</h1>
             <p class="mt-4 text-lg text-dt-slate">What 100 BlueSky Campaigns Reveal About Systems, Not People</p>
         </header>
+
+        <!-- Feature Image -->
+        <div class="mb-12 -mx-6 md:mx-0">
+            <img src="../assets/images/bluesky-trust-gap-hero.png" 
+                 alt="82% of posts are for personal crises, creating a trust gap - platforms lack the tools to build confidence" 
+                 class="w-full rounded-lg shadow-xl">
+        </div>
 
         <!-- Introduction -->
         <section class="mb-16">
@@ -184,39 +191,96 @@
         <!-- What People Are Fundraising For Section -->
         <section class="mb-20">
             <h2 class="text-3xl font-bold text-center text-dt-silver mb-10">What People Are Fundraising For</h2>
-            <div class="bg-dt-charcoal p-8 rounded-xl border border-dt-slate shadow-lg flex flex-col md:flex-row items-center gap-8">
-                <!-- Interactive Donut Chart -->
-                <div class="w-full md:w-1/2 flex justify-center">
-                    <svg id="fundraising-chart" viewBox="0 0 36 36" class="w-64 h-64">
-                        <circle class="chart-slice" stroke="#3b82f6" stroke-width="4" fill="none" stroke-dasharray="82, 18" stroke-dashoffset="0" cx="18" cy="18" r="15.9155" data-category="personal" />
-                        <circle class="chart-slice" stroke="#10b981" stroke-width="4" fill="none" stroke-dasharray="8, 92" stroke-dashoffset="-82" cx="18" cy="18" r="15.9155" data-category="medical" />
-                        <circle class="chart-slice" stroke="#f97316" stroke-width="4" fill="none" stroke-dasharray="7, 93" stroke-dashoffset="-90" cx="18" cy="18" r="15.9155" data-category="community" />
-                        <circle class="chart-slice" stroke="#8b5cf6" stroke-width="4" fill="none" stroke-dasharray="3, 97" stroke-dashoffset="-97" cx="18" cy="18" r="15.9155" data-category="pets" />
-                    </svg>
+            <div class="bg-dt-charcoal p-8 rounded-xl border border-dt-slate shadow-lg">
+                <div class="space-y-6">
+                    <!-- Personal Crises Bar -->
+                    <div class="flex items-center">
+                        <div class="w-40 text-sm font-semibold text-dt-slate">Personal Crises</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                            <div class="bg-blue-500 h-8 rounded-full flex items-center justify-end pr-3 transition-all duration-1000 bar-animate" style="width: 82%;">
+                                <span class="text-white font-bold text-sm">82%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Medical Expenses Bar -->
+                    <div class="flex items-center">
+                        <div class="w-40 text-sm font-semibold text-dt-slate">Medical Expenses</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                            <div class="bg-emerald-500 h-8 rounded-full flex items-center justify-end pr-3 transition-all duration-1000 bar-animate" style="width: 8%;">
+                                <span class="text-white font-bold text-sm">8%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Community Causes Bar -->
+                    <div class="flex items-center">
+                        <div class="w-40 text-sm font-semibold text-dt-slate">Community Causes</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                            <div class="bg-orange-500 h-8 rounded-full flex items-center justify-end pr-3 transition-all duration-1000 bar-animate" style="width: 7%;">
+                                <span class="text-white font-bold text-sm">7%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pet Medical Bills Bar -->
+                    <div class="flex items-center">
+                        <div class="w-40 text-sm font-semibold text-dt-slate">Pet Medical Bills</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                            <div class="bg-violet-500 h-8 rounded-full flex items-center justify-end pr-3 transition-all duration-1000 bar-animate" style="width: 3%;">
+                                <span class="text-white font-bold text-sm">3%</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- Legend -->
-                <ul class="w-full md:w-1/2 space-y-4 chart-legend">
-                    <li class="flex items-center text-lg cursor-pointer" data-category="personal">
-                        <span class="w-4 h-4 rounded-full bg-blue-500 mr-3"></span>
-                        <span class="font-semibold text-dt-slate">Personal Crises:</span>
-                        <span class="ml-auto font-bold text-blue-600">82%</span>
-                    </li>
-                    <li class="flex items-center text-lg cursor-pointer" data-category="medical">
-                        <span class="w-4 h-4 rounded-full bg-emerald-500 mr-3"></span>
-                        <span class="font-semibold text-dt-slate">Medical Expenses:</span>
-                        <span class="ml-auto font-bold text-emerald-600">8%</span>
-                    </li>
-                    <li class="flex items-center text-lg cursor-pointer" data-category="community">
-                        <span class="w-4 h-4 rounded-full bg-orange-500 mr-3"></span>
-                        <span class="font-semibold text-dt-slate">Community Causes:</span>
-                        <span class="ml-auto font-bold text-orange-600">7%</span>
-                    </li>
-                    <li class="flex items-center text-lg cursor-pointer" data-category="pets">
-                        <span class="w-4 h-4 rounded-full bg-violet-500 mr-3"></span>
-                        <span class="font-semibold text-dt-slate">Pet Medical Bills:</span>
-                        <span class="ml-auto font-bold text-violet-600">3%</span>
-                    </li>
-                </ul>
+                
+                <!-- Explanatory Text -->
+                <p class="text-sm text-dt-slate mt-6 text-center italic">
+                    The overwhelming majority of fundraisers are for personal emergencies—people in crisis who need immediate help.
+                </p>
+            </div>
+        </section>
+
+        <!-- What's Missing From Posts Section -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-dt-silver mb-10">What's Missing From Posts</h2>
+            <div class="bg-dt-charcoal p-8 rounded-xl border border-dt-slate shadow-lg">
+                <div class="space-y-6">
+                    <!-- Minimal Context Bar -->
+                    <div class="flex items-center">
+                        <div class="w-40 text-sm font-semibold text-dt-slate">Minimal Context</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                            <div class="bg-sky-500 h-8 rounded-full flex items-center justify-end pr-3 transition-all duration-1000 bar-animate" style="width: 49%;">
+                                <span class="text-white font-bold text-sm">49%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- No Goal Mentioned Bar -->
+                    <div class="flex items-center">
+                        <div class="w-40 text-sm font-semibold text-dt-slate">No Goal Mentioned</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                            <div class="bg-amber-500 h-8 rounded-full flex items-center justify-end pr-3 transition-all duration-1000 bar-animate" style="width: 97%;">
+                                <span class="text-white font-bold text-sm">97%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- No Progress Updates Bar -->
+                    <div class="flex items-center">
+                        <div class="w-40 text-sm font-semibold text-dt-slate">No Progress Updates</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                            <div class="bg-rose-500 h-8 rounded-full flex items-center justify-end pr-3 transition-all duration-1000 bar-animate" style="width: 99%;">
+                                <span class="text-white font-bold text-sm">99%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Explanatory Text -->
+                <p class="text-sm text-dt-slate mt-6 text-center italic">
+                    Nearly all posts lack the basic information donors need to make informed decisions.
+                </p>
             </div>
         </section>
 
@@ -351,30 +415,24 @@
                 observer.observe(counter);
             });
 
-            // --- Interactive Chart Highlighting ---
-            const legendItems = document.querySelectorAll('.chart-legend li');
-            const chartSlices = document.querySelectorAll('#fundraising-chart .chart-slice');
-
-            legendItems.forEach(item => {
-                item.addEventListener('mouseover', () => {
-                    const category = item.dataset.category;
-                    chartSlices.forEach(slice => {
-                        if (slice.dataset.category === category) {
-                            slice.style.strokeWidth = '5';
-                            slice.style.opacity = '1';
-                        } else {
-                            slice.style.strokeWidth = '4';
-                            slice.style.opacity = '0.5';
-                        }
-                    });
+            // --- Animate Bar Charts on Scroll ---
+            const bars = document.querySelectorAll('.bar-animate');
+            const barObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const bar = entry.target;
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                        observer.unobserve(bar);
+                    }
                 });
-
-                item.addEventListener('mouseout', () => {
-                    chartSlices.forEach(slice => {
-                        slice.style.strokeWidth = '4';
-                        slice.style.opacity = '1';
-                    });
-                });
+            }, { threshold: 0.5 });
+            
+            bars.forEach(bar => {
+                barObserver.observe(bar);
             });
         });
     </script>
