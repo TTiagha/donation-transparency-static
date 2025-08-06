@@ -98,6 +98,15 @@
             font-family: 'Manrope', sans-serif;
             padding-top: 80px;
         }
+        /* Ensure main content has additional spacing from fixed header */
+        main {
+            padding-top: 40px !important;
+        }
+        /* Ensure article header is not sticky */
+        main > header {
+            position: relative !important;
+            z-index: 1 !important;
+        }
         .gradient-text {
             background: linear-gradient(to right, #3b82f6, #1e40af);
             -webkit-background-clip: text;
