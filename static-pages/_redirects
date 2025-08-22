@@ -62,6 +62,8 @@
 /*  /static-pages/:splat  200!
 
 # Booking System
+/meet-tem  /booking/  301!
+/meet-tem/*  /booking/:splat  301!
 /book  /booking/  301!
 /schedule  /booking/  301!
 /meet  /booking/  301!
