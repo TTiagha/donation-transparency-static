@@ -107,7 +107,7 @@
     </div>
 
     <script>
-        let config = {
+        var config = {
             lambdaEndpoint: '',
             accessCode: 'abc123'
         };
@@ -187,9 +187,9 @@
         // Frontend Tests
         function testTimezoneDetection() {
             try {
-                const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                const now = new Date();
-                const timeString = now.toLocaleString('en-US', { timeZone: detectedTimezone });
+                var detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                var now = new Date();
+                var timeString = now.toLocaleString('en-US', { timeZone: detectedTimezone });
                 
                 showResult('frontend-results', 
                     '✓ Timezone Detection:\n' +
@@ -205,11 +205,11 @@
 
         function testCalendarGeneration() {
             try {
-                const currentDate = new Date();
-                const year = currentDate.getFullYear();
-                const month = currentDate.getMonth();
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-                const firstDayOfWeek = new Date(year, month, 1).getDay();
+                var currentDate = new Date();
+                var year = currentDate.getFullYear();
+                var month = currentDate.getMonth();
+                var daysInMonth = new Date(year, month + 1, 0).getDate();
+                var firstDayOfWeek = new Date(year, month, 1).getDay();
                 
                 showResult('frontend-results',
                     '✓ Calendar Generation:\n' +
@@ -225,19 +225,19 @@
         }
 
         function testFormValidation() {
-            const testCases = [
+            var testCases = [
                 { name: '', email: 'test@example.com', expected: false, reason: 'Empty name' },
                 { name: 'John Doe', email: '', expected: false, reason: 'Empty email' },
                 { name: 'John Doe', email: 'invalid-email', expected: false, reason: 'Invalid email format' },
                 { name: 'John Doe', email: 'test@example.com', expected: true, reason: 'Valid input' }
             ];
 
-            let results = '✓ Form Validation Tests:\n';
-            let allPassed = true;
+            var results = '✓ Form Validation Tests:\n';
+            var allPassed = true;
 
-            testCases.forEach((testCase, index) => {
-                const isValid = testCase.name.trim() && /\S+@\S+\.\S+/.test(testCase.email);
-                const passed = isValid === testCase.expected;
+            testCases.forEach(function(testCase, index) {
+                var isValid = testCase.name.trim() && /\S+@\S+\.\S+/.test(testCase.email);
+                var passed = isValid === testCase.expected;
                 allPassed = allPassed && passed;
                 
                 results += 'Test ' + (index + 1) + ' (' + testCase.reason + '): ' + (passed ? '✓ PASS' : '✗ FAIL') + '\n';
@@ -256,13 +256,13 @@
             try {
                 showResult('api-results', '⏳ Testing Get Profile endpoint...', 'info');
                 
-                const response = await fetch(config.lambdaEndpoint, {
+                var response = await fetch(config.lambdaEndpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'getProfile' })
                 });
 
-                const data = await response.json();
+                var data = await response.json();
                 
                 if (response.ok && data.success) {
                     showResult('api-results', 
@@ -289,10 +289,10 @@
             try {
                 showResult('api-results', '⏳ Testing Get Availability endpoint...', 'info');
                 
-                const startDate = new Date();
-                const endDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+                var startDate = new Date();
+                var endDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
 
-                const response = await fetch(config.lambdaEndpoint, {
+                var response = await fetch(config.lambdaEndpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -302,7 +302,7 @@
                     })
                 });
 
-                const data = await response.json();
+                var data = await response.json();
                 
                 if (response.ok && data.success) {
                     showResult('api-results', 
@@ -328,7 +328,7 @@
                 return;
             }
 
-            const testCases = [
+            var testCases = [
                 {
                     name: 'Missing required fields',
                     data: { action: 'bookAppointment' },
@@ -366,18 +366,18 @@
 
             showResult('api-results', '⏳ Testing booking validation...', 'info');
             
-            for (let i = 0; i < testCases.length; i++) {
-                const testCase = testCases[i];
+            for (var i = 0; i < testCases.length; i++) {
+                var testCase = testCases[i];
                 
                 try {
-                    const response = await fetch(config.lambdaEndpoint, {
+                    var response = await fetch(config.lambdaEndpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(testCase.data)
                     });
 
-                    const data = await response.json();
-                    const failed = !response.ok || !data.success;
+                    var data = await response.json();
+                    var failed = !response.ok || !data.success;
                     
                     if (testCase.expectedToFail === failed) {
                         appendResult('api-results', '✓ ' + testCase.name + ': PASS');
@@ -401,12 +401,12 @@
 
             showResult('api-results', '⏳ Testing rate limiting (this may take a moment)...', 'info');
             
-            let requestCount = 0;
-            let rateLimitHit = false;
+            var requestCount = 0;
+            var rateLimitHit = false;
 
-            for (let i = 0; i < 15; i++) {
+            for (var i = 0; i < 15; i++) {
                 try {
-                    const response = await fetch(config.lambdaEndpoint, {
+                    var response = await fetch(config.lambdaEndpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ action: 'getProfile' })
@@ -480,8 +480,8 @@
 
         // Security Tests
         function testAccessControl() {
-            const hasInviteCode = window.location.search.includes('invite=');
-            const correctCode = window.location.search.includes('invite=' + config.accessCode);
+            var hasInviteCode = window.location.search.includes('invite=');
+            var correctCode = window.location.search.includes('invite=' + config.accessCode);
             
             showResult('security-results',
                 'Access Control Test:\n' +
@@ -493,9 +493,9 @@
         }
 
         function testAntiSpam() {
-            const honeypotTest = 'Honeypot field should be empty';
-            const timingTest = 'Form submission should take more than 3 seconds';
-            const rateLimitTest = 'Multiple rapid submissions should be blocked';
+            var honeypotTest = 'Honeypot field should be empty';
+            var timingTest = 'Form submission should take more than 3 seconds';
+            var rateLimitTest = 'Multiple rapid submissions should be blocked';
             
             showResult('security-results',
                 'Anti-Spam Protection Tests:\n' +
@@ -508,7 +508,7 @@
         }
 
         function testInputSanitization() {
-            const testInputs = [
+            var testInputs = [
                 '<script>alert("xss")</script>',
                 'DROP TABLE users;',
                 '../../../etc/passwd',
