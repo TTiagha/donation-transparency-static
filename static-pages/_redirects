@@ -58,7 +58,10 @@
 # Google Site Verification  
 /google6dbb6b5c8fc70224.html  /google6dbb6b5c8fc70224.html  200!
 
-# Default - Serve static content
+# Booking System - Handle meet-tem specifically
+/meet-tem  /static-pages/meet-tem.html  200!
+
+# Default - Serve static content  
 /*  /static-pages/:splat  200!
 
 # Booking System
