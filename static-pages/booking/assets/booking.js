@@ -127,8 +127,9 @@ const BookingApp = {
             }
         } catch (error) {
             console.warn('Failed to validate invite code via API, using fallback:', error);
-            // Fallback to hardcoded validation
-            return inviteCode === this.config.requiredInviteCode;
+            // Fallback to hardcoded validation (temporarily allow common codes until Lambda is updated)
+            const allowedCodes = ['abc123', 'meet-tem'];
+            return allowedCodes.includes(inviteCode);
         }
     },
 
