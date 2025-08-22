@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - Update Configuration</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { padding: 10px; margin: 10px 0; border: 1px solid #ccc; }
+        .success { background: #d4edda; border-color: #28a745; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Debug Test - Update Configuration</h1>
+    
+    <div>
+        <h2>Configuration</h2>
+        <p><strong>Lambda Endpoint:</strong> <span id="endpoint-url">Not configured</span></p>
+        <label for="lambda-url">Lambda Function URL:</label>
+        <input type="url" id="lambda-url" placeholder="https://your-function-url.lambda-url.us-east-1.on.aws/" style="width: 100%; padding: 8px; margin: 10px 0;">
+        <button id="update-btn">Update Configuration</button>
+    </div>
+
+    <div id="results" style="display: none;"></div>
+
+    <script>
+        console.log('Debug script loaded');
+        
+        let config = {
+            lambdaEndpoint: '',
+            accessCode: 'abc123'
+        };
+
+        function updateConfig() {
+            console.log('updateConfig function called!');
+            try {
+                const inputValue = document.getElementById('lambda-url').value.trim();
+                console.log('Input value:', inputValue);
+                
+                config.lambdaEndpoint = inputValue;
+                
+                // Update display
+                document.getElementById('endpoint-url').textContent = config.lambdaEndpoint || 'Not configured';
+                
+                // Show success message
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.style.display = 'block';
+                resultsDiv.className = 'result success';
+                resultsDiv.textContent = 'Success! Configuration updated to: ' + config.lambdaEndpoint;
+                
+                console.log('Config updated:', config);
+                
+            } catch (error) {
+                console.error('Error in updateConfig:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        // Add event listener when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, adding event listener');
+            const button = document.getElementById('update-btn');
+            
+            if (button) {
+                button.addEventListener('click', updateConfig);
+                console.log('Click listener added to button');
+            } else {
+                console.error('Button not found!');
+            }
+        });
+        
+        // Also add to global scope for debugging
+        window.updateConfig = updateConfig;
+        console.log('updateConfig added to global scope');
+    </script>
+</body>
+</html>

@@ -70,7 +70,7 @@
         <p><strong>Access Code:</strong> <span id="access-code">Not configured</span></p>
         <label for="lambda-url">Lambda Function URL:</label>
         <input type="url" id="lambda-url" placeholder="https://your-function-url.lambda-url.us-east-1.on.aws/" style="width: 100%; padding: 8px; margin: 10px 0;">
-        <button class="test-button" onclick="updateConfig()">Update Configuration</button>
+        <button class="test-button" id="update-config-btn">Update Configuration</button>
     </div>
 
     <div class="test-section">
@@ -113,34 +113,52 @@
         };
 
         function updateConfig() {
+            console.log('updateConfig function called!');
             try {
-                const inputValue = document.getElementById('lambda-url').value.trim();
-                console.log('Updating config with:', inputValue);
+                const inputElement = document.getElementById('lambda-url');
+                if (!inputElement) {
+                    throw new Error('Input element not found');
+                }
                 
+                const inputValue = inputElement.value.trim();
+                console.log('Input value:', inputValue);
+                
+                if (!inputValue) {
+                    alert('Please enter a Lambda endpoint URL');
+                    return;
+                }
+                
+                // Update config
                 config.lambdaEndpoint = inputValue;
-                document.getElementById('endpoint-url').textContent = config.lambdaEndpoint || 'Not configured';
-                document.getElementById('access-code').textContent = config.accessCode;
                 
-                if (config.lambdaEndpoint) {
-                    // Show success message in a dedicated results div
-                    const configSection = document.querySelector('.test-section');
-                    let resultDiv = document.getElementById('config-results');
-                    
-                    if (!resultDiv) {
-                        resultDiv = document.createElement('div');
-                        resultDiv.id = 'config-results';
-                        resultDiv.className = 'result';
+                // Update display elements
+                const endpointSpan = document.getElementById('endpoint-url');
+                const accessCodeSpan = document.getElementById('access-code');
+                
+                if (endpointSpan) endpointSpan.textContent = config.lambdaEndpoint;
+                if (accessCodeSpan) accessCodeSpan.textContent = config.accessCode;
+                
+                // Show success message
+                let resultDiv = document.getElementById('config-results');
+                const configSection = document.querySelector('.test-section');
+                
+                if (!resultDiv) {
+                    resultDiv = document.createElement('div');
+                    resultDiv.id = 'config-results';
+                    if (configSection) {
                         configSection.appendChild(resultDiv);
                     }
-                    
-                    resultDiv.style.display = 'block';
-                    resultDiv.className = 'result success';
-                    resultDiv.textContent = '✅ Configuration updated successfully!\nLambda endpoint: ' + config.lambdaEndpoint;
-                    
-                    console.log('Config updated successfully:', config);
-                } else {
-                    alert('Please enter a valid Lambda endpoint URL');
                 }
+                
+                if (resultDiv) {
+                    resultDiv.className = 'result success';
+                    resultDiv.style.display = 'block';
+                    resultDiv.textContent = '✅ Configuration updated successfully!\nEndpoint: ' + config.lambdaEndpoint;
+                }
+                
+                console.log('Config updated successfully:', config);
+                alert('Configuration updated successfully!');
+                
             } catch (error) {
                 console.error('Error updating config:', error);
                 alert('Error updating configuration: ' + error.message);
@@ -511,9 +529,22 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Booking System Test Suite loaded');
             
+            // Add event listener for update config button
+            const updateConfigBtn = document.getElementById('update-config-btn');
+            if (updateConfigBtn) {
+                updateConfigBtn.addEventListener('click', updateConfig);
+                console.log('Event listener added to Update Configuration button');
+            } else {
+                console.error('Update Configuration button not found!');
+            }
+            
             // Show URL parameters for debugging
             const urlParams = new URLSearchParams(window.location.search);
             console.log('URL parameters:', Object.fromEntries(urlParams));
+            
+            // Also add updateConfig to global scope for debugging
+            window.updateConfig = updateConfig;
+            console.log('updateConfig added to global scope');
         });
     </script>
 </body>
