@@ -135,7 +135,7 @@
                     
                     resultDiv.style.display = 'block';
                     resultDiv.className = 'result success';
-                    resultDiv.textContent = `✅ Configuration updated successfully!\nLambda endpoint: ${config.lambdaEndpoint}`;
+                    resultDiv.textContent = '✅ Configuration updated successfully!\nLambda endpoint: ' + config.lambdaEndpoint;
                     
                     console.log('Config updated successfully:', config);
                 } else {
@@ -150,10 +150,10 @@
         function showResult(containerId, message, type = 'info') {
             const container = document.getElementById(containerId);
             container.style.display = 'block';
-            container.className = `result ${type}`;
+            container.className = 'result ' + type;
             
             const timestamp = new Date().toLocaleTimeString();
-            container.textContent = `[${timestamp}] ${message}`;
+            container.textContent = '[' + timestamp + '] ' + message;
         }
 
         function appendResult(containerId, message) {
@@ -161,7 +161,7 @@
             container.style.display = 'block';
             
             const timestamp = new Date().toLocaleTimeString();
-            container.textContent += `\n[${timestamp}] ${message}`;
+            container.textContent += '\n[' + timestamp + '] ' + message;
             container.scrollTop = container.scrollHeight;
         }
 
@@ -173,14 +173,14 @@
                 const timeString = now.toLocaleString('en-US', { timeZone: detectedTimezone });
                 
                 showResult('frontend-results', 
-                    `✓ Timezone Detection:\n` +
-                    `Detected: ${detectedTimezone}\n` +
-                    `Current time: ${timeString}\n` +
-                    `Browser supports Intl API: ${!!window.Intl}`, 
+                    '✓ Timezone Detection:\n' +
+                    'Detected: ' + detectedTimezone + '\n' +
+                    'Current time: ' + timeString + '\n' +
+                    'Browser supports Intl API: ' + (!!window.Intl), 
                     'success'
                 );
             } catch (error) {
-                showResult('frontend-results', `✗ Timezone Detection Failed: ${error.message}`, 'error');
+                showResult('frontend-results', '✗ Timezone Detection Failed: ' + error.message, 'error');
             }
         }
 
@@ -193,15 +193,15 @@
                 const firstDayOfWeek = new Date(year, month, 1).getDay();
                 
                 showResult('frontend-results',
-                    `✓ Calendar Generation:\n` +
-                    `Current month: ${currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}\n` +
-                    `Days in month: ${daysInMonth}\n` +
-                    `First day of week: ${firstDayOfWeek}\n` +
-                    `Calendar grid would have ${Math.ceil((daysInMonth + firstDayOfWeek) / 7)} rows`,
+                    '✓ Calendar Generation:\n' +
+                    'Current month: ' + currentDate.toLocaleString('default', { month: 'long', year: 'numeric' }) + '\n' +
+                    'Days in month: ' + daysInMonth + '\n' +
+                    'First day of week: ' + firstDayOfWeek + '\n' +
+                    'Calendar grid would have ' + Math.ceil((daysInMonth + firstDayOfWeek) / 7) + ' rows',
                     'success'
                 );
             } catch (error) {
-                showResult('frontend-results', `✗ Calendar Generation Failed: ${error.message}`, 'error');
+                showResult('frontend-results', '✗ Calendar Generation Failed: ' + error.message, 'error');
             }
         }
 
@@ -221,7 +221,7 @@
                 const passed = isValid === testCase.expected;
                 allPassed = allPassed && passed;
                 
-                results += `Test ${index + 1} (${testCase.reason}): ${passed ? '✓ PASS' : '✗ FAIL'}\n`;
+                results += 'Test ' + (index + 1) + ' (' + testCase.reason + '): ' + (passed ? '✓ PASS' : '✗ FAIL') + '\n';
             });
 
             showResult('frontend-results', results, allPassed ? 'success' : 'error');
@@ -247,17 +247,17 @@
                 
                 if (response.ok && data.success) {
                     showResult('api-results', 
-                        `✓ Get Profile Success:\n${JSON.stringify(data.profile, null, 2)}`, 
+                        '✓ Get Profile Success:\n' + JSON.stringify(data.profile, null, 2), 
                         'success'
                     );
                 } else {
                     showResult('api-results', 
-                        `✗ Get Profile Failed:\n${JSON.stringify(data, null, 2)}`, 
+                        '✗ Get Profile Failed:\n' + JSON.stringify(data, null, 2), 
                         'error'
                     );
                 }
             } catch (error) {
-                showResult('api-results', `✗ Get Profile Error: ${error.message}`, 'error');
+                showResult('api-results', '✗ Get Profile Error: ' + error.message, 'error');
             }
         }
 
@@ -287,19 +287,19 @@
                 
                 if (response.ok && data.success) {
                     showResult('api-results', 
-                        `✓ Get Availability Success:\n` +
-                        `Found ${data.availability.length} available slots\n` +
-                        `Timezone: ${data.timezone}`,
+                        '✓ Get Availability Success:\n' +
+                        'Found ' + data.availability.length + ' available slots\n' +
+                        'Timezone: ' + data.timezone,
                         'success'
                     );
                 } else {
                     showResult('api-results', 
-                        `✗ Get Availability Failed:\n${JSON.stringify(data, null, 2)}`, 
+                        '✗ Get Availability Failed:\n' + JSON.stringify(data, null, 2), 
                         'error'
                     );
                 }
             } catch (error) {
-                showResult('api-results', `✗ Get Availability Error: ${error.message}`, 'error');
+                showResult('api-results', '✗ Get Availability Error: ' + error.message, 'error');
             }
         }
 
@@ -361,12 +361,12 @@
                     const failed = !response.ok || !data.success;
                     
                     if (testCase.expectedToFail === failed) {
-                        appendResult('api-results', `✓ ${testCase.name}: PASS`);
+                        appendResult('api-results', '✓ ' + testCase.name + ': PASS');
                     } else {
-                        appendResult('api-results', `✗ ${testCase.name}: FAIL - Expected ${testCase.expectedToFail ? 'failure' : 'success'}`);
+                        appendResult('api-results', '✗ ' + testCase.name + ': FAIL - Expected ' + (testCase.expectedToFail ? 'failure' : 'success'));
                     }
                 } catch (error) {
-                    appendResult('api-results', `✗ ${testCase.name}: ERROR - ${error.message}`);
+                    appendResult('api-results', '✗ ' + testCase.name + ': ERROR - ' + error.message);
                 }
                 
                 // Small delay between tests
@@ -410,12 +410,12 @@
 
             if (rateLimitHit) {
                 showResult('api-results', 
-                    `✓ Rate Limiting Working:\nHit rate limit after ${requestCount} requests`, 
+                    '✓ Rate Limiting Working:\nHit rate limit after ' + requestCount + ' requests', 
                     'success'
                 );
             } else {
                 showResult('api-results', 
-                    `⚠ Rate Limiting Test:\nMade ${requestCount} requests without hitting limit\nThis might be expected for low request volumes`, 
+                    '⚠ Rate Limiting Test:\nMade ' + requestCount + ' requests without hitting limit\nThis might be expected for low request volumes', 
                     'info'
                 );
             }
@@ -465,10 +465,10 @@
             const correctCode = window.location.search.includes('invite=' + config.accessCode);
             
             showResult('security-results',
-                `Access Control Test:\n` +
-                `URL has invite parameter: ${hasInviteCode}\n` +
-                `Invite code matches: ${correctCode}\n` +
-                `Expected behavior: ${hasInviteCode && correctCode ? 'Allow access' : 'Deny access'}`,
+                'Access Control Test:\n' +
+                'URL has invite parameter: ' + hasInviteCode + '\n' +
+                'Invite code matches: ' + correctCode + '\n' +
+                'Expected behavior: ' + (hasInviteCode && correctCode ? 'Allow access' : 'Deny access'),
                 hasInviteCode && correctCode ? 'success' : 'info'
             );
         }
@@ -479,11 +479,11 @@
             const rateLimitTest = 'Multiple rapid submissions should be blocked';
             
             showResult('security-results',
-                `Anti-Spam Protection Tests:\n` +
-                `✓ ${honeypotTest}\n` +
-                `✓ ${timingTest}\n` +
-                `✓ ${rateLimitTest}\n\n` +
-                `These are implemented in the booking form and Lambda function`,
+                'Anti-Spam Protection Tests:\n' +
+                '✓ ' + honeypotTest + '\n' +
+                '✓ ' + timingTest + '\n' +
+                '✓ ' + rateLimitTest + '\n\n' +
+                'These are implemented in the booking form and Lambda function',
                 'success'
             );
         }
@@ -497,12 +497,12 @@
             ];
             
             showResult('security-results',
-                `Input Sanitization Test:\n` +
-                `Testing dangerous inputs:\n` +
-                testInputs.map(input => `- ${input}`).join('\n') + '\n\n' +
-                `✓ Lambda function validates and sanitizes all inputs\n` +
-                `✓ Frontend performs client-side validation\n` +
-                `✓ No user input is directly executed or displayed`,
+                'Input Sanitization Test:\n' +
+                'Testing dangerous inputs:\n' +
+                testInputs.map(input => '- ' + input).join('\n') + '\n\n' +
+                '✓ Lambda function validates and sanitizes all inputs\n' +
+                '✓ Frontend performs client-side validation\n' +
+                '✓ No user input is directly executed or displayed',
                 'success'
             );
         }
