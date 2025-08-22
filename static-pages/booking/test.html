@@ -113,12 +113,37 @@
         };
 
         function updateConfig() {
-            config.lambdaEndpoint = document.getElementById('lambda-url').value;
-            document.getElementById('endpoint-url').textContent = config.lambdaEndpoint || 'Not configured';
-            document.getElementById('access-code').textContent = config.accessCode;
-            
-            if (config.lambdaEndpoint) {
-                showResult('frontend-results', 'Configuration updated successfully!', 'success');
+            try {
+                const inputValue = document.getElementById('lambda-url').value.trim();
+                console.log('Updating config with:', inputValue);
+                
+                config.lambdaEndpoint = inputValue;
+                document.getElementById('endpoint-url').textContent = config.lambdaEndpoint || 'Not configured';
+                document.getElementById('access-code').textContent = config.accessCode;
+                
+                if (config.lambdaEndpoint) {
+                    // Show success message in a dedicated results div
+                    const configSection = document.querySelector('.test-section');
+                    let resultDiv = document.getElementById('config-results');
+                    
+                    if (!resultDiv) {
+                        resultDiv = document.createElement('div');
+                        resultDiv.id = 'config-results';
+                        resultDiv.className = 'result';
+                        configSection.appendChild(resultDiv);
+                    }
+                    
+                    resultDiv.style.display = 'block';
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Configuration updated successfully!\nLambda endpoint: ${config.lambdaEndpoint}`;
+                    
+                    console.log('Config updated successfully:', config);
+                } else {
+                    alert('Please enter a valid Lambda endpoint URL');
+                }
+            } catch (error) {
+                console.error('Error updating config:', error);
+                alert('Error updating configuration: ' + error.message);
             }
         }
 

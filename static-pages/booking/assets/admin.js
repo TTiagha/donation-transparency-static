@@ -6,7 +6,7 @@
 const AdminPanel = {
     // Configuration
     config: {
-        lambdaEndpoint: 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/',
+        lambdaEndpoint: 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',
         requiredAdminKey: 'admin2025',
         settings: {
             profile: {

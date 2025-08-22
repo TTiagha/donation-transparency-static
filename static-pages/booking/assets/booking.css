@@ -1,7 +1,24 @@
 /**
  * Booking System CSS
- * Modern, responsive design with clean Calendly-inspired interface
+ * Modern, minimalist, and clean responsive re-design
  */
+
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* CSS Variables for easy theme management */
+:root {
+    --primary-color: #4A90E2; /* A slightly more saturated blue */
+    --secondary-color: #6EC1E4;
+    --background-color: #f7f8fa; /* Lighter, cleaner background */
+    --text-color: #2d3748; /* Softer than pure black */
+    --subtle-text-color: #718096;
+    --border-color: #e2e8f0;
+    --card-background: #ffffff;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    --border-radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+}
 
 /* Reset and base styles */
 * {
@@ -11,10 +28,10 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-family: var(--font-family);
     line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--text-color);
+    background-color: var(--background-color);
     min-height: 100vh;
 }
 
@@ -28,39 +45,38 @@ body {
 }
 
 .access-denied-content {
-    background: white;
+    background: var(--card-background);
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
     text-align: center;
     max-width: 400px;
 }
 
 .access-denied h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
 }
 
 .access-denied p {
     margin-bottom: 30px;
-    color: #666;
+    color: var(--subtle-text-color);
 }
 
 /* Main booking container */
 .booking-container {
     max-width: 900px;
     margin: 0 auto;
-    background: white;
+    background: var(--card-background);
     min-height: 100vh;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Booking header */
 .booking-header {
-    background: linear-gradient(135deg, #6EC1E4 0%, #4A90E2 100%);
+    background-color: var(--primary-color);
     color: white;
-    padding: 30px;
+    padding: 40px 30px;
     text-align: center;
 }
 
@@ -74,74 +90,65 @@ body {
 
 .profile-avatar {
     position: relative;
-    display: inline-block;
 }
 
 .avatar-img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 4px solid rgba(255, 255, 255, 0.3);
+    border: 4px solid rgba(255, 255, 255, 0.2);
     object-fit: cover;
 }
 
 .calendar-status {
     position: absolute;
-    bottom: -5px;
-    right: -10px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.status-indicator {
-    font-size: 0.8rem;
+    bottom: 0;
+    right: 0;
+    background: #2ecc71;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid white;
 }
 
 .profile-info h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .profile-bio {
     font-size: 1.1rem;
-    opacity: 0.95;
-    max-width: 600px;
+    opacity: 0.9;
+    max-width: 550px;
     line-height: 1.7;
 }
 
 .profile-links {
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .social-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: rgba(255, 255, 255, 0.9);
+    color: white;
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     padding: 8px 16px;
     border-radius: 20px;
     transition: all 0.3s ease;
     font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .social-link:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: rgba(255, 255, 255, 0.25);
 }
 
 /* Booking content */
 .booking-content {
-    padding: 40px 30px;
+    padding: 50px 30px;
 }
 
 .booking-form-container {
@@ -151,20 +158,22 @@ body {
 
 /* Section styling */
 .section {
-    margin-bottom: 40px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 45px;
+    padding-bottom: 35px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .section:last-child {
     border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .section h3 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
+    color: var(--text-color);
+    margin-bottom: 25px;
 }
 
 /* Meeting type selection */
@@ -175,25 +184,27 @@ body {
 }
 
 .meeting-type-btn {
-    background: white;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     padding: 20px 15px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease-in-out;
     font-family: inherit;
 }
 
 .meeting-type-btn:hover {
-    border-color: #6EC1E4;
-    box-shadow: 0 4px 12px rgba(110, 193, 228, 0.2);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
 }
 
 .meeting-type-btn.active {
-    background: #6EC1E4;
-    border-color: #6EC1E4;
+    border-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
+    box-shadow: var(--shadow);
 }
 
 .meeting-type-title {
@@ -221,7 +232,7 @@ body {
 .timezone-dropdown {
     width: 100%;
     padding: 12px 16px;
-    border: 2px solid #e0e0e0;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
     font-family: inherit;
@@ -232,22 +243,21 @@ body {
 
 .timezone-dropdown:focus {
     outline: none;
-    border-color: #6EC1E4;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }
 
 .timezone-note {
     display: block;
-    margin-top: 8px;
-    color: #666;
+    margin-top: 10px;
+    color: var(--subtle-text-color);
     font-size: 0.9rem;
 }
 
 /* Calendar */
 .calendar-container {
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
+    background: transparent;
+    padding: 0;
 }
 
 .calendar-header {
@@ -258,9 +268,9 @@ body {
 }
 
 .nav-btn {
-    background: #6EC1E4;
-    color: white;
-    border: none;
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     width: 36px;
     height: 36px;
@@ -269,17 +279,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .nav-btn:hover {
-    background: #4A90E2;
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
 }
 
 .month-title {
     font-size: 1.3rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-color);
 }
 
 .calendar-grid {
@@ -291,7 +303,7 @@ body {
 .calendar-day-header {
     text-align: center;
     font-weight: 600;
-    color: #666;
+    color: var(--subtle-text-color);
     padding: 12px 0;
     font-size: 0.9rem;
 }
@@ -301,56 +313,48 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 50%;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background: white;
-    border: 1px solid #e0e0e0;
+    transition: all 0.2s ease;
+    background: transparent;
+    border: 1px solid transparent;
 }
 
 .calendar-day.empty {
-    background: transparent;
-    border: none;
     cursor: default;
 }
 
 .calendar-day.disabled {
-    background: #f5f5f5;
     color: #ccc;
     cursor: not-allowed;
-    border-color: #f0f0f0;
 }
 
 .calendar-day.weekend {
-    background: #fff5f5;
-    color: #999;
-    cursor: not-allowed;
+    color: var(--subtle-text-color);
 }
 
 .calendar-day.available:hover {
-    background: #6EC1E4;
+    background: var(--secondary-color);
     color: white;
-    border-color: #6EC1E4;
 }
 
 .calendar-day.selected {
-    background: #4A90E2;
+    background: var(--primary-color);
     color: white;
-    border-color: #4A90E2;
 }
 
 /* Time slots */
 .time-slots-container {
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 20px;
+    background: transparent;
+    padding: 0;
+    margin-top: 30px;
 }
 
 .selected-date {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 20px;
     text-align: center;
 }
@@ -362,26 +366,26 @@ body {
 }
 
 .time-slot {
-    background: white;
-    border: 2px solid #e0e0e0;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 12px 8px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-family: inherit;
     font-size: 0.9rem;
     font-weight: 500;
 }
 
 .time-slot:hover {
-    border-color: #6EC1E4;
-    background: #f0f9ff;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .time-slot.selected {
-    background: #6EC1E4;
-    border-color: #6EC1E4;
+    background: var(--primary-color);
+    border-color: var(--primary-color);
     color: white;
 }
 
@@ -395,7 +399,7 @@ body {
 .loading-slots {
     text-align: center;
     padding: 40px;
-    color: #666;
+    color: var(--subtle-text-color);
     font-style: italic;
 }
 
@@ -411,18 +415,20 @@ body {
     align-items: center;
     gap: 12px;
     padding: 15px;
-    background: #f8f9fa;
+    background: var(--background-color);
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
 }
 
 .location-option:hover {
-    background: #e9f4ff;
+    border-color: var(--primary-color);
 }
 
 .location-option input[type="radio"] {
     margin: 0;
+    accent-color: var(--primary-color);
 }
 
 .location-icon {
@@ -431,7 +437,7 @@ body {
 
 .location-text {
     font-weight: 500;
-    color: #333;
+    color: var(--text-color);
 }
 
 .phone-input {
@@ -454,12 +460,12 @@ body {
 .form-group label {
     font-weight: 600;
     margin-bottom: 8px;
-    color: #333;
+    color: var(--text-color);
 }
 
 .form-input {
     padding: 12px 16px;
-    border: 2px solid #e0e0e0;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
     font-family: inherit;
@@ -468,7 +474,8 @@ body {
 
 .form-input:focus {
     outline: none;
-    border-color: #6EC1E4;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }
 
 textarea.form-input {
@@ -478,7 +485,7 @@ textarea.form-input {
 
 /* Buttons */
 .btn-primary, .btn-secondary {
-    padding: 16px 32px;
+    padding: 14px 28px;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
@@ -494,14 +501,14 @@ textarea.form-input {
 }
 
 .btn-primary {
-    background: #6EC1E4;
+    background: var(--primary-color);
     color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-    background: #4A90E2;
+    background: #3a7ac8; /* Darker shade for hover */
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(110, 193, 228, 0.3);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
 }
 
 .btn-primary:disabled {
@@ -512,18 +519,18 @@ textarea.form-input {
 }
 
 .btn-secondary {
-    background: #f8f9fa;
-    color: #333;
-    border: 2px solid #e0e0e0;
+    background: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-    background: #e9ecef;
+    background: #f1f3f5;
     border-color: #ced4da;
 }
 
 /* Loading and messages */
-.loading-overlay {
+.loading-overlay, .error-message, .success-message {
     position: fixed;
     top: 0;
     left: 0;
@@ -534,19 +541,22 @@ textarea.form-input {
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 20px;
 }
 
-.loading-content {
-    background: white;
+.loading-content, .error-content, .success-content {
+    background: var(--card-background);
     padding: 40px;
-    border-radius: 12px;
+    border-radius: var(--border-radius);
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
 }
 
 .spinner {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #6EC1E4;
+    border-top: 4px solid var(--primary-color);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -557,29 +567,6 @@ textarea.form-input {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-.error-message, .success-message {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    z-index: 1000;
-}
-
-.error-message {
-    border-left: 4px solid #e74c3c;
-}
-
-.success-message {
-    border-left: 4px solid #27ae60;
 }
 
 .success-icon {
@@ -611,6 +598,7 @@ textarea.form-input {
 .error-content p, .success-content p {
     margin-bottom: 20px;
     line-height: 1.6;
+    color: var(--subtle-text-color);
 }
 
 /* Loader for buttons */
@@ -640,46 +628,19 @@ textarea.form-input {
     }
 
     .booking-header {
-        padding: 20px;
-    }
-
-    .profile-section {
-        flex-direction: column;
-        text-align: center;
+        padding: 30px 20px;
     }
 
     .profile-info h1 {
         font-size: 1.8rem;
     }
 
-    .profile-bio {
-        font-size: 1rem;
-    }
-
     .booking-content {
-        padding: 20px 15px;
+        padding: 30px 20px;
     }
 
     .meeting-types {
-        grid-template-columns: 1fr;
-    }
-
-    .calendar-grid {
-        gap: 4px;
-    }
-
-    .calendar-day {
-        font-size: 0.9rem;
-    }
-
-    .time-slots-grid {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-        gap: 8px;
-    }
-
-    .time-slot {
-        padding: 10px 6px;
-        font-size: 0.8rem;
+        grid-template-columns: 1fr 1fr;
     }
 
     .success-actions {
@@ -688,13 +649,16 @@ textarea.form-input {
 
     .btn-primary, .btn-secondary {
         width: 100%;
-        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
+    body {
+        -webkit-text-size-adjust: 100%; /* Fix for mobile safari font-size bug */
+    }
+    
     .booking-header {
-        padding: 15px;
+        padding: 25px 15px;
     }
 
     .profile-info h1 {
@@ -702,26 +666,34 @@ textarea.form-input {
     }
 
     .avatar-img {
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
     }
 
     .booking-content {
-        padding: 15px 10px;
+        padding: 20px 15px;
     }
 
     .section {
-        margin-bottom: 30px;
-        padding-bottom: 20px;
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+    }
+    
+    .meeting-types {
+        grid-template-columns: 1fr;
     }
 
-    .calendar-container, .time-slots-container {
-        padding: 15px;
+    .calendar-grid {
+        gap: 2px;
     }
 
-    .error-message, .success-message {
-        padding: 30px 20px;
-        width: 95%;
+    .calendar-day {
+        font-size: 0.9rem;
+    }
+
+    .time-slots-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 8px;
     }
 }
 
@@ -736,11 +708,12 @@ textarea.form-input {
     }
     
     .booking-header {
-        background: #f8f9fa;
-        color: #333;
+        background: white;
+        color: black;
+        border-bottom: 1px solid #ccc;
     }
     
-    .btn-primary, .btn-secondary {
+    .btn-primary, .btn-secondary, .nav-btn {
         display: none;
     }
 }

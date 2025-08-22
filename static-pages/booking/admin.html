@@ -7,174 +7,192 @@
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="stylesheet" href="assets/booking.css">
     <style>
-        /* Admin-specific styles */
+        /* Admin-specific styles that build on booking.css */
+        body {
+            background-color: var(--background-color);
+        }
+
         .admin-container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            background: white;
-            min-height: 100vh;
+            padding: 40px 20px;
         }
-        
+
         .admin-header {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            padding: 20px 30px;
             text-align: center;
+            margin-bottom: 40px;
         }
-        
+
+        .admin-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .admin-header p {
+            font-size: 1.1rem;
+            color: var(--subtle-text-color);
+            margin-top: 10px;
+        }
+
         .admin-nav {
-            background: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-            padding: 0 30px;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
         }
-        
+
         .admin-nav ul {
             list-style: none;
             display: flex;
-            margin: 0;
+            gap: 10px;
             padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
         }
-        
-        .admin-nav li {
-            margin-right: 30px;
-        }
-        
+
         .admin-nav a {
             display: block;
-            padding: 15px 0;
-            color: #666;
+            padding: 10px 20px;
+            color: var(--subtle-text-color);
             text-decoration: none;
-            font-weight: 500;
-            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            border-radius: 8px;
             transition: all 0.3s ease;
         }
-        
-        .admin-nav a:hover, .admin-nav a.active {
-            color: #e74c3c;
-            border-bottom-color: #e74c3c;
+
+        .admin-nav a:hover {
+            background-color: var(--background-color);
+            color: var(--primary-color);
         }
         
-        .admin-content {
-            padding: 30px;
+        .admin-nav a.active {
+            background-color: var(--primary-color);
+            color: white;
         }
-        
+
         .admin-section {
             display: none;
-            margin-bottom: 40px;
         }
-        
+
         .admin-section.active {
             display: block;
         }
-        
+
         .settings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
         }
-        
+
         .settings-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 25px;
-            border: 2px solid #e9ecef;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
         }
-        
-        .settings-card h3 {
-            margin-bottom: 20px;
-            color: #495057;
-            font-size: 1.3rem;
+
+        .settings-card h2, .settings-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 25px;
         }
-        
+
         .setting-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
-        
+
         .setting-group:last-child {
             margin-bottom: 0;
         }
-        
+
         .setting-group label {
             display: block;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #495057;
+            margin-bottom: 10px;
+            color: var(--text-color);
         }
-        
+
         .setting-input {
             width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #ced4da;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            transition: border-color 0.3s ease;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
-        
+
         .setting-input:focus {
             outline: none;
-            border-color: #e74c3c;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
         }
         
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
         
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         
+        .checkbox-item input[type="checkbox"], .checkbox-item input[type="radio"] {
+            accent-color: var(--primary-color);
+            width: 18px;
+            height: 18px;
+        }
+
         .status-indicator {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 500;
         }
         
         .status-connected {
-            background: #d4edda;
-            color: #155724;
+            background: #e6f9f0;
+            color: #27ae60;
         }
         
         .status-disconnected {
-            background: #f8d7da;
-            color: #721c24;
+            background: #fbe9e7;
+            color: #e74c3c;
         }
-        
-        .status-syncing {
-            background: #fff3cd;
-            color: #856404;
-        }
-        
+
         .recent-bookings {
-            background: white;
-            border-radius: 12px;
-            border: 2px solid #e9ecef;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             overflow: hidden;
         }
         
         .bookings-header {
-            background: #f8f9fa;
-            padding: 20px 25px;
-            border-bottom: 1px solid #e9ecef;
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .bookings-list {
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
         }
         
         .booking-item {
-            padding: 20px 25px;
-            border-bottom: 1px solid #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
         }
         
@@ -183,13 +201,15 @@
         }
         
         .booking-details h4 {
-            margin-bottom: 5px;
-            color: #495057;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
         }
         
         .booking-meta {
             font-size: 0.9rem;
-            color: #6c757d;
+            color: var(--subtle-text-color);
+            line-height: 1.5;
         }
         
         .booking-actions {
@@ -198,37 +218,26 @@
         }
         
         .btn-small {
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            border-radius: 6px;
         }
         
         .btn-view {
-            background: #17a2b8;
+            background: var(--secondary-color);
             color: white;
-        }
-        
-        .btn-view:hover {
-            background: #138496;
         }
         
         .btn-cancel {
-            background: #dc3545;
+            background: #e74c3c;
             color: white;
         }
-        
-        .btn-cancel:hover {
-            background: #c82333;
-        }
-        
+
         .save-button {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: #28a745;
+            background: #27ae60;
             color: white;
             border: none;
             padding: 15px 25px;
@@ -236,34 +245,19 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .save-button:hover {
-            background: #218838;
+            background: #219653;
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
         }
-        
-        @media (max-width: 768px) {
-            .admin-nav ul {
-                flex-direction: column;
-            }
-            
-            .admin-nav li {
-                margin-right: 0;
-            }
-            
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .save-button {
-                bottom: 20px;
-                right: 20px;
-            }
-        }
+
     </style>
 </head>
 <body>
@@ -279,7 +273,7 @@
     <!-- Admin Panel -->
     <div id="admin-panel" class="admin-container">
         <div class="admin-header">
-            <h1>📅 Booking System Admin</h1>
+            <h1>Booking System Admin</h1>
             <p>Manage your booking settings and view recent appointments</p>
         </div>
 
@@ -296,7 +290,6 @@
         <div class="admin-content">
             <!-- Profile Section -->
             <div id="profile-section" class="admin-section active">
-                <h2>Profile Settings</h2>
                 <div class="settings-grid">
                     <div class="settings-card">
                         <h3>Basic Information</h3>
@@ -339,7 +332,6 @@
 
             <!-- Availability Section -->
             <div id="availability-section" class="admin-section">
-                <h2>Availability Settings</h2>
                 <div class="settings-grid">
                     <div class="settings-card">
                         <h3>Working Hours</h3>
@@ -370,31 +362,31 @@
                             <div class="checkbox-group">
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="day-monday" value="1" checked>
-                                    <label for="day-monday">Monday</label>
+                                    <label for="day-monday">Mon</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="day-tuesday" value="2" checked>
-                                    <label for="day-tuesday">Tuesday</label>
+                                    <label for="day-tuesday">Tue</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="day-wednesday" value="3" checked>
-                                    <label for="day-wednesday">Wednesday</label>
+                                    <label for="day-wednesday">Wed</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="day-thursday" value="4" checked>
-                                    <label for="day-thursday">Thursday</label>
+                                    <label for="day-thursday">Thu</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="day-friday" value="5" checked>
-                                    <label for="day-friday">Friday</label>
+                                    <label for="day-friday">Fri</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="day-saturday" value="6">
-                                    <label for="day-saturday">Saturday</label>
+                                    <label for="day-saturday">Sat</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="day-sunday" value="0">
-                                    <label for="day-sunday">Sunday</label>
+                                    <label for="day-sunday">Sun</label>
                                 </div>
                             </div>
                         </div>
@@ -424,40 +416,10 @@
 
             <!-- Meeting Types Section -->
             <div id="meetings-section" class="admin-section">
-                <h2>Meeting Types</h2>
                 <div class="settings-card">
-                    <h3>Available Meeting Types</h3>
+                    <h2>Meeting Types</h2>
                     <div id="meeting-types-list">
-                        <div class="meeting-type-config">
-                            <div class="setting-group">
-                                <label>Quick Chat</label>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 10px; align-items: end;">
-                                    <input type="number" class="setting-input" placeholder="Duration (min)" value="15">
-                                    <input type="text" class="setting-input" placeholder="Description" value="Brief discussion">
-                                    <button class="btn-small btn-cancel">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="meeting-type-config">
-                            <div class="setting-group">
-                                <label>Consultation</label>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 10px; align-items: end;">
-                                    <input type="number" class="setting-input" placeholder="Duration (min)" value="30">
-                                    <input type="text" class="setting-input" placeholder="Description" value="Discuss transparency strategy">
-                                    <button class="btn-small btn-cancel">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="meeting-type-config">
-                            <div class="setting-group">
-                                <label>Deep Dive</label>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 10px; align-items: end;">
-                                    <input type="number" class="setting-input" placeholder="Duration (min)" value="60">
-                                    <input type="text" class="setting-input" placeholder="Description" value="In-depth strategic session">
-                                    <button class="btn-small btn-cancel">Remove</button>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- JS will populate this -->
                     </div>
                     <button id="add-meeting-type" class="btn-secondary" style="margin-top: 20px;">Add Meeting Type</button>
                 </div>
@@ -465,21 +427,20 @@
 
             <!-- Calendar Section -->
             <div id="calendar-section" class="admin-section">
-                <h2>Calendar Integration</h2>
-                <div class="settings-grid">
+                 <div class="settings-grid">
                     <div class="settings-card">
-                        <h3>Google Calendar Status</h3>
+                        <h3>Google Calendar</h3>
                         <div class="setting-group">
                             <div id="calendar-status" class="status-indicator status-connected">
-                                <span>🟢</span>
+                                <span>✅</span>
                                 Calendar Connected
                             </div>
-                            <p style="margin-top: 15px; color: #6c757d; font-size: 0.9rem;">
+                            <p style="margin-top: 15px; color: var(--subtle-text-color); font-size: 0.9rem;">
                                 Last sync: <span id="last-sync">2 minutes ago</span>
                             </p>
                         </div>
                         <div class="setting-group">
-                            <button id="test-calendar" class="btn-primary" style="margin-right: 10px;">Test Connection</button>
+                            <button id="test-calendar" class="btn-primary" style="margin-right: 10px;">Test</button>
                             <button id="reconnect-calendar" class="btn-secondary">Reconnect</button>
                         </div>
                     </div>
@@ -489,13 +450,13 @@
                         <div class="setting-group">
                             <label for="invite-code">Booking Page Invite Code</label>
                             <input type="text" id="invite-code" class="setting-input" value="abc123">
-                            <small style="color: #6c757d; margin-top: 5px; display: block;">
-                                Users need this code to access the booking page: ?invite=abc123
+                            <small style="color: var(--subtle-text-color); margin-top: 8px; display: block;">
+                                Users need this code to access the booking page.
                             </small>
                         </div>
                         <div class="setting-group">
                             <label>Booking Page URL</label>
-                            <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; font-family: monospace; word-break: break-all;">
+                            <div style="background: var(--background-color); padding: 12px; border-radius: 6px; font-family: monospace; word-break: break-all; border: 1px solid var(--border-color);">
                                 https://donationtransparency.org/booking/?invite=abc123
                             </div>
                         </div>
@@ -505,10 +466,9 @@
 
             <!-- Recent Bookings Section -->
             <div id="bookings-section" class="admin-section">
-                <h2>Recent Bookings</h2>
                 <div class="recent-bookings">
                     <div class="bookings-header">
-                        <h3>Upcoming & Recent Appointments</h3>
+                        <h2>Recent Bookings</h2>
                         <p>Manage your scheduled meetings</p>
                     </div>
                     <div class="bookings-list">
@@ -538,19 +498,6 @@
                                 <button class="btn-small btn-cancel">Cancel</button>
                             </div>
                         </div>
-                        <div class="booking-item">
-                            <div class="booking-details">
-                                <h4>Quick Chat with Lisa Rodriguez</h4>
-                                <div class="booking-meta">
-                                    Jan 23, 3:30 PM PT • 15 minutes • Phone<br>
-                                    lisa.rodriguez@charity.com
-                                </div>
-                            </div>
-                            <div class="booking-actions">
-                                <button class="btn-small btn-view">View</button>
-                                <button class="btn-small btn-cancel">Cancel</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -558,7 +505,8 @@
 
         <!-- Save Button -->
         <button id="save-settings" class="save-button">
-            💾 Save Changes
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Save Changes
         </button>
     </div>
 

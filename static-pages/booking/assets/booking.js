@@ -6,7 +6,7 @@
 const BookingApp = {
     // Configuration
     config: {
-        lambdaEndpoint: 'https://xx6wbeedmowhv5jjhk6ubvx32e0rsidp.lambda-url.us-east-1.on.aws/',
+        lambdaEndpoint: 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',
         requiredInviteCode: 'abc123',
         profileName: 'Tem Tiagha',
         defaultTimezone: 'America/Los_Angeles',
@@ -158,7 +158,7 @@ const BookingApp = {
     loadProfile: function() {
         // Set default Google profile picture (we'll implement API call later)
         const avatarImg = document.getElementById('profile-avatar');
-        avatarImg.src = 'https://via.placeholder.com/80x80/6EC1E4/FFFFFF?text=TT';
+        avatarImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%236EC1E4'%3E%3C/rect%3E%3Ctext x='50%' y='50%' font-family='Inter, sans-serif' font-size='32' font-weight='700' fill='white' text-anchor='middle' dy='.3em'%3ETT%3C/text%3E%3C/svg%3E";
         avatarImg.alt = this.config.profileName;
 
         // Load Google profile picture via API (placeholder for now)
@@ -446,14 +446,9 @@ const BookingApp = {
         // For now, just log the action
         console.log('Loading availability for month:', this.state.currentDate);
         
-        // Update sync status
-        document.getElementById('sync-status').textContent = '🟡';
-        document.getElementById('sync-text').textContent = 'Syncing...';
-
         // Simulate API call
         setTimeout(() => {
-            document.getElementById('sync-status').textContent = '🟢';
-            document.getElementById('sync-text').textContent = 'Connected';
+            // In a real app, you'd update the UI based on API response
         }, 1000);
     },
 
