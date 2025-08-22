@@ -98,7 +98,6 @@ if aws lambda get-function --function-name $FUNCTION_NAME --region $REGION &> /d
         --function-name $FUNCTION_NAME \
         --environment Variables="{
             \"REGION\": \"$REGION\",
-            \"GOOGLE_CREDENTIALS_SECRET_NAME\": \"booking/google-credentials\",
             \"ADMIN_EMAIL\": \"support@donationtransparency.org\"
         }" \
         --timeout $TIMEOUT \
@@ -156,9 +155,11 @@ EOF
     {
       "Effect": "Allow",
       "Action": [
-        "secretsmanager:GetSecretValue"
+        "ssm:GetParameter"
       ],
-      "Resource": "arn:aws:secretsmanager:$REGION:$ACCOUNT_ID:secret:booking/google-credentials-*"
+      "Resource": [
+        "arn:aws:ssm:$REGION:$ACCOUNT_ID:parameter/booking/google/*"
+      ]
     }
   ]
 }
@@ -190,7 +191,6 @@ EOF
         --memory-size $MEMORY_SIZE \
         --environment Variables="{
             \"REGION\": \"$REGION\",
-            \"GOOGLE_CREDENTIALS_SECRET_NAME\": \"booking/google-credentials\",
             \"ADMIN_EMAIL\": \"support@donationtransparency.org\"
         }" \
         --region $REGION

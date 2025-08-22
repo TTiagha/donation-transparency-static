@@ -4,11 +4,11 @@
   "description": "AWS Lambda functions for booking system with Google Calendar integration",
   "main": "booking-handler.js",
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.450.0",
-    "@aws-sdk/client-secrets-manager": "^3.450.0",
-    "googleapis": "^126.0.1",
-    "uuid": "^9.0.1",
-    "ical-generator": "^4.2.0"
+    "@aws-sdk/client-ses": "^3.400.0",
+    "@aws-sdk/client-ssm": "^3.400.0",
+    "googleapis": "^110.0.0",
+    "uuid": "^9.0.0",
+    "ical-generator": "^3.6.0"
   },
   "engines": {
     "node": ">=18.x"

@@ -4,7 +4,7 @@
  */
 
 import { SES, SendEmailCommand } from '@aws-sdk/client-ses';
-import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
+import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import { google } from 'googleapis';
 import { v4 as uuidv4 } from 'uuid';
 import ical from 'ical-generator';
@@ -14,7 +14,7 @@ const ses = new SES({
     region: process.env.REGION || 'us-east-1'
 });
 
-const secretsManager = new SecretsManagerClient({
+const ssmClient = new SSMClient({
     region: process.env.REGION || 'us-east-1'
 });
 
@@ -66,18 +66,33 @@ function checkRateLimit(ip, action = 'general') {
 }
 
 /**
- * Get Google Calendar credentials from AWS Secrets Manager
+ * Get Google Calendar credentials from AWS Parameter Store
  */
 async function getGoogleCredentials() {
     try {
-        const command = new GetSecretValueCommand({
-            SecretId: process.env.GOOGLE_CREDENTIALS_SECRET_NAME || 'booking/google-credentials'
-        });
+        const [clientIdResult, clientSecretResult, refreshTokenResult] = await Promise.all([
+            ssmClient.send(new GetParameterCommand({ 
+                Name: '/booking/google/client_id',
+                WithDecryption: true
+            })),
+            ssmClient.send(new GetParameterCommand({ 
+                Name: '/booking/google/client_secret',
+                WithDecryption: true 
+            })),
+            ssmClient.send(new GetParameterCommand({ 
+                Name: '/booking/google/refresh_token',
+                WithDecryption: true 
+            }))
+        ]);
         
-        const result = await secretsManager.send(command);
-        return JSON.parse(result.SecretString);
+        return {
+            client_id: clientIdResult.Parameter.Value,
+            client_secret: clientSecretResult.Parameter.Value,
+            refresh_token: refreshTokenResult.Parameter.Value,
+            redirect_uris: ['https://donationtransparency.org/booking/auth/callback']
+        };
     } catch (error) {
-        console.error('Failed to get Google credentials:', error);
+        console.error('Failed to get Google credentials from Parameter Store:', error);
         throw new Error('Calendar integration not available');
     }
 }
