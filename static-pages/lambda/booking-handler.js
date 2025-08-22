@@ -4,7 +4,7 @@
  */
 
 import { SES, SendEmailCommand } from '@aws-sdk/client-ses';
-import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
+import { SSMClient, GetParameterCommand, PutParameterCommand } from '@aws-sdk/client-ssm';
 import { google } from 'googleapis';
 import { v4 as uuidv4 } from 'uuid';
 import ical from 'ical-generator';
@@ -481,6 +481,151 @@ function validateBookingRequest(data) {
 }
 
 /**
+ * Get admin settings from Parameter Store
+ */
+async function getAdminSettings() {
+    try {
+        const [inviteCodeResult, profileResult, availabilityResult] = await Promise.all([
+            ssmClient.send(new GetParameterCommand({ 
+                Name: '/booking/settings/invite_code',
+                WithDecryption: false
+            })).catch(() => ({ Parameter: { Value: 'abc123' } })), // Default fallback
+            ssmClient.send(new GetParameterCommand({ 
+                Name: '/booking/settings/profile',
+                WithDecryption: false 
+            })).catch(() => ({ Parameter: { Value: JSON.stringify({
+                name: CONFIG.profileName,
+                email: CONFIG.profileEmail,
+                bio: 'Founder of Donation Transparency. Let\'s discuss how radical transparency can transform your fundraising and build unprecedented donor trust.',
+                avatarSource: 'google',
+                customAvatarUrl: ''
+            }) } })),
+            ssmClient.send(new GetParameterCommand({ 
+                Name: '/booking/settings/availability',
+                WithDecryption: false 
+            })).catch(() => ({ Parameter: { Value: JSON.stringify({
+                workStart: '09:00',
+                workEnd: '17:00',
+                timezone: CONFIG.timezone,
+                workingDays: CONFIG.workingDays,
+                bufferTime: 15,
+                advanceBookingDays: CONFIG.advanceBookingDays,
+                minimumNoticeHours: CONFIG.minimumNoticeHours
+            }) } }))
+        ]);
+        
+        return {
+            inviteCode: inviteCodeResult.Parameter.Value,
+            profile: JSON.parse(profileResult.Parameter.Value),
+            availability: JSON.parse(availabilityResult.Parameter.Value),
+            meetingTypes: [
+                { name: 'Quick Chat', duration: 15, description: 'Brief discussion' },
+                { name: 'Consultation', duration: 30, description: 'Discuss transparency strategy' },
+                { name: 'Deep Dive', duration: 60, description: 'In-depth strategic session' }
+            ]
+        };
+    } catch (error) {
+        console.error('Failed to get admin settings from Parameter Store:', error);
+        // Return defaults if Parameter Store fails
+        return {
+            inviteCode: 'abc123',
+            profile: {
+                name: CONFIG.profileName,
+                email: CONFIG.profileEmail,
+                bio: 'Founder of Donation Transparency. Let\'s discuss how radical transparency can transform your fundraising and build unprecedented donor trust.',
+                avatarSource: 'google',
+                customAvatarUrl: ''
+            },
+            availability: {
+                workStart: '09:00',
+                workEnd: '17:00',
+                timezone: CONFIG.timezone,
+                workingDays: CONFIG.workingDays,
+                bufferTime: 15,
+                advanceBookingDays: CONFIG.advanceBookingDays,
+                minimumNoticeHours: CONFIG.minimumNoticeHours
+            },
+            meetingTypes: [
+                { name: 'Quick Chat', duration: 15, description: 'Brief discussion' },
+                { name: 'Consultation', duration: 30, description: 'Discuss transparency strategy' },
+                { name: 'Deep Dive', duration: 60, description: 'In-depth strategic session' }
+            ]
+        };
+    }
+}
+
+/**
+ * Save admin settings to Parameter Store
+ */
+async function saveAdminSettings(settings, adminKey) {
+    // Simple admin authentication - in production use proper JWT/OAuth
+    if (adminKey !== 'admin2025') {
+        throw new Error('Unauthorized: Invalid admin key');
+    }
+    
+    try {
+        const putPromises = [];
+        
+        // Save invite code
+        if (settings.inviteCode !== undefined) {
+            putPromises.push(
+                ssmClient.send(new PutParameterCommand({
+                    Name: '/booking/settings/invite_code',
+                    Value: settings.inviteCode,
+                    Type: 'String',
+                    Overwrite: true
+                }))
+            );
+        }
+        
+        // Save profile settings
+        if (settings.profile) {
+            putPromises.push(
+                ssmClient.send(new PutParameterCommand({
+                    Name: '/booking/settings/profile',
+                    Value: JSON.stringify(settings.profile),
+                    Type: 'String',
+                    Overwrite: true
+                }))
+            );
+        }
+        
+        // Save availability settings
+        if (settings.availability) {
+            putPromises.push(
+                ssmClient.send(new PutParameterCommand({
+                    Name: '/booking/settings/availability',
+                    Value: JSON.stringify(settings.availability),
+                    Type: 'String',
+                    Overwrite: true
+                }))
+            );
+        }
+        
+        await Promise.all(putPromises);
+        console.log('Admin settings saved successfully');
+        return true;
+    } catch (error) {
+        console.error('Failed to save admin settings:', error);
+        throw error;
+    }
+}
+
+/**
+ * Validate invite code
+ */
+async function validateInviteCode(inviteCode) {
+    try {
+        const settings = await getAdminSettings();
+        return inviteCode === settings.inviteCode;
+    } catch (error) {
+        console.error('Failed to validate invite code:', error);
+        // Fallback to default for safety
+        return inviteCode === 'abc123';
+    }
+}
+
+/**
  * Main Lambda handler
  */
 export const handler = async (event, context) => {
@@ -590,6 +735,98 @@ export const handler = async (event, context) => {
                         }
                     })
                 };
+            }
+            
+            case 'getSettings': {
+                try {
+                    const settings = await getAdminSettings();
+                    return {
+                        statusCode: 200,
+                        headers,
+                        body: JSON.stringify({
+                            success: true,
+                            settings
+                        })
+                    };
+                } catch (error) {
+                    return {
+                        statusCode: 500,
+                        headers,
+                        body: JSON.stringify({
+                            error: 'Failed to retrieve settings',
+                            message: error.message
+                        })
+                    };
+                }
+            }
+            
+            case 'saveSettings': {
+                try {
+                    const { settings, adminKey } = body;
+                    
+                    if (!settings) {
+                        return {
+                            statusCode: 400,
+                            headers,
+                            body: JSON.stringify({ error: 'Settings data required' })
+                        };
+                    }
+                    
+                    await saveAdminSettings(settings, adminKey);
+                    
+                    return {
+                        statusCode: 200,
+                        headers,
+                        body: JSON.stringify({
+                            success: true,
+                            message: 'Settings saved successfully'
+                        })
+                    };
+                } catch (error) {
+                    const statusCode = error.message.includes('Unauthorized') ? 401 : 500;
+                    return {
+                        statusCode,
+                        headers,
+                        body: JSON.stringify({
+                            error: 'Failed to save settings',
+                            message: error.message
+                        })
+                    };
+                }
+            }
+            
+            case 'validateInvite': {
+                try {
+                    const { inviteCode } = body;
+                    
+                    if (!inviteCode) {
+                        return {
+                            statusCode: 400,
+                            headers,
+                            body: JSON.stringify({ error: 'Invite code required' })
+                        };
+                    }
+                    
+                    const isValid = await validateInviteCode(inviteCode);
+                    
+                    return {
+                        statusCode: 200,
+                        headers,
+                        body: JSON.stringify({
+                            success: true,
+                            valid: isValid
+                        })
+                    };
+                } catch (error) {
+                    return {
+                        statusCode: 500,
+                        headers,
+                        body: JSON.stringify({
+                            error: 'Failed to validate invite code',
+                            message: error.message
+                        })
+                    };
+                }
             }
             
             default: {

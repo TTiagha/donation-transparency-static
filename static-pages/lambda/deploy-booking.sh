@@ -158,7 +158,17 @@ EOF
         "ssm:GetParameter"
       ],
       "Resource": [
-        "arn:aws:ssm:$REGION:$ACCOUNT_ID:parameter/booking/google/*"
+        "arn:aws:ssm:$REGION:$ACCOUNT_ID:parameter/booking/google/*",
+        "arn:aws:ssm:$REGION:$ACCOUNT_ID:parameter/booking/settings/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:PutParameter"
+      ],
+      "Resource": [
+        "arn:aws:ssm:$REGION:$ACCOUNT_ID:parameter/booking/settings/*"
       ]
     }
   ]

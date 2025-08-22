@@ -7,13 +7,17 @@ const BookingApp = {
     // Configuration
     config: {
         lambdaEndpoint: 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',
-        requiredInviteCode: 'abc123',
+        requiredInviteCode: 'abc123', // Fallback for offline/error scenarios
         profileName: 'Tem Tiagha',
         defaultTimezone: 'America/Los_Angeles',
         workingHours: { start: 9, end: 17 },
         bufferMinutes: 15,
         advanceBookingDays: 14,
-        minimumNoticeHours: 24
+        minimumNoticeHours: 24,
+        // Cache settings for invite validation
+        inviteValidationCache: null,
+        inviteValidationExpiry: null,
+        inviteValidationCacheDuration: 5 * 60 * 1000 // 5 minutes
     },
 
     // State
@@ -49,11 +53,12 @@ const BookingApp = {
     /**
      * Initialize the booking application
      */
-    init: function() {
+    init: async function() {
         console.log('Initializing Booking App...');
         
-        // Check access control
-        if (!this.checkAccess()) {
+        // Check access control (now async)
+        const hasAccess = await this.checkAccess();
+        if (!hasAccess) {
             this.showAccessDenied();
             return;
         }
@@ -77,16 +82,76 @@ const BookingApp = {
     },
 
     /**
-     * Check if user has valid access
+     * Validate invite code via Lambda API (with caching)
      */
-    checkAccess: function() {
+    validateInviteCodeAsync: async function(inviteCode) {
+        // Check cache first
+        const now = Date.now();
+        if (this.config.inviteValidationCache && 
+            this.config.inviteValidationExpiry > now &&
+            this.config.inviteValidationCache.code === inviteCode) {
+            console.log('Using cached invite validation result');
+            return this.config.inviteValidationCache.isValid;
+        }
+        
+        try {
+            console.log('Validating invite code with server...');
+            const response = await fetch(this.config.lambdaEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'validateInvite',
+                    inviteCode: inviteCode
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    // Cache the result
+                    this.config.inviteValidationCache = {
+                        code: inviteCode,
+                        isValid: data.valid
+                    };
+                    this.config.inviteValidationExpiry = now + this.config.inviteValidationCacheDuration;
+                    
+                    console.log(`Invite validation result: ${data.valid}`);
+                    return data.valid;
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } else {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        } catch (error) {
+            console.warn('Failed to validate invite code via API, using fallback:', error);
+            // Fallback to hardcoded validation
+            return inviteCode === this.config.requiredInviteCode;
+        }
+    },
+
+    /**
+     * Check if user has valid access (now async)
+     */
+    checkAccess: async function() {
         const urlParams = new URLSearchParams(window.location.search);
         const inviteCode = urlParams.get('invite');
         
-        // Allow access if invite code matches or if in development
-        return inviteCode === this.config.requiredInviteCode || 
-               window.location.hostname === 'localhost' ||
-               window.location.hostname === '127.0.0.1';
+        // Allow access in development environment
+        if (window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1') {
+            return true;
+        }
+        
+        // Require invite code
+        if (!inviteCode) {
+            return false;
+        }
+        
+        // Validate invite code via API
+        return await this.validateInviteCodeAsync(inviteCode);
     },
 
     /**

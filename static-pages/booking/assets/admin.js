@@ -48,7 +48,7 @@ const AdminPanel = {
     /**
      * Initialize admin panel
      */
-    init: function() {
+    init: async function() {
         console.log('Initializing Admin Panel...');
         
         // Check admin access
@@ -57,8 +57,8 @@ const AdminPanel = {
             return;
         }
 
-        // Load saved settings
-        this.loadSettings();
+        // Load saved settings (now async)
+        await this.loadSettings();
         
         // Bind event listeners
         this.bindEvents();
@@ -90,16 +90,57 @@ const AdminPanel = {
     },
 
     /**
-     * Load settings from localStorage or defaults
+     * Load settings from Lambda (with localStorage fallback)
      */
-    loadSettings: function() {
-        const savedSettings = localStorage.getItem('bookingAdminSettings');
-        if (savedSettings) {
-            try {
-                const parsed = JSON.parse(savedSettings);
-                this.config.settings = { ...this.config.settings, ...parsed };
-            } catch (error) {
-                console.error('Failed to parse saved settings:', error);
+    loadSettings: async function() {
+        try {
+            // Try to load from Lambda first
+            const response = await fetch(this.config.lambdaEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'getSettings'
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.settings) {
+                    // Convert Lambda settings format to admin panel format
+                    const lambdaSettings = {
+                        profile: data.settings.profile,
+                        availability: data.settings.availability,
+                        meetingTypes: data.settings.meetingTypes,
+                        calendar: {
+                            status: 'connected',
+                            lastSync: Date.now(),
+                            inviteCode: data.settings.inviteCode
+                        }
+                    };
+                    
+                    this.config.settings = { ...this.config.settings, ...lambdaSettings };
+                    console.log('Settings loaded from Lambda successfully');
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } else {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        } catch (error) {
+            console.warn('Failed to load settings from Lambda, trying localStorage:', error);
+            
+            // Fallback to localStorage
+            const savedSettings = localStorage.getItem('bookingAdminSettings');
+            if (savedSettings) {
+                try {
+                    const parsed = JSON.parse(savedSettings);
+                    this.config.settings = { ...this.config.settings, ...parsed };
+                    console.log('Settings loaded from localStorage as fallback');
+                } catch (parseError) {
+                    console.error('Failed to parse localStorage settings:', parseError);
+                }
             }
         }
         
@@ -446,9 +487,9 @@ const AdminPanel = {
     },
 
     /**
-     * Save all settings
+     * Save all settings to Lambda (with localStorage backup)
      */
-    saveSettings: function() {
+    saveSettings: async function() {
         if (this.state.isLoading) return;
         
         this.state.isLoading = true;
@@ -458,27 +499,83 @@ const AdminPanel = {
         saveButton.innerHTML = '💾 Saving...';
         saveButton.disabled = true;
         
-        // Collect all settings from form
-        this.collectSettingsFromForm();
-        
-        // Save to localStorage (in production, this would save to API)
-        localStorage.setItem('bookingAdminSettings', JSON.stringify(this.config.settings));
-        
-        // Simulate API call
-        setTimeout(() => {
+        try {
+            // Collect all settings from form
+            this.collectSettingsFromForm();
+            
+            // Get admin key from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const adminKey = urlParams.get('key');
+            
+            // Prepare settings for Lambda format
+            const lambdaSettings = {
+                inviteCode: this.config.settings.calendar.inviteCode,
+                profile: this.config.settings.profile,
+                availability: this.config.settings.availability
+                // Note: meetingTypes are currently hardcoded in Lambda, could be added later
+            };
+            
+            // Save to Lambda
+            const response = await fetch(this.config.lambdaEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'saveSettings',
+                    settings: lambdaSettings,
+                    adminKey: adminKey
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    console.log('Settings saved to Lambda successfully');
+                    
+                    // Also save to localStorage as backup
+                    localStorage.setItem('bookingAdminSettings', JSON.stringify(this.config.settings));
+                    
+                    this.state.hasUnsavedChanges = false;
+                    this.state.isLoading = false;
+                    
+                    saveButton.innerHTML = '✅ Saved to Server';
+                    saveButton.style.background = '#28a745';
+                    saveButton.disabled = false;
+                    
+                    setTimeout(() => {
+                        saveButton.innerHTML = originalContent;
+                        saveButton.style.background = '';
+                    }, 3000);
+                    
+                    this.showMessage('Success!', 'Your booking settings have been saved to the server successfully.');
+                } else {
+                    throw new Error(data.message || 'Unknown server error');
+                }
+            } else {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || `HTTP ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Failed to save settings to Lambda:', error);
+            
+            // Fallback to localStorage only
+            localStorage.setItem('bookingAdminSettings', JSON.stringify(this.config.settings));
+            
             this.state.hasUnsavedChanges = false;
             this.state.isLoading = false;
             
-            saveButton.innerHTML = '✅ Saved';
-            saveButton.style.background = '#28a745';
+            saveButton.innerHTML = '⚠️ Saved Locally';
+            saveButton.style.background = '#ffc107';
             saveButton.disabled = false;
             
             setTimeout(() => {
                 saveButton.innerHTML = originalContent;
+                saveButton.style.background = '';
             }, 3000);
             
-            this.showMessage('Success!', 'Your booking settings have been updated successfully.');
-        }, 2000);
+            this.showMessage('Warning', `Settings saved locally only. Server error: ${error.message}`, 'error');
+        }
     },
 
     /**
