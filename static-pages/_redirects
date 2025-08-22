@@ -62,8 +62,8 @@
 /*  /static-pages/:splat  200!
 
 # Booking System
-/meet-tem  /booking/?invite=abc123  301!
-/meet-tem/admin.html  /booking/admin.html?invite=abc123  301!
+/meet-tem  /booking/?invite=abc123  200
+/meet-tem/admin.html  /booking/admin.html?invite=abc123  200
 /meet-tem/*  /booking/:splat  301!
 /book  /booking/  301!
 /schedule  /booking/  301!

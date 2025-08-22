@@ -156,9 +156,14 @@ const BookingApp = {
      * Load profile information
      */
     loadProfile: function() {
-        // Set default Google profile picture (we'll implement API call later)
+        // Use the static profile picture if it exists, otherwise use initials fallback
         const avatarImg = document.getElementById('profile-avatar');
-        avatarImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%236EC1E4'%3E%3C/rect%3E%3Ctext x='50%' y='50%' font-family='Inter, sans-serif' font-size='32' font-weight='700' fill='white' text-anchor='middle' dy='.3em'%3ETT%3C/text%3E%3C/svg%3E";
+        
+        // Only set fallback if no valid image is already set
+        if (!avatarImg.src || avatarImg.src.endsWith('/') || avatarImg.src === window.location.href) {
+            avatarImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%236EC1E4'%3E%3C/rect%3E%3Ctext x='50%' y='50%' font-family='Inter, sans-serif' font-size='32' font-weight='700' fill='white' text-anchor='middle' dy='.3em'%3ETT%3C/text%3E%3C/svg%3E";
+        }
+        
         avatarImg.alt = this.config.profileName;
 
         // Load Google profile picture via API (placeholder for now)
