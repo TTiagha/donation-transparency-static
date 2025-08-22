@@ -141,6 +141,7 @@ const AdminPanel = {
         // Calendar settings
         document.getElementById('invite-code').value = settings.calendar.inviteCode;
         this.updateCalendarStatus();
+        this.updateBookingUrl();
         
         // Meeting types
         this.renderMeetingTypes();
@@ -167,6 +168,11 @@ const AdminPanel = {
         document.querySelectorAll('.setting-input').forEach(input => {
             input.addEventListener('change', () => this.markUnsavedChanges());
             input.addEventListener('input', () => this.markUnsavedChanges());
+        });
+        
+        // Special handling for invite code to update URL
+        document.getElementById('invite-code').addEventListener('input', () => {
+            this.updateBookingUrl();
         });
         
         // Working days checkboxes
@@ -237,6 +243,17 @@ const AdminPanel = {
     initializeSections: function() {
         this.updateCalendarStatus();
         this.loadRecentBookings();
+    },
+
+    /**
+     * Update booking URL display
+     */
+    updateBookingUrl: function() {
+        const inviteCode = document.getElementById('invite-code').value;
+        const urlDisplay = document.getElementById('booking-url-display');
+        const baseUrl = 'https://donationtransparency.org/booking/?invite=';
+        
+        urlDisplay.textContent = baseUrl + (inviteCode || 'abc123');
     },
 
     /**
