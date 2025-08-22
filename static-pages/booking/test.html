@@ -115,12 +115,12 @@
         function updateConfig() {
             console.log('updateConfig function called!');
             try {
-                const inputElement = document.getElementById('lambda-url');
+                var inputElement = document.getElementById('lambda-url');
                 if (!inputElement) {
                     throw new Error('Input element not found');
                 }
                 
-                const inputValue = inputElement.value.trim();
+                var inputValue = inputElement.value.trim();
                 console.log('Input value:', inputValue);
                 
                 if (!inputValue) {
@@ -132,15 +132,15 @@
                 config.lambdaEndpoint = inputValue;
                 
                 // Update display elements
-                const endpointSpan = document.getElementById('endpoint-url');
-                const accessCodeSpan = document.getElementById('access-code');
+                var endpointSpan = document.getElementById('endpoint-url');
+                var accessCodeSpan = document.getElementById('access-code');
                 
                 if (endpointSpan) endpointSpan.textContent = config.lambdaEndpoint;
                 if (accessCodeSpan) accessCodeSpan.textContent = config.accessCode;
                 
                 // Show success message
-                let resultDiv = document.getElementById('config-results');
-                const configSection = document.querySelector('.test-section');
+                var resultDiv = document.getElementById('config-results');
+                var configSection = document.querySelector('.test-section');
                 
                 if (!resultDiv) {
                     resultDiv = document.createElement('div');
@@ -165,20 +165,21 @@
             }
         }
 
-        function showResult(containerId, message, type = 'info') {
-            const container = document.getElementById(containerId);
+        function showResult(containerId, message, type) {
+            type = type || 'info';
+            var container = document.getElementById(containerId);
             container.style.display = 'block';
             container.className = 'result ' + type;
             
-            const timestamp = new Date().toLocaleTimeString();
+            var timestamp = new Date().toLocaleTimeString();
             container.textContent = '[' + timestamp + '] ' + message;
         }
 
         function appendResult(containerId, message) {
-            const container = document.getElementById(containerId);
+            var container = document.getElementById(containerId);
             container.style.display = 'block';
             
-            const timestamp = new Date().toLocaleTimeString();
+            var timestamp = new Date().toLocaleTimeString();
             container.textContent += '\n[' + timestamp + '] ' + message;
             container.scrollTop = container.scrollHeight;
         }
@@ -530,7 +531,7 @@
             console.log('Booking System Test Suite loaded');
             
             // Add event listener for update config button
-            const updateConfigBtn = document.getElementById('update-config-btn');
+            var updateConfigBtn = document.getElementById('update-config-btn');
             if (updateConfigBtn) {
                 updateConfigBtn.addEventListener('click', updateConfig);
                 console.log('Event listener added to Update Configuration button');
@@ -539,8 +540,12 @@
             }
             
             // Show URL parameters for debugging
-            const urlParams = new URLSearchParams(window.location.search);
-            console.log('URL parameters:', Object.fromEntries(urlParams));
+            try {
+                var urlParams = new URLSearchParams(window.location.search);
+                console.log('URL parameters:', Object.fromEntries ? Object.fromEntries(urlParams) : 'URLSearchParams supported');
+            } catch (e) {
+                console.log('URLSearchParams not supported, using basic URL parsing');
+            }
             
             // Also add updateConfig to global scope for debugging
             window.updateConfig = updateConfig;
