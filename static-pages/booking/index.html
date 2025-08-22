@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Meeting with Tem Tiagha - Donation Transparency</title>
+    <meta name="description" content="Schedule a meeting with Tem Tiagha to discuss donation transparency, fundraising strategy, and organizational accountability.">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="assets/booking.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!-- Access Control Check -->
+    <div id="access-denied" class="access-denied hidden">
+        <div class="access-denied-content">
+            <h1>🔒 Private Booking Page</h1>
+            <p>This booking page is invitation-only. Please ensure you have the correct link.</p>
+            <a href="../index.html" class="btn-primary">Return to Main Site</a>
+        </div>
+    </div>
+
+    <!-- Main Booking App -->
+    <div id="booking-app" class="booking-container">
+        <div class="booking-header">
+            <div class="profile-section">
+                <div class="profile-avatar">
+                    <img id="profile-avatar" src="" alt="Tem Tiagha" class="avatar-img">
+                    <div class="calendar-status">
+                        <span id="sync-status" class="status-indicator">🟢</span>
+                        <span id="sync-text" class="status-text">Connected</span>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h1>Book a Meeting with Tem Tiagha</h1>
+                    <p id="profile-bio" class="profile-bio">
+                        Founder of Donation Transparency. Let's discuss how radical transparency can transform your fundraising and build unprecedented donor trust.
+                    </p>
+                    <div class="profile-links">
+                        <a href="https://linkedin.com/in/temtiagha" target="_blank" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="#0077b5">
+                                <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-content">
+            <div class="booking-form-container">
+                <!-- Meeting Type Selection -->
+                <div class="section">
+                    <h3>Meeting Type</h3>
+                    <div class="meeting-types">
+                        <button class="meeting-type-btn active" data-duration="30" data-type="consultation">
+                            <div class="meeting-type-title">Consultation</div>
+                            <div class="meeting-type-duration">30 min</div>
+                            <div class="meeting-type-desc">Discuss transparency strategy</div>
+                        </button>
+                        <button class="meeting-type-btn" data-duration="15" data-type="quick-chat">
+                            <div class="meeting-type-title">Quick Chat</div>
+                            <div class="meeting-type-duration">15 min</div>
+                            <div class="meeting-type-desc">Brief discussion</div>
+                        </button>
+                        <button class="meeting-type-btn" data-duration="60" data-type="deep-dive">
+                            <div class="meeting-type-title">Deep Dive</div>
+                            <div class="meeting-type-duration">60 min</div>
+                            <div class="meeting-type-desc">In-depth strategic session</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Timezone Selection -->
+                <div class="section">
+                    <h3>Your Timezone</h3>
+                    <div class="timezone-selector">
+                        <select id="timezone-select" class="timezone-dropdown">
+                            <!-- Populated by JavaScript -->
+                        </select>
+                        <small class="timezone-note">Times will be shown in your local timezone</small>
+                    </div>
+                </div>
+
+                <!-- Calendar View -->
+                <div class="section">
+                    <h3>Select Date & Time</h3>
+                    <div id="calendar-container" class="calendar-container">
+                        <div class="calendar-header">
+                            <button id="prev-month" class="nav-btn">&lt;</button>
+                            <h4 id="current-month" class="month-title"></h4>
+                            <button id="next-month" class="nav-btn">&gt;</button>
+                        </div>
+                        <div id="calendar-grid" class="calendar-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div id="time-slots" class="time-slots-container hidden">
+                        <h4 id="selected-date" class="selected-date"></h4>
+                        <div id="time-slots-grid" class="time-slots-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meeting Location -->
+                <div class="section" id="location-section" style="display: none;">
+                    <h3>Meeting Location</h3>
+                    <div class="location-options">
+                        <label class="location-option">
+                            <input type="radio" name="location" value="google_meet" checked>
+                            <span class="location-icon">📹</span>
+                            <span class="location-text">Google Meet</span>
+                        </label>
+                        <label class="location-option">
+                            <input type="radio" name="location" value="zoom">
+                            <span class="location-icon">🎥</span>
+                            <span class="location-text">Zoom</span>
+                        </label>
+                        <label class="location-option">
+                            <input type="radio" name="location" value="phone">
+                            <span class="location-icon">📞</span>
+                            <span class="location-text">Phone Call</span>
+                        </label>
+                        <div class="phone-input" id="phone-input" style="display: none;">
+                            <input type="tel" id="phone-number" placeholder="Your phone number" class="form-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="section" id="booking-form-section" style="display: none;">
+                    <h3>Your Information</h3>
+                    <form id="booking-form" class="booking-form">
+                        <div class="form-group">
+                            <label for="guest-name">Name *</label>
+                            <input type="text" id="guest-name" name="name" required class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="guest-email">Email *</label>
+                            <input type="email" id="guest-email" name="email" required class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="meeting-notes">Meeting Notes (Optional)</label>
+                            <textarea id="meeting-notes" name="notes" rows="3" class="form-input" placeholder="What would you like to discuss?"></textarea>
+                        </div>
+                        
+                        <!-- Anti-spam fields -->
+                        <input type="hidden" id="booking-timestamp" name="timestamp" value="">
+                        <input type="text" id="booking-honeypot" name="website" value="" style="display: none;">
+                        
+                        <button type="submit" id="book-button" class="btn-primary" disabled>
+                            <span id="book-button-text">Book Meeting</span>
+                            <span id="book-button-loader" class="loader hidden"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading available times...</p>
+        </div>
+    </div>
+
+    <!-- Error Messages -->
+    <div id="error-message" class="error-message hidden">
+        <div class="error-content">
+            <h3>Something went wrong</h3>
+            <p id="error-text"></p>
+            <button id="retry-button" class="btn-secondary">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="success-message" class="success-message hidden">
+        <div class="success-content">
+            <div class="success-icon">✓</div>
+            <h3>Meeting Booked Successfully!</h3>
+            <p id="success-text"></p>
+            <div class="success-actions">
+                <button id="add-to-calendar" class="btn-primary">Add to Calendar</button>
+                <a href="../index.html" class="btn-secondary">Back to Main Site</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/booking.js"></script>
+    <script>
+        // Initialize booking app on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            BookingApp.init();
+        });
+    </script>
+</body>
+</html>

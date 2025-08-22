@@ -1,0 +1,151 @@
+{
+  "profile": {
+    "name": "Tem Tiagha",
+    "email": "support@donationtransparency.org",
+    "bio": "Founder of Donation Transparency. Let's discuss how radical transparency can transform your fundraising and build unprecedented donor trust.",
+    "useGoogleAvatar": true,
+    "customAvatarUrl": null,
+    "socialLinks": {
+      "linkedin": "https://linkedin.com/in/temtiagha",
+      "twitter": null
+    }
+  },
+  "availability": {
+    "timezone": "America/Los_Angeles",
+    "workingHours": {
+      "start": "09:00",
+      "end": "17:00"
+    },
+    "workingDays": [1, 2, 3, 4, 5],
+    "bufferTime": 15,
+    "advanceBookingDays": 14,
+    "minimumNoticeHours": 24,
+    "maxBookingsPerDay": 8
+  },
+  "meetingTypes": [
+    {
+      "id": "quick-chat",
+      "name": "Quick Chat",
+      "duration": 15,
+      "description": "Brief discussion",
+      "color": "#17a2b8"
+    },
+    {
+      "id": "consultation",
+      "name": "Consultation", 
+      "duration": 30,
+      "description": "Discuss transparency strategy",
+      "color": "#6EC1E4",
+      "default": true
+    },
+    {
+      "id": "deep-dive",
+      "name": "Deep Dive",
+      "duration": 60,
+      "description": "In-depth strategic session",
+      "color": "#4A90E2"
+    }
+  ],
+  "defaultLocation": "google_meet",
+  "locations": [
+    {
+      "id": "google_meet",
+      "name": "Google Meet",
+      "icon": "📹",
+      "requiresInput": false,
+      "autoGenerate": true
+    },
+    {
+      "id": "zoom",
+      "name": "Zoom",
+      "icon": "🎥", 
+      "requiresInput": false,
+      "autoGenerate": false
+    },
+    {
+      "id": "phone",
+      "name": "Phone Call",
+      "icon": "📞",
+      "requiresInput": true,
+      "inputType": "tel",
+      "inputPlaceholder": "Your phone number"
+    }
+  ],
+  "calendar": {
+    "calendarId": "primary",
+    "reminderMinutes": [1440, 60],
+    "bufferEventTitle": "Booking Buffer",
+    "eventTitleTemplate": "{meetingType} with {hostName}"
+  },
+  "security": {
+    "inviteCode": "abc123",
+    "requireInviteCode": true,
+    "allowedDomains": ["donationtransparency.org", "localhost"],
+    "rateLimit": {
+      "windowMs": 3600000,
+      "maxRequests": {
+        "getAvailability": 30,
+        "bookAppointment": 5,
+        "general": 10
+      }
+    }
+  },
+  "email": {
+    "fromName": "Tem Tiagha",
+    "fromEmail": "support@donationtransparency.org",
+    "adminEmail": "support@donationtransparency.org",
+    "replyToEmail": "support@donationtransparency.org",
+    "templates": {
+      "confirmation": {
+        "subject": "Meeting Confirmed: {meetingType} with {hostName}",
+        "includeIcsAttachment": true
+      },
+      "reminder": {
+        "subject": "Reminder: Meeting with {hostName} in {timeUntil}",
+        "sendAtHours": [24, 1]
+      },
+      "adminNotification": {
+        "subject": "New Booking: {meetingType} with {guestName}",
+        "enabled": true
+      }
+    }
+  },
+  "features": {
+    "allowRescheduling": true,
+    "allowCancellation": true,
+    "requirePhoneForPhoneMeetings": true,
+    "showHostTimezone": true,
+    "showGuestTimezone": true,
+    "enableWaitlist": false,
+    "enableRecurringMeetings": false
+  },
+  "branding": {
+    "primaryColor": "#6EC1E4",
+    "secondaryColor": "#4A90E2",
+    "backgroundColor": "#f8f9fa",
+    "fontFamily": "system-ui, -apple-system, sans-serif",
+    "logo": null,
+    "favicon": "/favicon.ico"
+  },
+  "integrations": {
+    "googleCalendar": {
+      "enabled": true,
+      "credentialsSecretName": "booking/google-credentials"
+    },
+    "awsSes": {
+      "enabled": true,
+      "region": "us-east-1"
+    },
+    "awsSecretsManager": {
+      "enabled": true,
+      "region": "us-east-1"
+    }
+  },
+  "analytics": {
+    "trackBookings": true,
+    "trackPageViews": true,
+    "trackConversions": true
+  },
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-22T00:00:00.000Z"
+}

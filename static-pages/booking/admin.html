@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Admin Panel - Donation Transparency</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="assets/booking.css">
+    <style>
+        /* Admin-specific styles */
+        .admin-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        
+        .admin-nav {
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            padding: 0 30px;
+        }
+        
+        .admin-nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-nav li {
+            margin-right: 30px;
+        }
+        
+        .admin-nav a {
+            display: block;
+            padding: 15px 0;
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-nav a:hover, .admin-nav a.active {
+            color: #e74c3c;
+            border-bottom-color: #e74c3c;
+        }
+        
+        .admin-content {
+            padding: 30px;
+        }
+        
+        .admin-section {
+            display: none;
+            margin-bottom: 40px;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .settings-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .settings-card h3 {
+            margin-bottom: 20px;
+            color: #495057;
+            font-size: 1.3rem;
+        }
+        
+        .setting-group {
+            margin-bottom: 20px;
+        }
+        
+        .setting-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .setting-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        
+        .setting-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .setting-input:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-syncing {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .recent-bookings {
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            overflow: hidden;
+        }
+        
+        .bookings-header {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .bookings-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .booking-item {
+            padding: 20px 25px;
+            border-bottom: 1px solid #f8f9fa;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+        
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+        
+        .booking-details h4 {
+            margin-bottom: 5px;
+            color: #495057;
+        }
+        
+        .booking-meta {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-view {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-view:hover {
+            background: #138496;
+        }
+        
+        .btn-cancel {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background: #c82333;
+        }
+        
+        .save-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .save-button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .admin-nav ul {
+                flex-direction: column;
+            }
+            
+            .admin-nav li {
+                margin-right: 0;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .save-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Access Control Check -->
+    <div id="access-denied" class="access-denied hidden">
+        <div class="access-denied-content">
+            <h1>🔒 Admin Access Required</h1>
+            <p>Please ensure you have the correct admin access key.</p>
+            <a href="../index.html" class="btn-primary">Return to Main Site</a>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-container">
+        <div class="admin-header">
+            <h1>📅 Booking System Admin</h1>
+            <p>Manage your booking settings and view recent appointments</p>
+        </div>
+
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="#profile" class="nav-link active">Profile</a></li>
+                <li><a href="#availability" class="nav-link">Availability</a></li>
+                <li><a href="#meetings" class="nav-link">Meeting Types</a></li>
+                <li><a href="#calendar" class="nav-link">Calendar</a></li>
+                <li><a href="#bookings" class="nav-link">Recent Bookings</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-content">
+            <!-- Profile Section -->
+            <div id="profile-section" class="admin-section active">
+                <h2>Profile Settings</h2>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Basic Information</h3>
+                        <div class="setting-group">
+                            <label for="profile-name">Display Name</label>
+                            <input type="text" id="profile-name" class="setting-input" value="Tem Tiagha">
+                        </div>
+                        <div class="setting-group">
+                            <label for="profile-email">Contact Email</label>
+                            <input type="email" id="profile-email" class="setting-input" value="support@donationtransparency.org">
+                        </div>
+                        <div class="setting-group">
+                            <label for="profile-bio">Bio/Description</label>
+                            <textarea id="profile-bio" class="setting-input" rows="4">Founder of Donation Transparency. Let's discuss how radical transparency can transform your fundraising and build unprecedented donor trust.</textarea>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Avatar Settings</h3>
+                        <div class="setting-group">
+                            <label>Profile Picture Source</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="radio" id="avatar-google" name="avatar-source" value="google" checked>
+                                    <label for="avatar-google">Google Profile</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="avatar-custom" name="avatar-source" value="custom">
+                                    <label for="avatar-custom">Custom Upload</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-group" id="custom-avatar-group" style="display: none;">
+                            <label for="avatar-url">Custom Avatar URL</label>
+                            <input type="url" id="avatar-url" class="setting-input" placeholder="https://example.com/avatar.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Availability Section -->
+            <div id="availability-section" class="admin-section">
+                <h2>Availability Settings</h2>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Working Hours</h3>
+                        <div class="setting-group">
+                            <label for="work-start">Start Time</label>
+                            <input type="time" id="work-start" class="setting-input" value="09:00">
+                        </div>
+                        <div class="setting-group">
+                            <label for="work-end">End Time</label>
+                            <input type="time" id="work-end" class="setting-input" value="17:00">
+                        </div>
+                        <div class="setting-group">
+                            <label for="timezone">Timezone</label>
+                            <select id="timezone" class="setting-input">
+                                <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                                <option value="America/Denver">Mountain Time (MT)</option>
+                                <option value="America/Chicago">Central Time (CT)</option>
+                                <option value="America/New_York">Eastern Time (ET)</option>
+                                <option value="UTC">UTC</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Working Days</h3>
+                        <div class="setting-group">
+                            <label>Available Days</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="day-monday" value="1" checked>
+                                    <label for="day-monday">Monday</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="day-tuesday" value="2" checked>
+                                    <label for="day-tuesday">Tuesday</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="day-wednesday" value="3" checked>
+                                    <label for="day-wednesday">Wednesday</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="day-thursday" value="4" checked>
+                                    <label for="day-thursday">Thursday</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="day-friday" value="5" checked>
+                                    <label for="day-friday">Friday</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="day-saturday" value="6">
+                                    <label for="day-saturday">Saturday</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="day-sunday" value="0">
+                                    <label for="day-sunday">Sunday</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Booking Rules</h3>
+                        <div class="setting-group">
+                            <label for="buffer-time">Buffer Between Meetings (minutes)</label>
+                            <select id="buffer-time" class="setting-input">
+                                <option value="0">No buffer</option>
+                                <option value="15" selected>15 minutes</option>
+                                <option value="30">30 minutes</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label for="advance-booking">Advance Booking Window (days)</label>
+                            <input type="number" id="advance-booking" class="setting-input" value="14" min="1" max="90">
+                        </div>
+                        <div class="setting-group">
+                            <label for="minimum-notice">Minimum Notice (hours)</label>
+                            <input type="number" id="minimum-notice" class="setting-input" value="24" min="1" max="168">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meeting Types Section -->
+            <div id="meetings-section" class="admin-section">
+                <h2>Meeting Types</h2>
+                <div class="settings-card">
+                    <h3>Available Meeting Types</h3>
+                    <div id="meeting-types-list">
+                        <div class="meeting-type-config">
+                            <div class="setting-group">
+                                <label>Quick Chat</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 10px; align-items: end;">
+                                    <input type="number" class="setting-input" placeholder="Duration (min)" value="15">
+                                    <input type="text" class="setting-input" placeholder="Description" value="Brief discussion">
+                                    <button class="btn-small btn-cancel">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meeting-type-config">
+                            <div class="setting-group">
+                                <label>Consultation</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 10px; align-items: end;">
+                                    <input type="number" class="setting-input" placeholder="Duration (min)" value="30">
+                                    <input type="text" class="setting-input" placeholder="Description" value="Discuss transparency strategy">
+                                    <button class="btn-small btn-cancel">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meeting-type-config">
+                            <div class="setting-group">
+                                <label>Deep Dive</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 10px; align-items: end;">
+                                    <input type="number" class="setting-input" placeholder="Duration (min)" value="60">
+                                    <input type="text" class="setting-input" placeholder="Description" value="In-depth strategic session">
+                                    <button class="btn-small btn-cancel">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="add-meeting-type" class="btn-secondary" style="margin-top: 20px;">Add Meeting Type</button>
+                </div>
+            </div>
+
+            <!-- Calendar Section -->
+            <div id="calendar-section" class="admin-section">
+                <h2>Calendar Integration</h2>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Google Calendar Status</h3>
+                        <div class="setting-group">
+                            <div id="calendar-status" class="status-indicator status-connected">
+                                <span>🟢</span>
+                                Calendar Connected
+                            </div>
+                            <p style="margin-top: 15px; color: #6c757d; font-size: 0.9rem;">
+                                Last sync: <span id="last-sync">2 minutes ago</span>
+                            </p>
+                        </div>
+                        <div class="setting-group">
+                            <button id="test-calendar" class="btn-primary" style="margin-right: 10px;">Test Connection</button>
+                            <button id="reconnect-calendar" class="btn-secondary">Reconnect</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Access Control</h3>
+                        <div class="setting-group">
+                            <label for="invite-code">Booking Page Invite Code</label>
+                            <input type="text" id="invite-code" class="setting-input" value="abc123">
+                            <small style="color: #6c757d; margin-top: 5px; display: block;">
+                                Users need this code to access the booking page: ?invite=abc123
+                            </small>
+                        </div>
+                        <div class="setting-group">
+                            <label>Booking Page URL</label>
+                            <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; font-family: monospace; word-break: break-all;">
+                                https://donationtransparency.org/booking/?invite=abc123
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Bookings Section -->
+            <div id="bookings-section" class="admin-section">
+                <h2>Recent Bookings</h2>
+                <div class="recent-bookings">
+                    <div class="bookings-header">
+                        <h3>Upcoming & Recent Appointments</h3>
+                        <p>Manage your scheduled meetings</p>
+                    </div>
+                    <div class="bookings-list">
+                        <div class="booking-item">
+                            <div class="booking-details">
+                                <h4>Consultation with Sarah Johnson</h4>
+                                <div class="booking-meta">
+                                    Tomorrow, 2:00 PM PT • 30 minutes • Google Meet<br>
+                                    sarah.johnson@nonprofit.org
+                                </div>
+                            </div>
+                            <div class="booking-actions">
+                                <button class="btn-small btn-view">View</button>
+                                <button class="btn-small btn-cancel">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-details">
+                                <h4>Deep Dive with Mike Chen</h4>
+                                <div class="booking-meta">
+                                    Jan 25, 10:00 AM PT • 60 minutes • Zoom<br>
+                                    mike.chen@foundation.org
+                                </div>
+                            </div>
+                            <div class="booking-actions">
+                                <button class="btn-small btn-view">View</button>
+                                <button class="btn-small btn-cancel">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-details">
+                                <h4>Quick Chat with Lisa Rodriguez</h4>
+                                <div class="booking-meta">
+                                    Jan 23, 3:30 PM PT • 15 minutes • Phone<br>
+                                    lisa.rodriguez@charity.com
+                                </div>
+                            </div>
+                            <div class="booking-actions">
+                                <button class="btn-small btn-view">View</button>
+                                <button class="btn-small btn-cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <button id="save-settings" class="save-button">
+            💾 Save Changes
+        </button>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="admin-message" class="success-message hidden">
+        <div class="success-content">
+            <div class="success-icon">✓</div>
+            <h3 id="message-title">Settings Saved!</h3>
+            <p id="message-text">Your booking settings have been updated successfully.</p>
+        </div>
+    </div>
+
+    <script src="assets/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AdminPanel.init();
+        });
+    </script>
+</body>
+</html>

@@ -1,12 +1,19 @@
 {
-  "name": "waitlist-handler",
+  "name": "booking-system-lambda",
   "version": "1.0.0",
-  "description": "AWS Lambda function for handling waitlist signups with SES",
-  "main": "waitlist-handler.js",
+  "description": "AWS Lambda functions for booking system with Google Calendar integration",
+  "main": "booking-handler.js",
   "dependencies": {
-    "aws-sdk": "^2.1500.0"
+    "@aws-sdk/client-ses": "^3.450.0",
+    "@aws-sdk/client-secrets-manager": "^3.450.0",
+    "googleapis": "^126.0.1",
+    "uuid": "^9.0.1",
+    "ical-generator": "^4.2.0"
   },
   "engines": {
     "node": ">=18.x"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
