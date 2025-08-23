@@ -276,3 +276,79 @@ The GSC MCP server is configured in `~/.config/claude-code/mcp_config.json` but 
 1. `/transparency/` main page not indexed despite being crawled
 2. Low average positions (need better on-page SEO)
 3. Zero clicks despite impressions (need better meta descriptions)
+
+## Gemini CLI Installation
+
+### Installation Instructions
+
+The Gemini CLI provides direct access to Google's Gemini AI models from the command line.
+
+**✅ Installation Process:**
+```bash
+# Clone the repository
+git clone https://github.com/google-gemini/gemini-cli.git
+
+# Install dependencies
+cd gemini-cli
+npm install
+
+# Install globally
+npm install -g .
+```
+
+### Usage
+
+**✅ Available Commands:**
+- `gemini --version` - Check installed version
+- `gemini` - Launch interactive mode
+- `gemini -p "your prompt"` - Non-interactive prompt
+- `gemini --help` - Show all available options
+
+**✅ Installation Status:**
+- **Version**: 0.1.21
+- **Installation Method**: Manual build from GitHub repository
+- **Global Access**: Available system-wide via npm global install
+- **Authentication**: Uses cached credentials (ready to use)
+
+**✅ Key Features:**
+- Interactive CLI mode for ongoing conversations
+- Non-interactive mode for scripted usage
+- Sandbox mode for code execution
+- MCP server management
+- Debug mode and telemetry options
+
+### Installation Notes
+- The npm package `@google/generative-ai-cli` is not available on npm registry
+- Manual installation from GitHub repository required
+- Built successfully despite Node.js version warnings (works on Node v20.19.2)
+- Credentials are automatically managed and cached
+
+### Updates and Maintenance
+
+**❌ No Automatic Updates:**
+- Gemini CLI does not update automatically
+- Installation creates a symlink to the local cloned repository
+- Updates require manual steps
+
+**✅ Manual Update Process:**
+```bash
+# Navigate to the cloned repository
+cd /mnt/c/shock/gemini-cli
+
+# Pull latest changes from GitHub
+git pull origin main
+
+# Reinstall dependencies if package.json changed
+npm install
+
+# Global symlink automatically uses updated code
+```
+
+**✅ Check for Updates:**
+```bash
+# Check current version
+gemini --version
+
+# Check for newer releases on GitHub
+# Visit: https://github.com/google-gemini/gemini-cli/releases
+```
