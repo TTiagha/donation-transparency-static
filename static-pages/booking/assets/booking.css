@@ -335,6 +335,26 @@ body {
     height: 22px;
 }
 
+/* Social Link Button */
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
 /* Utility classes */
 .hidden {
     display: none !important;
