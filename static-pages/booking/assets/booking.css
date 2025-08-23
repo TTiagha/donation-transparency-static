@@ -267,8 +267,13 @@ body {
 /* --- SHARED STYLES (already good, minor tweaks) --- */
 
 /* Base styles from original that are kept */
-.access-denied, .access-denied-content, .profile-section, .profile-avatar, .calendar-status, .profile-links, .social-link, .timezone-selector, .timezone-note, .calendar-container, .calendar-header, .month-title, .calendar-day-header, .time-slots-container, .selected-date, .loading-slots, .location-options, .location-option, .location-icon, .location-text, .phone-input, .booking-form, .form-group, .spinner, .success-icon, .error-content h3, .success-content h3, .error-content p, .success-content p, .loader, .hidden, .text-center {
+.access-denied, .access-denied-content, .profile-section, .profile-avatar, .calendar-status, .profile-links, .social-link, .timezone-selector, .timezone-note, .calendar-container, .calendar-header, .month-title, .calendar-day-header, .time-slots-container, .selected-date, .loading-slots, .location-options, .location-option, .location-icon, .location-text, .phone-input, .booking-form, .form-group, .spinner, .success-icon, .error-content h3, .success-content h3, .error-content p, .success-content p, .loader, .text-center {
     /* These styles are generally fine, media queries will handle layout */
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
 }
 
 /* Add transitions for smoothness */
