@@ -85,7 +85,7 @@ body {
 .section:last-child { border-bottom: none; }
 .section h3 {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 20px;
 }
 
@@ -96,8 +96,13 @@ body {
     gap: 12px;
 }
 .meeting-type-btn {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
     padding: 15px;
-    transition: all var(--transition-speed) ease;
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
 }
 
 /* Calendar */
@@ -110,12 +115,6 @@ body {
     aspect-ratio: 1;
     font-size: 0.9rem;
     border-radius: 50%;
-    transition: all var(--transition-speed) ease;
-}
-.nav-btn {
-    width: 40px;
-    height: 40px;
-    min-width: 40px; /* Touch target */
 }
 
 /* Time Slots */
@@ -125,23 +124,67 @@ body {
     gap: 10px;
 }
 .time-slot {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
     padding: 12px 8px;
     font-size: 1rem;
     min-height: 44px; /* Touch target */
-    transition: all var(--transition-speed) ease;
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
 }
 
-/* Forms */
-.form-input, .timezone-dropdown, .setting-input {
+/* Forms & Inputs */
+.form-input, .setting-input {
     width: 100%;
     padding: 12px 16px;
     font-size: 1rem;
     min-height: 44px; /* Touch target */
     transition: all var(--transition-speed) ease;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
 }
 .form-group, .setting-group {
     margin-bottom: 20px;
 }
+
+/* Custom Select Wrapper */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23718096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+}
+
+.timezone-dropdown {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 40px; /* Make space for the arrow */
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    min-height: 44px; /* Touch target */
+    transition: all var(--transition-speed) ease;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
 
 /* Buttons */
 .btn-primary, .btn-secondary {
@@ -151,6 +194,8 @@ body {
     width: 100%;
     min-height: 44px; /* Touch target */
     transition: all var(--transition-speed) ease;
+    border: none;
+    border-radius: var(--border-radius);
 }
 
 /* Modals (Success/Error/Loading) */
@@ -172,6 +217,9 @@ body {
     width: 100%;
     max-width: 400px;
     padding: 30px;
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 }
 .success-actions {
     flex-direction: column;
@@ -248,7 +296,7 @@ body {
     .booking-container {
         min-height: auto;
         border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 5px 10px -5px rgba(0, 0, 0, 0.04);
         margin: 40px auto;
     }
     .booking-header {
@@ -257,7 +305,7 @@ body {
     .booking-content {
         padding: 50px;
     }
-    .profile-info h1 { font-size: 2rem; }
+    .profile-info h1 { font-size: 2.2rem; font-weight: 800; }
     .settings-grid {
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
@@ -267,8 +315,24 @@ body {
 /* --- SHARED STYLES (already good, minor tweaks) --- */
 
 /* Base styles from original that are kept */
-.access-denied, .access-denied-content, .profile-section, .profile-avatar, .calendar-status, .profile-links, .social-link, .timezone-selector, .timezone-note, .calendar-container, .calendar-header, .month-title, .calendar-day-header, .time-slots-container, .selected-date, .loading-slots, .location-options, .location-option, .location-icon, .location-text, .phone-input, .booking-form, .form-group, .spinner, .success-icon, .error-content h3, .success-content h3, .error-content p, .success-content p, .loader, .text-center {
+.access-denied, .access-denied-content, .profile-section, .profile-avatar, .calendar-status, .profile-links, .social-link, .timezone-note, .calendar-container, .calendar-header, .month-title, .calendar-day-header, .time-slots-container, .selected-date, .loading-slots, .location-options, .location-option, .location-icon, .location-text, .phone-input, .booking-form, .form-group, .spinner, .success-icon, .error-content h3, .success-content h3, .error-content p, .success-content p, .loader, .text-center {
     /* These styles are generally fine, media queries will handle layout */
+}
+
+/* Calendar Nav Buttons */
+.nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--subtle-text-color);
+}
+.nav-btn svg {
+    width: 22px;
+    height: 22px;
 }
 
 /* Utility classes */
@@ -284,33 +348,56 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
 }
-.meeting-type-btn:hover, .location-option:hover {
+.meeting-type-btn:hover, .location-option:hover, .time-slot:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
     border-color: var(--primary-color);
+    box-shadow: var(--shadow);
 }
 .nav-btn:hover {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
 }
 
 /* Active/Selected States */
-.meeting-type-btn.active {
-    border-color: var(--primary-color);
+.meeting-type-btn.active, .time-slot.selected {
     background: var(--primary-color);
     color: white;
-    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    transform: translateY(1px);
 }
 .calendar-day.selected {
     background: var(--primary-color);
     color: white;
     transform: scale(1.05);
+    font-weight: 700;
 }
-.time-slot.selected {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: white;
+
+/* Disabled States */
+.calendar-day.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    background: transparent;
+}
+.time-slot.unavailable {
+    background: #f5f5f5;
+    color: #ccc;
+    cursor: not-allowed;
+    border-color: #f0f0f0;
+}
+.btn-primary:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Print styles */
+@media print {
+    body { background: white; }
+    .booking-container { box-shadow: none; }
+    .booking-header { background: white; color: black; border-bottom: 1px solid #ccc; }
+    .btn-primary, .btn-secondary, .nav-btn { display: none; }
 }
 
 /* Disabled States */

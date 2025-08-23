@@ -72,9 +72,11 @@
                 <div class="section">
                     <h3>Your Timezone</h3>
                     <div class="timezone-selector">
-                        <select id="timezone-select" class="timezone-dropdown">
-                            <!-- Populated by JavaScript -->
-                        </select>
+                        <div class="select-wrapper">
+                            <select id="timezone-select" class="timezone-dropdown">
+                                <!-- Populated by JavaScript -->
+                            </select>
+                        </div>
                         <small class="timezone-note">Times will be shown in your local timezone</small>
                     </div>
                 </div>
@@ -84,9 +86,13 @@
                     <h3>Select Date & Time</h3>
                     <div id="calendar-container" class="calendar-container">
                         <div class="calendar-header">
-                            <button id="prev-month" class="nav-btn">&lt;</button>
+                            <button id="prev-month" class="nav-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
                             <h4 id="current-month" class="month-title"></h4>
-                            <button id="next-month" class="nav-btn">&gt;</button>
+                            <button id="next-month" class="nav-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
                         </div>
                         <div id="calendar-grid" class="calendar-grid">
                             <!-- Populated by JavaScript -->
