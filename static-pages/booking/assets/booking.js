@@ -138,7 +138,7 @@ const BookingApp = {
      */
     checkAccess: async function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const inviteCode = urlParams.get('invite');
+        const inviteCode = urlParams.get('code');
         
         // Allow access in development environment
         if (window.location.hostname === 'localhost' ||
