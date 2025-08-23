@@ -3,25 +3,37 @@
  * Handles calendar availability, booking creation, and email notifications
  */
 
-import { SES, SendEmailCommand } from '@aws-sdk/client-ses';
-import { SSMClient, GetParameterCommand, PutParameterCommand } from '@aws-sdk/client-ssm';
+// Use dynamic imports for AWS SDK to avoid dependency issues
 import { google } from 'googleapis';
 import { v4 as uuidv4 } from 'uuid';
 import ical from 'ical-generator';
 
-// Initialize AWS services
-const ses = new SES({
-    region: process.env.REGION || 'us-east-1'
-});
+// Initialize AWS services with dynamic imports
+let ses, ssmClient, SendEmailCommand, GetParameterCommand, PutParameterCommand;
 
-const ssmClient = new SSMClient({
-    region: process.env.REGION || 'us-east-1'
-});
+async function initializeAWS() {
+    if (!ses) {
+        const sesModule = await import('@aws-sdk/client-ses');
+        const ssmModule = await import('@aws-sdk/client-ssm');
+        
+        SendEmailCommand = sesModule.SendEmailCommand;
+        GetParameterCommand = ssmModule.GetParameterCommand;
+        PutParameterCommand = ssmModule.PutParameterCommand;
+        
+        ses = new sesModule.SESClient({
+            region: process.env.AWS_REGION || 'us-east-1'
+        });
+        
+        ssmClient = new ssmModule.SSMClient({
+            region: process.env.AWS_REGION || 'us-east-1'
+        });
+    }
+}
 
 // Rate limiting storage (in-memory, resets on cold starts)
 const rateLimitStorage = new Map();
 
-// Configuration
+// Configuration - deployed at 2025-08-22T23:32:30
 const CONFIG = {
     timezone: 'America/Los_Angeles',
     workingHours: { start: 9, end: 17 },
@@ -629,6 +641,8 @@ async function validateInviteCode(inviteCode) {
  * Main Lambda handler
  */
 export const handler = async (event, context) => {
+    // Initialize AWS services
+    await initializeAWS();
     const headers = {
         'Access-Control-Allow-Origin': 'https://donationtransparency.org',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',

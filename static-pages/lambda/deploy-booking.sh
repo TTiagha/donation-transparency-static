@@ -38,8 +38,14 @@ echo "📋 Checking prerequisites..."
 
 # Check if AWS CLI is installed and configured
 if ! command -v aws &> /dev/null; then
-    log_error "AWS CLI is not installed. Please install it first."
-    exit 1
+    # Try virtual environment
+    if [ -f ~/.aws-venv/bin/activate ]; then
+        source ~/.aws-venv/bin/activate
+        log_info "Using AWS CLI from virtual environment"
+    else
+        log_error "AWS CLI is not installed. Please install it first."
+        exit 1
+    fi
 fi
 
 # Check AWS credentials
@@ -69,14 +75,25 @@ echo "🔨 Creating deployment package..."
 # Clean previous builds
 rm -f booking-system.zip
 
-# Create zip file excluding unnecessary files
-zip -r booking-system.zip . \
-  -x "*.md" \
-  -x "deploy*.sh" \
-  -x "node_modules/.cache/*" \
-  -x "*.git*" \
-  -x "test/*" \
-  -x "*.test.js"
+# Create deployment package using Python (since zip not available)
+python3 -c "
+import zipfile
+import os
+
+with zipfile.ZipFile('booking-system.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
+    exclude_patterns = ['.git', '.md', '.sh', '.test.js', 'node_modules/.cache']
+    
+    for root, dirs, files in os.walk('.'):
+        # Filter out excluded directories
+        dirs[:] = [d for d in dirs if not any(pattern in d for pattern in exclude_patterns)]
+        
+        for file in files:
+            # Skip excluded files
+            if not any(pattern in file for pattern in exclude_patterns):
+                file_path = os.path.join(root, file)
+                arcname = os.path.relpath(file_path, '.')
+                zipf.write(file_path, arcname)
+"
 
 log_info "Deployment package created: booking-system.zip"
 

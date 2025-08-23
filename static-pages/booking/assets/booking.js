@@ -63,6 +63,9 @@ const BookingApp = {
             return;
         }
 
+        // Ensure access denied is hidden and booking app is shown
+        this.hideAccessDenied();
+
         // Set up event listeners
         this.bindEvents();
         
@@ -161,6 +164,14 @@ const BookingApp = {
     showAccessDenied: function() {
         document.getElementById('access-denied').classList.remove('hidden');
         document.getElementById('booking-app').style.display = 'none';
+    },
+
+    /**
+     * Hide access denied page and show booking app
+     */
+    hideAccessDenied: function() {
+        document.getElementById('access-denied').classList.add('hidden');
+        document.getElementById('booking-app').style.display = 'block';
     },
 
     /**
