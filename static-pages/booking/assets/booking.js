@@ -66,6 +66,9 @@ const BookingApp = {
         // Ensure access denied is hidden and booking app is shown
         this.hideAccessDenied();
 
+        // Load settings from server
+        await this.loadSettingsFromServer();
+
         // Set up event listeners
         this.bindEvents();
         
@@ -172,6 +175,53 @@ const BookingApp = {
     hideAccessDenied: function() {
         document.getElementById('access-denied').classList.add('hidden');
         document.getElementById('booking-app').style.display = 'block';
+    },
+
+    /**
+     * Load settings from server
+     */
+    loadSettingsFromServer: async function() {
+        try {
+            console.log('Loading settings from server...');
+            
+            const response = await fetch(this.config.lambdaEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'getSettings'
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.settings) {
+                    console.log('Settings loaded from server:', data.settings);
+                    
+                    // Update config with server settings
+                    if (data.settings.availability) {
+                        this.config.advanceBookingDays = data.settings.availability.advanceBookingDays || 14;
+                        this.config.minimumNoticeHours = data.settings.availability.minimumNoticeHours || 24;
+                        this.config.bufferMinutes = data.settings.availability.bufferTime || 15;
+                        this.config.workingHours = {
+                            start: data.settings.availability.startTime || 9,
+                            end: data.settings.availability.endTime || 17
+                        };
+                    }
+                    
+                    if (data.settings.profile) {
+                        this.config.profileName = data.settings.profile.name || 'Tem Tiagha';
+                    }
+                } else {
+                    console.log('Using default settings (server settings not available)');
+                }
+            } else {
+                console.log('Failed to load settings, using defaults');
+            }
+        } catch (error) {
+            console.log('Error loading settings from server, using defaults:', error);
+        }
     },
 
     /**
@@ -524,14 +574,13 @@ const BookingApp = {
      * Load availability from API
      */
     loadAvailability: function() {
-        // This will make API call to Lambda function
-        // For now, just log the action
+        // This function is called after settings are loaded and calendar is rendered
         console.log('Loading availability for month:', this.state.currentDate);
+        console.log('Using advance booking days:', this.config.advanceBookingDays);
+        console.log('Using minimum notice hours:', this.config.minimumNoticeHours);
         
-        // Simulate API call
-        setTimeout(() => {
-            // In a real app, you'd update the UI based on API response
-        }, 1000);
+        // The calendar is already rendered with the current settings
+        // This is a placeholder for future availability API integration
     },
 
     /**

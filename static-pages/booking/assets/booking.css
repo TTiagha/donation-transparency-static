@@ -315,24 +315,68 @@ body {
 /* --- SHARED STYLES (already good, minor tweaks) --- */
 
 /* Base styles from original that are kept */
-.access-denied, .access-denied-content, .profile-section, .profile-avatar, .calendar-status, .profile-links, .social-link, .timezone-note, .calendar-container, .calendar-header, .month-title, .calendar-day-header, .time-slots-container, .selected-date, .loading-slots, .location-options, .location-option, .location-icon, .location-text, .phone-input, .booking-form, .form-group, .spinner, .success-icon, .error-content h3, .success-content h3, .error-content p, .success-content p, .loader, .text-center {
+.access-denied, .access-denied-content, .profile-section, .profile-avatar, .calendar-status, .profile-links, .social-link, .timezone-note, .calendar-container, .calendar-day-header, .time-slots-container, .selected-date, .loading-slots, .location-options, .location-option, .location-icon, .location-text, .phone-input, .booking-form, .form-group, .spinner, .success-icon, .error-content h3, .success-content h3, .error-content p, .success-content p, .loader, .text-center {
     /* These styles are generally fine, media queries will handle layout */
 }
 
-/* Calendar Nav Buttons */
+/* Calendar Header */
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 15px;
+}
+
+.month-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.month-title:hover {
+    background-color: var(--background-color);
+}
+
+.month-title svg {
+    width: 16px;
+    height: 16px;
+    color: var(--subtle-text-color);
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 .nav-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
-    border: none;
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     cursor: pointer;
     color: var(--subtle-text-color);
+    width: 36px;
+    height: 36px;
 }
+.nav-btn:hover {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
 .nav-btn svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
 }
 
 /* Social Link Button */
