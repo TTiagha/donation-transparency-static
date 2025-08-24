@@ -10,7 +10,18 @@ const BookingApp = {
         requiredInviteCode: 'abc123', // Fallback for offline/error scenarios
         profileName: 'Tem Tiagha',
         defaultTimezone: 'America/Los_Angeles',
+        // Legacy working hours (fallback)
         workingHours: { start: 9, end: 17 },
+        // Per-day schedule (loaded from server)
+        dailySchedule: {
+            monday: { start: 9, end: 17, isDayOff: false },
+            tuesday: { start: 9, end: 17, isDayOff: false },
+            wednesday: { start: 9, end: 17, isDayOff: false },
+            thursday: { start: 9, end: 17, isDayOff: false },
+            friday: { start: 9, end: 17, isDayOff: false },
+            saturday: { start: 9, end: 17, isDayOff: true },
+            sunday: { start: 9, end: 17, isDayOff: true }
+        },
         bufferMinutes: 15,
         advanceBookingDays: 14,
         minimumNoticeHours: 24,
@@ -204,9 +215,17 @@ const BookingApp = {
                         this.config.advanceBookingDays = data.settings.availability.advanceBookingDays || 14;
                         this.config.minimumNoticeHours = data.settings.availability.minimumNoticeHours || 24;
                         this.config.bufferMinutes = data.settings.availability.bufferTime || 15;
+                        
+                        // Load per-day schedule if available
+                        if (data.settings.availability.dailySchedule) {
+                            this.config.dailySchedule = { ...this.config.dailySchedule, ...data.settings.availability.dailySchedule };
+                            console.log('Loaded per-day schedule:', this.config.dailySchedule);
+                        }
+                        
+                        // Legacy fallback for working hours
                         this.config.workingHours = {
-                            start: data.settings.availability.startTime || 9,
-                            end: data.settings.availability.endTime || 17
+                            start: data.settings.availability.startTime || data.settings.availability.workStart || 9,
+                            end: data.settings.availability.endTime || data.settings.availability.workEnd || 17
                         };
                     }
                     
@@ -370,8 +389,8 @@ const BookingApp = {
             // Check if day is selectable
             if (dayDate < today || dayDate > maxDate) {
                 dayElement.classList.add('disabled');
-            } else if (this.isWeekend(dayDate)) {
-                dayElement.classList.add('weekend');
+            } else if (this.isDayOff(dayDate)) {
+                dayElement.classList.add('day-off');
             } else {
                 dayElement.classList.add('available');
                 dayElement.addEventListener('click', (e) => this.selectDate(e));
@@ -382,11 +401,11 @@ const BookingApp = {
     },
 
     /**
-     * Check if date is weekend
+     * Check if date is a day off
      */
-    isWeekend: function(date) {
-        const day = date.getDay();
-        return day === 0 || day === 6; // Sunday = 0, Saturday = 6
+    isDayOff: function(date) {
+        const daySchedule = this.getDaySchedule(date.getDay());
+        return daySchedule.isDayOff;
     },
 
     /**
@@ -462,8 +481,17 @@ const BookingApp = {
         const timeSlotsGrid = document.getElementById('time-slots-grid');
         timeSlotsGrid.innerHTML = '';
 
-        const startHour = this.config.workingHours.start;
-        const endHour = this.config.workingHours.end;
+        // Get schedule for this specific day
+        const daySchedule = this.getDaySchedule(date.getDay());
+        
+        // If it's a day off, show message and return
+        if (daySchedule.isDayOff) {
+            timeSlotsGrid.innerHTML = '<div class="day-off-message">No availability on this day</div>';
+            return;
+        }
+
+        const startHour = daySchedule.start;
+        const endHour = daySchedule.end;
 
         for (let hour = startHour; hour < endHour; hour++) {
             // Generate slots every 30 minutes
@@ -489,6 +517,33 @@ const BookingApp = {
                 timeSlotsGrid.appendChild(slotButton);
             }
         }
+    },
+
+    /**
+     * Get schedule for a specific day of the week
+     * @param {number} dayOfWeek - 0=Sunday, 1=Monday, etc.
+     * @returns {object} { start, end, isDayOff }
+     */
+    getDaySchedule: function(dayOfWeek) {
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const dayName = dayNames[dayOfWeek];
+        
+        // Use per-day schedule if available
+        if (this.config.dailySchedule && this.config.dailySchedule[dayName]) {
+            const schedule = this.config.dailySchedule[dayName];
+            return {
+                start: typeof schedule.start === 'string' ? parseInt(schedule.start.split(':')[0]) : schedule.start,
+                end: typeof schedule.end === 'string' ? parseInt(schedule.end.split(':')[0]) : schedule.end,
+                isDayOff: schedule.isDayOff
+            };
+        }
+        
+        // Legacy fallback
+        return {
+            start: this.config.workingHours.start,
+            end: this.config.workingHours.end,
+            isDayOff: false // Legacy system didn't have day off concept for individual days
+        };
     },
 
     /**

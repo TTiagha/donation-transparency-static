@@ -258,6 +258,97 @@
             box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
         }
 
+        /* Daily Hours Grid Styling */
+        .daily-hours-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .daily-hour-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: var(--background-color);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .day-name {
+            font-weight: 600;
+            color: var(--text-color);
+            width: 90px;
+            flex-shrink: 0;
+        }
+
+        .day-times {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .day-times input[type="time"] {
+            width: 120px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .time-separator {
+            color: var(--subtle-text-color);
+            font-weight: 500;
+            padding: 0 5px;
+        }
+
+        .day-off {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            color: var(--subtle-text-color);
+        }
+
+        .day-off-checkbox {
+            accent-color: var(--primary-color);
+        }
+
+        /* Disable time inputs when day is off */
+        .daily-hour-row.day-off-enabled .day-times input[type="time"] {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #f5f5f5;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .daily-hour-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .day-name {
+                width: 100%;
+                font-size: 1.1rem;
+                text-align: center;
+            }
+
+            .day-times {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .day-off {
+                justify-content: center;
+                margin-left: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -333,15 +424,93 @@
             <!-- Availability Section -->
             <div id="availability-section" class="admin-section">
                 <div class="settings-grid">
-                    <div class="settings-card">
-                        <h3>Working Hours</h3>
-                        <div class="setting-group">
-                            <label for="work-start">Start Time</label>
-                            <input type="time" id="work-start" class="setting-input" value="09:00">
-                        </div>
-                        <div class="setting-group">
-                            <label for="work-end">End Time</label>
-                            <input type="time" id="work-end" class="setting-input" value="17:00">
+                    <div class="settings-card" style="grid-column: span 2;">
+                        <h3>Daily Working Hours</h3>
+                        <div class="daily-hours-grid">
+                            <div class="daily-hour-row">
+                                <div class="day-name">Monday</div>
+                                <div class="day-times">
+                                    <input type="time" id="monday-start" class="setting-input" value="09:00">
+                                    <span class="time-separator">to</span>
+                                    <input type="time" id="monday-end" class="setting-input" value="17:00">
+                                    <label class="day-off">
+                                        <input type="checkbox" id="monday-off" class="day-off-checkbox">
+                                        Day Off
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="daily-hour-row">
+                                <div class="day-name">Tuesday</div>
+                                <div class="day-times">
+                                    <input type="time" id="tuesday-start" class="setting-input" value="09:00">
+                                    <span class="time-separator">to</span>
+                                    <input type="time" id="tuesday-end" class="setting-input" value="17:00">
+                                    <label class="day-off">
+                                        <input type="checkbox" id="tuesday-off" class="day-off-checkbox">
+                                        Day Off
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="daily-hour-row">
+                                <div class="day-name">Wednesday</div>
+                                <div class="day-times">
+                                    <input type="time" id="wednesday-start" class="setting-input" value="09:00">
+                                    <span class="time-separator">to</span>
+                                    <input type="time" id="wednesday-end" class="setting-input" value="17:00">
+                                    <label class="day-off">
+                                        <input type="checkbox" id="wednesday-off" class="day-off-checkbox">
+                                        Day Off
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="daily-hour-row">
+                                <div class="day-name">Thursday</div>
+                                <div class="day-times">
+                                    <input type="time" id="thursday-start" class="setting-input" value="09:00">
+                                    <span class="time-separator">to</span>
+                                    <input type="time" id="thursday-end" class="setting-input" value="17:00">
+                                    <label class="day-off">
+                                        <input type="checkbox" id="thursday-off" class="day-off-checkbox">
+                                        Day Off
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="daily-hour-row">
+                                <div class="day-name">Friday</div>
+                                <div class="day-times">
+                                    <input type="time" id="friday-start" class="setting-input" value="09:00">
+                                    <span class="time-separator">to</span>
+                                    <input type="time" id="friday-end" class="setting-input" value="17:00">
+                                    <label class="day-off">
+                                        <input type="checkbox" id="friday-off" class="day-off-checkbox">
+                                        Day Off
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="daily-hour-row">
+                                <div class="day-name">Saturday</div>
+                                <div class="day-times">
+                                    <input type="time" id="saturday-start" class="setting-input" value="09:00">
+                                    <span class="time-separator">to</span>
+                                    <input type="time" id="saturday-end" class="setting-input" value="17:00">
+                                    <label class="day-off">
+                                        <input type="checkbox" id="saturday-off" class="day-off-checkbox" checked>
+                                        Day Off
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="daily-hour-row">
+                                <div class="day-name">Sunday</div>
+                                <div class="day-times">
+                                    <input type="time" id="sunday-start" class="setting-input" value="09:00">
+                                    <span class="time-separator">to</span>
+                                    <input type="time" id="sunday-end" class="setting-input" value="17:00">
+                                    <label class="day-off">
+                                        <input type="checkbox" id="sunday-off" class="day-off-checkbox" checked>
+                                        Day Off
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <div class="setting-group">
                             <label for="timezone">Timezone</label>
@@ -355,42 +524,6 @@
                         </div>
                     </div>
 
-                    <div class="settings-card">
-                        <h3>Working Days</h3>
-                        <div class="setting-group">
-                            <label>Available Days</label>
-                            <div class="checkbox-group">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="day-monday" value="1" checked>
-                                    <label for="day-monday">Mon</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="day-tuesday" value="2" checked>
-                                    <label for="day-tuesday">Tue</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="day-wednesday" value="3" checked>
-                                    <label for="day-wednesday">Wed</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="day-thursday" value="4" checked>
-                                    <label for="day-thursday">Thu</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="day-friday" value="5" checked>
-                                    <label for="day-friday">Fri</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="day-saturday" value="6">
-                                    <label for="day-saturday">Sat</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="day-sunday" value="0">
-                                    <label for="day-sunday">Sun</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="settings-card">
                         <h3>Booking Rules</h3>

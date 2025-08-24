@@ -17,10 +17,16 @@ const AdminPanel = {
                 customAvatarUrl: ''
             },
             availability: {
-                workStart: '09:00',
-                workEnd: '17:00',
                 timezone: 'America/Los_Angeles',
-                workingDays: [1, 2, 3, 4, 5], // Monday-Friday
+                dailySchedule: {
+                    monday: { start: '09:00', end: '17:00', isDayOff: false },
+                    tuesday: { start: '09:00', end: '17:00', isDayOff: false },
+                    wednesday: { start: '09:00', end: '17:00', isDayOff: false },
+                    thursday: { start: '09:00', end: '17:00', isDayOff: false },
+                    friday: { start: '09:00', end: '17:00', isDayOff: false },
+                    saturday: { start: '09:00', end: '17:00', isDayOff: true },
+                    sunday: { start: '09:00', end: '17:00', isDayOff: true }
+                },
                 bufferTime: 15,
                 advanceBookingDays: 14,
                 minimumNoticeHours: 24
@@ -164,19 +170,26 @@ const AdminPanel = {
         // Show/hide custom avatar input
         this.toggleCustomAvatar();
         
-        // Availability settings
-        document.getElementById('work-start').value = settings.availability.workStart;
-        document.getElementById('work-end').value = settings.availability.workEnd;
+        // Availability settings - per-day schedule
         document.getElementById('timezone').value = settings.availability.timezone;
         document.getElementById('buffer-time').value = settings.availability.bufferTime;
         document.getElementById('advance-booking').value = settings.availability.advanceBookingDays;
         document.getElementById('minimum-notice').value = settings.availability.minimumNoticeHours;
         
-        // Working days
-        settings.availability.workingDays.forEach(day => {
-            const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-            const checkbox = document.getElementById(`day-${dayNames[day]}`);
-            if (checkbox) checkbox.checked = true;
+        // Load daily schedule
+        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        days.forEach(day => {
+            const schedule = settings.availability.dailySchedule[day];
+            const startInput = document.getElementById(`${day}-start`);
+            const endInput = document.getElementById(`${day}-end`);
+            const dayOffCheckbox = document.getElementById(`${day}-off`);
+            
+            if (startInput && schedule) startInput.value = schedule.start;
+            if (endInput && schedule) endInput.value = schedule.end;
+            if (dayOffCheckbox && schedule) {
+                dayOffCheckbox.checked = schedule.isDayOff;
+                this.toggleDayOff(day, schedule.isDayOff);
+            }
         });
         
         // Calendar settings
@@ -216,9 +229,27 @@ const AdminPanel = {
             this.updateBookingUrl();
         });
         
-        // Working days checkboxes
-        document.querySelectorAll('input[type="checkbox"][id^="day-"]').forEach(checkbox => {
-            checkbox.addEventListener('change', () => this.markUnsavedChanges());
+        // Day-off checkboxes and time inputs
+        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        days.forEach(day => {
+            const dayOffCheckbox = document.getElementById(`${day}-off`);
+            const startInput = document.getElementById(`${day}-start`);
+            const endInput = document.getElementById(`${day}-end`);
+            
+            if (dayOffCheckbox) {
+                dayOffCheckbox.addEventListener('change', () => {
+                    this.toggleDayOff(day, dayOffCheckbox.checked);
+                    this.markUnsavedChanges();
+                });
+            }
+            
+            if (startInput) {
+                startInput.addEventListener('change', () => this.markUnsavedChanges());
+            }
+            
+            if (endInput) {
+                endInput.addEventListener('change', () => this.markUnsavedChanges());
+            }
         });
         
         // Calendar actions
@@ -275,6 +306,18 @@ const AdminPanel = {
             customGroup.style.display = 'block';
         } else {
             customGroup.style.display = 'none';
+        }
+    },
+
+    /**
+     * Toggle day off functionality
+     */
+    toggleDayOff: function(day, isDayOff) {
+        const dayRow = document.querySelector(`#${day}-start`).closest('.daily-hour-row');
+        if (isDayOff) {
+            dayRow.classList.add('day-off-enabled');
+        } else {
+            dayRow.classList.remove('day-off-enabled');
         }
     },
 
@@ -591,21 +634,27 @@ const AdminPanel = {
         settings.profile.avatarSource = document.querySelector('input[name="avatar-source"]:checked').value;
         settings.profile.customAvatarUrl = document.getElementById('avatar-url').value;
         
-        // Availability settings
-        settings.availability.workStart = document.getElementById('work-start').value;
-        settings.availability.workEnd = document.getElementById('work-end').value;
+        // Availability settings - per-day schedule
         settings.availability.timezone = document.getElementById('timezone').value;
         settings.availability.bufferTime = parseInt(document.getElementById('buffer-time').value);
         settings.availability.advanceBookingDays = parseInt(document.getElementById('advance-booking').value);
         settings.availability.minimumNoticeHours = parseInt(document.getElementById('minimum-notice').value);
         
-        // Working days
-        const workingDays = [];
-        const dayCheckboxes = document.querySelectorAll('input[type="checkbox"][id^="day-"]:checked');
-        dayCheckboxes.forEach(checkbox => {
-            workingDays.push(parseInt(checkbox.value));
+        // Collect daily schedule
+        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        days.forEach(day => {
+            const startInput = document.getElementById(`${day}-start`);
+            const endInput = document.getElementById(`${day}-end`);
+            const dayOffCheckbox = document.getElementById(`${day}-off`);
+            
+            if (!settings.availability.dailySchedule[day]) {
+                settings.availability.dailySchedule[day] = {};
+            }
+            
+            if (startInput) settings.availability.dailySchedule[day].start = startInput.value;
+            if (endInput) settings.availability.dailySchedule[day].end = endInput.value;
+            if (dayOffCheckbox) settings.availability.dailySchedule[day].isDayOff = dayOffCheckbox.checked;
         });
-        settings.availability.workingDays = workingDays;
         
         // Calendar settings
         settings.calendar.inviteCode = document.getElementById('invite-code').value;

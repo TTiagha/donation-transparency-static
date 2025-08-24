@@ -422,6 +422,24 @@ body {
     color: var(--text-color);
 }
 
+/* Day off styling */
+.calendar-day.day-off {
+    color: #ccc;
+    cursor: not-allowed;
+    background: #f5f5f5;
+    text-decoration: line-through;
+}
+.day-off-message {
+    grid-column: span 2;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--subtle-text-color);
+    font-style: italic;
+    background: var(--background-color);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
 /* Active/Selected States */
 .meeting-type-btn.active, .time-slot.selected {
     background: var(--primary-color);

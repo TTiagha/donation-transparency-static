@@ -33,9 +33,20 @@ async function initializeAWS() {
 // Rate limiting storage (in-memory, resets on cold starts)
 const rateLimitStorage = new Map();
 
-// Configuration - deployed at 2025-08-22T23:32:30
+// Configuration - updated for per-day scheduling
 const CONFIG = {
     timezone: 'America/Los_Angeles',
+    // Per-day schedule (new format)
+    dailySchedule: {
+        monday: { start: 9, end: 17, isDayOff: false },
+        tuesday: { start: 9, end: 17, isDayOff: false },
+        wednesday: { start: 9, end: 17, isDayOff: false },
+        thursday: { start: 9, end: 17, isDayOff: false },
+        friday: { start: 9, end: 17, isDayOff: false },
+        saturday: { start: 9, end: 17, isDayOff: true },
+        sunday: { start: 9, end: 17, isDayOff: true }
+    },
+    // Legacy format for backward compatibility
     workingHours: { start: 9, end: 17 },
     workingDays: [1, 2, 3, 4, 5], // Monday-Friday
     bufferMinutes: 15,
@@ -46,6 +57,40 @@ const CONFIG = {
     profileEmail: 'support@donationtransparency.org',
     adminEmail: process.env.ADMIN_EMAIL || 'support@donationtransparency.org'
 };
+
+/**
+ * Get schedule for a specific day
+ * @param {number} dayOfWeek - 0=Sunday, 1=Monday, etc.
+ * @param {object} settings - Optional saved settings object
+ * @returns {object} { start, end, isDayOff }
+ */
+function getDaySchedule(dayOfWeek, settings = null) {
+    const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const dayName = dayNames[dayOfWeek];
+    
+    // Use saved settings if available
+    if (settings && settings.availability && settings.availability.dailySchedule && settings.availability.dailySchedule[dayName]) {
+        const daySchedule = settings.availability.dailySchedule[dayName];
+        return {
+            start: typeof daySchedule.start === 'string' ? parseInt(daySchedule.start.split(':')[0]) : daySchedule.start,
+            end: typeof daySchedule.end === 'string' ? parseInt(daySchedule.end.split(':')[0]) : daySchedule.end,
+            isDayOff: daySchedule.isDayOff
+        };
+    }
+    
+    // Fallback to CONFIG
+    if (CONFIG.dailySchedule && CONFIG.dailySchedule[dayName]) {
+        return CONFIG.dailySchedule[dayName];
+    }
+    
+    // Legacy fallback
+    const isWorkingDay = CONFIG.workingDays.includes(dayOfWeek);
+    return {
+        start: CONFIG.workingHours.start,
+        end: CONFIG.workingHours.end,
+        isDayOff: !isWorkingDay
+    };
+}
 
 /**
  * Rate limiting check
@@ -131,7 +176,7 @@ async function getCalendarClient() {
 /**
  * Get available time slots for a date range
  */
-async function getAvailability(startDate, endDate) {
+async function getAvailability(startDate, endDate, settings = null) {
     try {
         const calendar = await getCalendarClient();
         
@@ -152,9 +197,11 @@ async function getAvailability(startDate, endDate) {
         const currentDate = new Date(startDate);
         
         while (currentDate < endDate) {
-            // Check if it's a working day
-            if (CONFIG.workingDays.includes(currentDate.getDay())) {
-                const daySlots = generateDaySlots(currentDate, busyTimes);
+            const daySchedule = getDaySchedule(currentDate.getDay(), settings);
+            
+            // Check if it's not a day off
+            if (!daySchedule.isDayOff) {
+                const daySlots = generateDaySlots(currentDate, busyTimes, settings);
                 availableSlots.push(...daySlots);
             }
             currentDate.setDate(currentDate.getDate() + 1);
@@ -170,13 +217,15 @@ async function getAvailability(startDate, endDate) {
 /**
  * Generate available slots for a specific day
  */
-function generateDaySlots(date, busyTimes) {
+function generateDaySlots(date, busyTimes, settings = null) {
     const slots = [];
+    const daySchedule = getDaySchedule(date.getDay(), settings);
+    
     const dayStart = new Date(date);
-    dayStart.setHours(CONFIG.workingHours.start, 0, 0, 0);
+    dayStart.setHours(daySchedule.start, 0, 0, 0);
     
     const dayEnd = new Date(date);
-    dayEnd.setHours(CONFIG.workingHours.end, 0, 0, 0);
+    dayEnd.setHours(daySchedule.end, 0, 0, 0);
     
     // Generate 30-minute slots
     const current = new Date(dayStart);
@@ -683,10 +732,15 @@ export const handler = async (event, context) => {
         switch (action) {
             case 'getAvailability': {
                 const { startDate, endDate } = body;
-                const start = startDate ? new Date(startDate) : new Date();
-                const end = endDate ? new Date(endDate) : new Date(Date.now() + (CONFIG.advanceBookingDays * 24 * 60 * 60 * 1000));
                 
-                const availability = await getAvailability(start, end);
+                // Load saved settings to use per-day schedules
+                const settings = await getAdminSettings().catch(() => null);
+                
+                const start = startDate ? new Date(startDate) : new Date();
+                const advanceBookingDays = (settings?.availability?.advanceBookingDays) || CONFIG.advanceBookingDays;
+                const end = endDate ? new Date(endDate) : new Date(Date.now() + (advanceBookingDays * 24 * 60 * 60 * 1000));
+                
+                const availability = await getAvailability(start, end, settings);
                 
                 return {
                     statusCode: 200,
@@ -694,7 +748,7 @@ export const handler = async (event, context) => {
                     body: JSON.stringify({
                         success: true,
                         availability,
-                        timezone: CONFIG.timezone
+                        timezone: settings?.availability?.timezone || CONFIG.timezone
                     })
                 };
             }
