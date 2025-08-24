@@ -660,6 +660,12 @@ const AdminPanel = {
         
         // Collect daily schedule
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        
+        // Ensure dailySchedule exists
+        if (!settings.availability.dailySchedule) {
+            settings.availability.dailySchedule = {};
+        }
+        
         days.forEach(day => {
             const startInput = document.getElementById(`${day}-start`);
             const endInput = document.getElementById(`${day}-end`);
