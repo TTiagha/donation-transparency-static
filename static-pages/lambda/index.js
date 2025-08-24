@@ -693,9 +693,10 @@ export const handler = async (event, context) => {
     // Initialize AWS services
     await initializeAWS();
     const headers = {
-        'Access-Control-Allow-Origin': 'https://donationtransparency.org',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+        'Access-Control-Max-Age': '86400',
         'Content-Type': 'application/json'
     };
     
