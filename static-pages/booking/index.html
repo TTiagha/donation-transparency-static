@@ -131,7 +131,7 @@
                             <span class="location-text">Phone Call</span>
                         </label>
                         <div class="phone-input" id="phone-input" style="display: none;">
-                            <input type="tel" id="phone-number" placeholder="Your phone number" class="form-input">
+                            <input type="tel" id="phone-number" placeholder="+1 (555) 123-4567" class="form-input" autocomplete="tel">
                         </div>
                     </div>
                 </div>
@@ -142,15 +142,18 @@
                     <form id="booking-form" class="booking-form">
                         <div class="form-group">
                             <label for="guest-name">Name *</label>
-                            <input type="text" id="guest-name" name="name" required class="form-input">
+                            <input type="text" id="guest-name" name="name" required class="form-input" 
+                                   placeholder="Your full name" autocomplete="name">
                         </div>
                         <div class="form-group">
                             <label for="guest-email">Email *</label>
-                            <input type="email" id="guest-email" name="email" required class="form-input">
+                            <input type="email" id="guest-email" name="email" required class="form-input" 
+                                   placeholder="your@email.com" autocomplete="email">
                         </div>
                         <div class="form-group">
                             <label for="meeting-notes">Meeting Notes (Optional)</label>
-                            <textarea id="meeting-notes" name="notes" rows="3" class="form-input" placeholder="What would you like to discuss?"></textarea>
+                            <textarea id="meeting-notes" name="notes" rows="3" class="form-input" 
+                                      placeholder="What would you like to discuss? (optional)" maxlength="500"></textarea>
                         </div>
                         
                         <!-- Anti-spam fields -->

@@ -169,13 +169,33 @@ body {
 /* Forms & Inputs */
 .form-input, .setting-input {
     width: 100%;
-    padding: 12px 16px;
-    font-size: 1rem;
-    min-height: 44px; /* Touch target */
-    transition: all var(--transition-speed) ease;
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    padding: 14px 16px;
+    font-size: 16px; /* Prevents zoom on mobile */
+    min-height: 48px; /* Better touch target */
+    transition: all 0.2s ease;
+    background-color: white;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+/* Focus styles for better UX */
+.form-input:focus, .setting-input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(110, 193, 228, 0.1);
+    outline: none;
+    background-color: white;
+}
+
+/* Placeholder styling */
+.form-input::placeholder, .setting-input::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Hover state for inputs */
+.form-input:hover:not(:focus), .setting-input:hover:not(:focus) {
+    border-color: #cbd5e0;
 }
 .form-group, .setting-group {
     margin-bottom: 20px;
@@ -217,16 +237,32 @@ body {
 }
 
 
-/* Buttons */
+/* Buttons - Enhanced UX */
 .btn-primary, .btn-secondary {
-    padding: 14px 20px;
-    font-size: 1rem;
+    padding: 16px 32px;
+    font-size: 16px;
     font-weight: 600;
     width: 100%;
-    min-height: 44px; /* Touch target */
-    transition: all var(--transition-speed) ease;
+    min-height: 52px; /* Better touch target */
+    transition: all 0.2s ease;
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Enhanced primary button */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
 }
 
 /* Modals (Success/Error/Loading) */
@@ -441,7 +477,8 @@ body {
 }
 .btn-primary:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
+    background: linear-gradient(135deg, #3a7bc8, #5fb1d3);
 }
 .meeting-type-btn:hover:not(.active) {
     transform: translateY(-2px);
@@ -530,11 +567,50 @@ body {
     cursor: not-allowed;
     border-color: #f0f0f0;
 }
+/* Improved disabled state */
 .btn-primary:disabled {
-    background: #bdc3c7;
+    background: #94a3b8;
     cursor: not-allowed;
     transform: none;
-    box-shadow: none;
+    box-shadow: 0 2px 4px rgba(148, 163, 184, 0.2);
+}
+
+/* Button with loader spacing */
+.btn-primary .loader {
+    margin-left: 8px;
+}
+
+/* Form improvements */
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+/* Character counter for textarea */
+.form-group {
+    position: relative;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Better form spacing */
+.booking-form {
+    margin-top: 8px;
+}
+
+/* Improve phone input styling */
+.phone-input {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(110, 193, 228, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(110, 193, 228, 0.2);
 }
 
 /* Print styles */
