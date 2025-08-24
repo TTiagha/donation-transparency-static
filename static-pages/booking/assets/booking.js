@@ -477,9 +477,9 @@ const BookingApp = {
     /**
      * Generate time slots for a date (placeholder)
      */
-    generateTimeSlots: function(date) {
+    generateTimeSlots: async function(date) {
         const timeSlotsGrid = document.getElementById('time-slots-grid');
-        timeSlotsGrid.innerHTML = '';
+        timeSlotsGrid.innerHTML = '<div class="loading-slots">Loading available times...</div>';
 
         // Get schedule for this specific day
         const daySchedule = this.getDaySchedule(date.getDay());
@@ -490,16 +490,81 @@ const BookingApp = {
             return;
         }
 
+        try {
+            // Format date for API call
+            const dateStr = date.toISOString().split('T')[0];
+            
+            // Call Lambda to get actual availability with Google Calendar conflicts
+            const response = await fetch(this.config.lambdaEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'getAvailability',
+                    startDate: dateStr,
+                    endDate: dateStr,
+                    timezone: this.state.userTimezone
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.success && result.availability) {
+                timeSlotsGrid.innerHTML = '';
+                
+                if (result.availability.length === 0) {
+                    timeSlotsGrid.innerHTML = '<div class="day-off-message">No available time slots on this day</div>';
+                    return;
+                }
+                
+                // Display the available slots from Lambda (which already excludes Google Calendar conflicts)
+                result.availability.forEach(slot => {
+                    const slotTime = new Date(slot.start);
+                    
+                    // Convert to user timezone for display
+                    const displayTime = slotTime.toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        timeZone: this.state.userTimezone,
+                        hour12: true
+                    });
+
+                    // Create time slot button
+                    const slotButton = document.createElement('button');
+                    slotButton.className = 'time-slot available';
+                    slotButton.textContent = displayTime;
+                    slotButton.dataset.time = slot.start;
+                    slotButton.addEventListener('click', (e) => this.selectTimeSlot(e));
+
+                    timeSlotsGrid.appendChild(slotButton);
+                });
+            } else {
+                // Fall back to local generation if API fails
+                console.warn('Failed to get availability from server, using local generation');
+                this.generateTimeSlotsLocal(date);
+            }
+        } catch (error) {
+            console.error('Error fetching availability:', error);
+            // Fall back to local generation
+            this.generateTimeSlotsLocal(date);
+        }
+    },
+
+    // Keep the old local generation as a fallback
+    generateTimeSlotsLocal: function(date) {
+        const timeSlotsGrid = document.getElementById('time-slots-grid');
+        timeSlotsGrid.innerHTML = '';
+
+        const daySchedule = this.getDaySchedule(date.getDay());
         const startHour = daySchedule.start;
         const endHour = daySchedule.end;
 
         for (let hour = startHour; hour < endHour; hour++) {
-            // Generate slots every 30 minutes
             for (let minute = 0; minute < 60; minute += 30) {
                 const slotTime = new Date(date);
                 slotTime.setHours(hour, minute, 0, 0);
 
-                // Convert to user timezone for display
                 const displayTime = slotTime.toLocaleTimeString('en-US', {
                     hour: 'numeric',
                     minute: '2-digit',
@@ -507,7 +572,6 @@ const BookingApp = {
                     hour12: true
                 });
 
-                // Create time slot button
                 const slotButton = document.createElement('button');
                 slotButton.className = 'time-slot available';
                 slotButton.textContent = displayTime;
