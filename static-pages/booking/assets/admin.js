@@ -176,21 +176,39 @@ const AdminPanel = {
         document.getElementById('advance-booking').value = settings.availability.advanceBookingDays;
         document.getElementById('minimum-notice').value = settings.availability.minimumNoticeHours;
         
-        // Load daily schedule
+        // Load daily schedule (if available)
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-        days.forEach(day => {
-            const schedule = settings.availability.dailySchedule[day];
-            const startInput = document.getElementById(`${day}-start`);
-            const endInput = document.getElementById(`${day}-end`);
-            const dayOffCheckbox = document.getElementById(`${day}-off`);
-            
-            if (startInput && schedule) startInput.value = schedule.start;
-            if (endInput && schedule) endInput.value = schedule.end;
-            if (dayOffCheckbox && schedule) {
-                dayOffCheckbox.checked = schedule.isDayOff;
-                this.toggleDayOff(day, schedule.isDayOff);
-            }
-        });
+        if (settings.availability.dailySchedule) {
+            days.forEach(day => {
+                const schedule = settings.availability.dailySchedule[day];
+                const startInput = document.getElementById(`${day}-start`);
+                const endInput = document.getElementById(`${day}-end`);
+                const dayOffCheckbox = document.getElementById(`${day}-off`);
+                
+                if (startInput && schedule) startInput.value = schedule.start;
+                if (endInput && schedule) endInput.value = schedule.end;
+                if (dayOffCheckbox && schedule) {
+                    dayOffCheckbox.checked = schedule.isDayOff;
+                    this.toggleDayOff(day, schedule.isDayOff);
+                }
+            });
+        } else {
+            // Fallback for legacy settings without dailySchedule
+            days.forEach(day => {
+                const startInput = document.getElementById(`${day}-start`);
+                const endInput = document.getElementById(`${day}-end`);
+                const dayOffCheckbox = document.getElementById(`${day}-off`);
+                
+                if (startInput) startInput.value = settings.availability.workStart || '09:00';
+                if (endInput) endInput.value = settings.availability.workEnd || '17:00';
+                if (dayOffCheckbox) {
+                    // Set weekends as days off by default
+                    const isWeekend = day === 'saturday' || day === 'sunday';
+                    dayOffCheckbox.checked = isWeekend;
+                    this.toggleDayOff(day, isWeekend);
+                }
+            });
+        }
         
         // Calendar settings
         document.getElementById('invite-code').value = settings.calendar.inviteCode;
