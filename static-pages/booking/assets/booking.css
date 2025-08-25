@@ -172,17 +172,17 @@ body {
     padding: 18px 20px;
     font-size: 18px; /* Larger, more readable text */
     min-height: 56px; /* Taller touch target */
-    transition: all 0.2s ease;
-    background-color: white;
-    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-family: inherit;
 }
 
 /* Focus styles for better UX */
 .form-input:focus, .setting-input:focus {
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 0 3px rgba(110, 193, 228, 0.1);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
     outline: none;
     background-color: white;
 }
@@ -195,10 +195,10 @@ body {
 
 /* Hover state for inputs */
 .form-input:hover:not(:focus), .setting-input:hover:not(:focus) {
-    border-color: #cbd5e0;
+    border-color: #a0aec0;
 }
 .form-group, .setting-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 /* Custom Select Wrapper */
@@ -244,7 +244,7 @@ body {
     font-weight: 600;
     width: 100%;
     min-height: 56px; /* Match input height */
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -257,7 +257,12 @@ body {
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(74, 144, 226, 0.35);
 }
 
 .btn-primary:active {
