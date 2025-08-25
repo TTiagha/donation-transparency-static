@@ -218,7 +218,16 @@ const BookingApp = {
                         
                         // Load per-day schedule if available
                         if (data.settings.availability.dailySchedule) {
-                            this.config.dailySchedule = { ...this.config.dailySchedule, ...data.settings.availability.dailySchedule };
+                            // Convert string times (like "09:00") to numeric hours (like 9)
+                            const convertedSchedule = {};
+                            for (const [day, schedule] of Object.entries(data.settings.availability.dailySchedule)) {
+                                convertedSchedule[day] = {
+                                    start: typeof schedule.start === 'string' ? parseInt(schedule.start.split(':')[0]) : schedule.start,
+                                    end: typeof schedule.end === 'string' ? parseInt(schedule.end.split(':')[0]) : schedule.end,
+                                    isDayOff: schedule.isDayOff
+                                };
+                            }
+                            this.config.dailySchedule = { ...this.config.dailySchedule, ...convertedSchedule };
                             console.log('Loaded per-day schedule:', this.config.dailySchedule);
                         }
                         
@@ -231,6 +240,7 @@ const BookingApp = {
                     
                     if (data.settings.profile) {
                         this.config.profileName = data.settings.profile.name || 'Tem Tiagha';
+                        this.config.profileBio = data.settings.profile.bio || "Founder of Donation Transparency. Let's discuss how radical transparency can transform your fundraising and build unprecedented donor trust.";
                     }
                 } else {
                     console.log('Using default settings (server settings not available)');
@@ -311,6 +321,14 @@ const BookingApp = {
         }
         
         avatarImg.alt = this.config.profileName;
+        
+        // Update bio text if available
+        if (this.config.profileBio) {
+            const bioElement = document.getElementById('profile-bio');
+            if (bioElement) {
+                bioElement.textContent = this.config.profileBio;
+            }
+        }
 
         // Load Google profile picture via API (placeholder for now)
         this.loadGoogleProfile();
