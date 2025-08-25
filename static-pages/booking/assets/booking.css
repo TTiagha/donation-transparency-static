@@ -159,13 +159,6 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(110, 193, 228, 0.15);
 }
-    font-size: 1rem;
-    min-height: 44px; /* Touch target */
-    border-radius: var(--border-radius);
-    text-align: center;
-    cursor: pointer;
-    font-family: inherit;
-}
 
 /* Forms & Inputs */
 .form-input, .setting-input {
