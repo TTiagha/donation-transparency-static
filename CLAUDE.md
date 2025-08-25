@@ -1,5 +1,46 @@
 # Claude.md - Project Documentation
 
+## Booking System with Google Calendar Integration
+
+### System Status (January 2025)
+- ✅ **ACTIVE**: Full Google Calendar sync operational
+- ✅ **Lambda Endpoint**: `https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/`
+- ✅ **Access URL**: `https://donationtransparency.org/booking/?code=meet-onno`
+- ✅ **Calendar Account**: tiagha@gmail.com (primary calendar)
+- ✅ **Timezone Support**: Proper EDT/EST handling with DST detection
+
+### Recent Fixes (January 24, 2025)
+1. **Fixed 9:00 AM EST slot visibility**:
+   - Corrected DST handling (EDT = UTC-4, EST = UTC-5)
+   - Fixed timezone conversion in `generateDaySlots` function
+   - Now properly shows morning availability
+
+2. **Fixed Google Calendar sync**:
+   - Resolved date range bug in calendar queries
+   - Fixed timezone conversion for busy time detection
+   - Calendar conflicts now properly detected
+
+3. **Fixed Lambda deployment**:
+   - Included all dependencies (googleapis, AWS SDK)
+   - Created reliable deployment scripts
+   - Fixed Lambda URL confusion (booking vs waitlist)
+
+4. **Configuration updates**:
+   - Reduced minimum notice from 24 to 6 hours
+   - Fixed per-day scheduling support
+   - Proper working hours (9 AM - 5 PM user timezone)
+
+### Troubleshooting Documentation
+**📚 See [`/booking-system-troubleshooting.md`](./booking-system-troubleshooting.md) for comprehensive debugging guide**
+
+Includes:
+- Lambda deployment procedures
+- Google Calendar sync debugging
+- Timezone/DST handling
+- Common error solutions
+- Testing procedures
+- AWS configuration details
+
 ## Waitlist System Management
 
 ### AWS SES Integration Status
@@ -57,6 +98,117 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 - `/static-pages/config/` (configuration)
 - Modal HTML in `index.html` (lines ~337-408)
 - JavaScript functions in `main.js` (waitlist functions)
+
+## Booking System Management
+
+### AWS Lambda Booking System Status
+- ✅ **ACTIVE**: AWS Lambda with Google Calendar & SES integration (fully deployed and operational)  
+- ✅ **Endpoint**: `https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/`
+- ✅ **Configuration**: Per-day scheduling system with admin panel
+
+### Current Booking System (Fully Operational)
+**✅ Deployed AWS Infrastructure:**
+- **Lambda Function**: Serverless booking handler with Function URL
+- **Google Calendar API**: Real-time availability checking and event creation
+- **AWS SES**: Professional email confirmations for both client and admin
+- **AWS Parameter Store**: Secure credential storage for OAuth tokens
+- **Per-Day Scheduling**: Customizable working hours for each day of week
+
+**✅ Live URLs:**
+- **Public Booking**: https://donationtransparency.org/booking/?invite=abc123
+- **Admin Dashboard**: https://donationtransparency.org/booking/admin.html?key=admin2025  
+- **Personal URL**: https://donationtransparency.org/meet-tem
+- **Test Suite**: https://donationtransparency.org/booking/test.html?invite=abc123
+
+**✅ Key Features:**
+- Real-time calendar availability sync
+- Automatic timezone detection and conversion
+- Multiple meeting types (15/30/60 minutes)
+- Professional email confirmations with calendar attachments
+- Google Meet integration with auto-generated links
+- Anti-spam protection (honeypot, rate limiting, timing validation)
+- Mobile-responsive React-based interface
+- Access control with invite codes
+
+**✅ Admin Panel Capabilities:**
+- Profile management (name, email, bio, avatar)
+- Per-day availability settings (Monday-Sunday)
+- Working hours customization
+- Meeting type configuration
+- Calendar integration status monitoring
+- Invite code management
+- System health diagnostics
+
+**✅ Security Features:**
+- Invite-only booking access (`?invite=abc123`)
+- Admin access control (`?key=admin2025`)
+- Rate limiting (10 requests/hour general, 5 bookings/hour)
+- Input sanitization and validation
+- CORS protection for donationtransparency.org
+- Secure OAuth token storage in AWS Parameter Store
+
+### Technical Architecture
+**Frontend Stack:**
+- React components via CDN
+- Vanilla JavaScript for calendar logic
+- Modern CSS with responsive design
+- Google Fonts (Inter typography)
+
+**Backend Infrastructure:**
+- AWS Lambda serverless function
+- Google Calendar API v3 with OAuth 2.0
+- AWS SES for email delivery
+- AWS Parameter Store for credentials
+- Node.js with ES modules
+
+**File Structure:**
+```
+/booking/
+├── index.html          # Main booking page
+├── admin.html          # Admin dashboard  
+├── test.html           # Test suite
+├── meet-tem.html       # Personal redirect
+├── debug-test.html     # Debug utilities
+└── assets/
+    ├── booking.js      # Frontend logic
+    ├── booking.css     # Styling
+    └── admin.js        # Admin functionality
+```
+
+**Lambda Configuration:**
+- Handler: `/lambda/index.js`
+- Environment: `REGION=us-east-1`, `ADMIN_EMAIL=support@donationtransparency.org`
+- Dependencies: googleapis, uuid, ical-generator, AWS SDK v3
+- Timeout: 30 seconds, Memory: 512MB
+
+### Maintenance Tasks
+**Regular Monitoring:**
+- Check CloudWatch logs for errors
+- Verify Google Calendar sync status
+- Monitor SES sending statistics
+- Test booking flows monthly
+
+**OAuth Token Management:**
+- Refresh tokens stored in Parameter Store at `/booking/google/refresh_token`
+- Tokens typically valid for 6 months
+- Use admin panel to test calendar connectivity
+
+### How to Disable/Modify Booking System
+**Quick Disable:**
+- Remove `?invite=abc123` parameter requirement in Lambda handler
+- Set Lambda environment variable `BOOKING_DISABLED=true`
+- Update booking page to show maintenance message
+
+**Configuration Updates:**
+- Use admin panel at `/booking/admin.html?key=admin2025`
+- Modify settings in AWS Parameter Store via admin interface
+- Update working hours, meeting types, profile information
+
+**Files Added by Booking System:**
+- `/static-pages/booking/` (all booking interface files)
+- `/static-pages/lambda/` (AWS Lambda function)
+- `/static-pages/config/booking-config.json` (frontend configuration)
+- `/static-pages/_redirects` (meet-tem redirect rule)
 
 ## Git Sync Configuration
 

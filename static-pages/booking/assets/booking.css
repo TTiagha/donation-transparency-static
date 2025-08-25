@@ -169,9 +169,9 @@ body {
 /* Forms & Inputs */
 .form-input, .setting-input {
     width: 100%;
-    padding: 14px 16px;
-    font-size: 16px; /* Prevents zoom on mobile */
-    min-height: 48px; /* Better touch target */
+    padding: 18px 20px;
+    font-size: 18px; /* Larger, more readable text */
+    min-height: 56px; /* Taller touch target */
     transition: all 0.2s ease;
     background-color: white;
     border: 2px solid var(--border-color);
@@ -239,11 +239,11 @@ body {
 
 /* Buttons - Enhanced UX */
 .btn-primary, .btn-secondary {
-    padding: 16px 32px;
-    font-size: 16px;
+    padding: 18px 32px;
+    font-size: 17px;
     font-weight: 600;
     width: 100%;
-    min-height: 52px; /* Better touch target */
+    min-height: 56px; /* Match input height */
     transition: all 0.2s ease;
     border: none;
     border-radius: 8px;
@@ -583,10 +583,10 @@ body {
 /* Form improvements */
 .form-group label {
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     display: block;
     color: var(--text-color);
-    font-size: 14px;
+    font-size: 15px;
 }
 
 /* Character counter for textarea */
@@ -596,7 +596,7 @@ body {
 
 .form-group textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 100px;
 }
 
 /* Better form spacing */

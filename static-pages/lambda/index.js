@@ -51,7 +51,7 @@ const CONFIG = {
     workingDays: [1, 2, 3, 4, 5], // Monday-Friday
     bufferMinutes: 15,
     advanceBookingDays: 14,
-    minimumNoticeHours: 24,
+    minimumNoticeHours: 6,  // Reduced from 24 for testing
     maxBookingsPerDay: 8,
     profileName: 'Tem Tiagha',
     profileEmail: 'support@donationtransparency.org',
@@ -221,11 +221,52 @@ function generateDaySlots(date, busyTimes, settings = null) {
     const slots = [];
     const daySchedule = getDaySchedule(date.getDay(), settings);
     
-    const dayStart = new Date(date);
-    dayStart.setHours(daySchedule.start, 0, 0, 0);
+    // Get user timezone from settings, fallback to CONFIG
+    const userTimezone = settings?.availability?.timezone || CONFIG.timezone;
     
-    const dayEnd = new Date(date);
-    dayEnd.setHours(daySchedule.end, 0, 0, 0);
+    // Create UTC times for the working day in the user's timezone
+    // We need to create the date in UTC directly
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth();
+    const day = date.getUTCDate();
+    
+    // Create start and end times in UTC
+    // For EST (UTC-5), 9 AM EST = 14:00 UTC
+    // For PST (UTC-8), 9 AM PST = 17:00 UTC
+    let utcStartHour = daySchedule.start;
+    let utcEndHour = daySchedule.end;
+    
+    if (userTimezone === 'America/New_York') {
+        // For August, it's EDT (UTC-4), not EST (UTC-5)
+        // TODO: Properly handle DST transitions
+        // For now, assume EDT in summer months (March-November)
+        const monthNum = date.getUTCMonth(); // 0-11
+        const isDST = monthNum >= 2 && monthNum <= 10; // March-November
+        const offset = isDST ? 4 : 5;
+        utcStartHour = daySchedule.start + offset;
+        utcEndHour = daySchedule.end + offset;
+    } else if (userTimezone === 'America/Los_Angeles') {
+        // For August, it's PDT (UTC-7), not PST (UTC-8)
+        const monthNum = date.getUTCMonth();
+        const isDST = monthNum >= 2 && monthNum <= 10;
+        const offset = isDST ? 7 : 8;
+        utcStartHour = daySchedule.start + offset;
+        utcEndHour = daySchedule.end + offset;
+    }
+    
+    // Create proper UTC dates
+    const dayStart = new Date(Date.UTC(year, month, day, utcStartHour, 0, 0));
+    const dayEnd = new Date(Date.UTC(year, month, day, utcEndHour, 0, 0));
+    
+    console.log('Generating slots for day:', {
+        date: date.toISOString().split('T')[0],
+        userTimezone,
+        workingHours: `${daySchedule.start}:00 - ${daySchedule.end}:00`,
+        utcHours: `${utcStartHour}:00 - ${utcEndHour}:00 UTC`,
+        dayStart: dayStart.toISOString(),
+        dayEnd: dayEnd.toISOString(),
+        busyTimes: busyTimes.length
+    });
     
     // Generate 30-minute slots
     const current = new Date(dayStart);
@@ -732,16 +773,43 @@ export const handler = async (event, context) => {
         
         switch (action) {
             case 'getAvailability': {
-                const { startDate, endDate } = body;
+                const { startDate, endDate, timezone } = body;
                 
                 // Load saved settings to use per-day schedules
-                const settings = await getAdminSettings().catch(() => null);
+                let settings = await getAdminSettings().catch(() => null);
+                
+                // Override timezone if provided in request
+                if (timezone && (!settings || !settings.availability)) {
+                    settings = settings || {};
+                    settings.availability = settings.availability || {};
+                    settings.availability.timezone = timezone;
+                }
                 
                 const start = startDate ? new Date(startDate) : new Date();
                 const advanceBookingDays = (settings?.availability?.advanceBookingDays) || CONFIG.advanceBookingDays;
-                const end = endDate ? new Date(endDate) : new Date(Date.now() + (advanceBookingDays * 24 * 60 * 60 * 1000));
+                
+                // Fix: If endDate is provided and same as startDate, extend to end of day
+                let end;
+                if (endDate) {
+                    end = new Date(endDate);
+                    // If it's the same date as start, extend to end of that day
+                    if (startDate && endDate === startDate) {
+                        end.setHours(23, 59, 59, 999);
+                    }
+                } else {
+                    end = new Date(Date.now() + (advanceBookingDays * 24 * 60 * 60 * 1000));
+                }
+                
+                console.log('getAvailability request:', {
+                    startDate: start.toISOString(),
+                    endDate: end.toISOString(),
+                    timezone: settings?.availability?.timezone || timezone || CONFIG.timezone,
+                    settings: settings?.availability
+                });
                 
                 const availability = await getAvailability(start, end, settings);
+                
+                console.log(`Generated ${availability.length} available slots`);
                 
                 return {
                     statusCode: 200,
