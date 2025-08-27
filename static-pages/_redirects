@@ -61,6 +61,10 @@
 # Booking System - Handle meet-tem specifically
 /meet-tem  /static-pages/meet-tem.html  200!
 
+# Rejoice Africa Foundation page - prevent trailing slash redirect
+/rejoice-africa-foundation  /static-pages/rejoice-africa-foundation.html  200!
+/rejoice-africa-foundation.html  /static-pages/rejoice-africa-foundation.html  200!
+
 # Default - Serve static content  
 /*  /static-pages/:splat  200!
 
