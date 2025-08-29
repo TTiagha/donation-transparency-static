@@ -5,7 +5,7 @@
 ### System Status (January 2025)
 - ✅ **ACTIVE**: Full Google Calendar sync operational
 - ✅ **Lambda Endpoint**: `https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/`
-- ✅ **Access URL**: `https://donationtransparency.org/booking/?code=meet-onno`
+- ✅ **Access URL**: `https://donationtransparency.org/booking/?code=meet-tem`
 - ✅ **Calendar Account**: tiagha@gmail.com (primary calendar)
 - ✅ **Timezone Support**: Proper EDT/EST handling with DST detection
 
@@ -115,10 +115,10 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 - **Per-Day Scheduling**: Customizable working hours for each day of week
 
 **✅ Live URLs:**
-- **Public Booking**: https://donationtransparency.org/booking/?invite=abc123
+- **Public Booking**: https://donationtransparency.org/booking/?code=abc123
 - **Admin Dashboard**: https://donationtransparency.org/booking/admin.html?key=admin2025  
 - **Personal URL**: https://donationtransparency.org/meet-tem
-- **Test Suite**: https://donationtransparency.org/booking/test.html?invite=abc123
+- **Test Suite**: https://donationtransparency.org/booking/test.html?code=abc123
 
 **✅ Key Features:**
 - Real-time calendar availability sync
@@ -140,7 +140,7 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 - System health diagnostics
 
 **✅ Security Features:**
-- Invite-only booking access (`?invite=abc123`)
+- Invite-only booking access (`?code=abc123`)
 - Admin access control (`?key=admin2025`)
 - Rate limiting (10 requests/hour general, 5 bookings/hour)
 - Input sanitization and validation
@@ -195,7 +195,7 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 
 ### How to Disable/Modify Booking System
 **Quick Disable:**
-- Remove `?invite=abc123` parameter requirement in Lambda handler
+- Remove `?code=abc123` parameter requirement in Lambda handler
 - Set Lambda environment variable `BOOKING_DISABLED=true`
 - Update booking page to show maintenance message
 
@@ -215,8 +215,30 @@ In `/static-pages/index.html`, change all waitlist buttons back to:
 ### Repository Information
 - **Repository Name**: donation-transparency-static
 - **GitHub URL**: https://github.com/TTiagha/donation-transparency-static
+- **Working Directory**: `/mnt/c/shock/` (contains both project files and git repo)
+- **Website Files Location**: `/mnt/c/shock/static-pages/` (all website content goes here)
 - **Personal Access Token**: [STORED_SECURELY_NOT_IN_CODE]
 - **Repository URL with Token**: https://[YOUR_TOKEN]@github.com/TTiagha/donation-transparency-static.git
+
+### Directory Structure
+```
+/mnt/c/shock/                     <- Git repository root
+├── .git/                         <- Git configuration
+├── static-pages/                 <- ALL WEBSITE FILES GO HERE
+│   ├── index.html               <- Homepage
+│   ├── guides/                  <- All guide articles
+│   ├── features/                <- Feature pages
+│   ├── assets/                  <- CSS, JS, images
+│   └── ...                      <- Other website content
+├── CLAUDE.md                    <- This documentation
+└── ...                          <- Other project files
+```
+
+### IMPORTANT: File Placement Rules
+- **✅ Website content**: Always create/edit files in `/mnt/c/shock/static-pages/`
+- **✅ New articles**: Place in `/mnt/c/shock/static-pages/guides/`
+- **✅ Assets**: Place in `/mnt/c/shock/static-pages/assets/css|js|images/`
+- **❌ Never**: Create website files directly in `/mnt/c/shock/` root
 
 ### Git Sync Process
 
@@ -229,12 +251,20 @@ git remote add origin https://[YOUR_TOKEN]@github.com/TTiagha/donation-transpare
 ```
 
 #### Standard Sync Workflow
+**⚠️ ALWAYS run these commands from `/mnt/c/shock/` directory:**
+
 ```bash
-# Check status
+# Ensure you're in the correct directory
+cd /mnt/c/shock
+
+# Check status (should show static-pages/ files)
 git status
 
-# Add changes
-git add .
+# Add website changes (files in static-pages/)
+git add static-pages/
+
+# OR add specific files
+git add static-pages/guides/new-article.html static-pages/assets/
 
 # Commit with descriptive message
 git commit -m "Your commit message here
@@ -245,6 +275,20 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 # Push to GitHub
 git push origin master:main
+```
+
+#### Quick Reference Commands
+```bash
+# Check current directory
+pwd
+# Should show: /mnt/c/shock
+
+# List website files
+ls static-pages/
+
+# Add new article
+# ✅ CORRECT: static-pages/guides/article.html
+# ❌ WRONG: guides/article.html
 ```
 
 #### Handling Merge Conflicts
