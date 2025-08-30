@@ -58,17 +58,19 @@
 # Google Site Verification  
 /google6dbb6b5c8fc70224.html  /google6dbb6b5c8fc70224.html  200!
 
-# Booking System - Handle meet-tem specifically
+# Booking System - Handle meet-tem specifically (with trailing slash redirect)
+/meet-tem/  /meet-tem  301!
 /meet-tem  /static-pages/meet-tem.html  200!
-
-# Default - Serve static content  
-/*  /static-pages/:splat  200!
 
 # Booking System
 /book  /booking/  301!
 /schedule  /booking/  301!
 /meet  /booking/  301!
+/booking/admin/  /booking/admin  301!
 /booking/admin  /booking/admin.html  200!
+
+# Default - Serve static content (without force flag to allow universal redirects)  
+/*  /static-pages/:splat  200
 
 # Additional redirects
 /transparency/donor-confidence.html  /guides/building-donor-trust.html  301!
