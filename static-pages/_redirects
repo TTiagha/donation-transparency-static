@@ -65,9 +65,6 @@
 /rejoice-africa-foundation  /static-pages/rejoice-africa-foundation.html  200!
 /rejoice-africa-foundation.html  /static-pages/rejoice-africa-foundation.html  200!
 
-# Fix for fundraising platforms guide trailing slash
-/guides/best-fundraising-platforms-2025/  /static-pages/guides/best-fundraising-platforms-2025.html  200!
-
 # Default - Serve static content  
 /*  /static-pages/:splat  200!
 
