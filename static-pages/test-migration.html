@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking System Migration Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background-color: #e7f5e7; border-color: #28a745; }
+        .error { background-color: #f8d7da; border-color: #dc3545; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .results { margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Booking System Migration Test</h1>
+    <p>This page tests the migration from AWS Lambda to Vercel Functions</p>
+    
+    <div class="test-section">
+        <h3>Current Configuration</h3>
+        <div id="config-info"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>API Endpoint Tests</h3>
+        <button onclick="testGetProfile()">Test Get Profile</button>
+        <button onclick="testGetAvailability()">Test Get Availability</button>
+        <div class="results" id="api-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Environment Detection</h3>
+        <div id="env-info"></div>
+    </div>
+
+    <script>
+        // Import the booking configuration
+        // For testing, we'll replicate the endpoint logic here
+        function getApiEndpoint() {
+            if (window.location.hostname === 'localhost') {
+                return 'http://localhost:3000/api/booking';  // Local development
+            } else if (window.location.hostname.includes('vercel.app')) {
+                return '/api/booking';  // Vercel deployment
+            } else {
+                return 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/';  // Lambda fallback
+            }
+        }
+
+        // Display configuration info
+        function displayConfigInfo() {
+            const endpoint = getApiEndpoint();
+            const hostname = window.location.hostname;
+            
+            document.getElementById('config-info').innerHTML = `
+                <p><strong>Current Hostname:</strong> ${hostname}</p>
+                <p><strong>Detected API Endpoint:</strong> ${endpoint}</p>
+                <p><strong>Deployment Type:</strong> ${
+                    hostname === 'localhost' ? 'Local Development' :
+                    hostname.includes('vercel.app') ? 'Vercel Deployment' :
+                    'Lambda Fallback (Production)'
+                }</p>
+            `;
+        }
+
+        // Display environment info
+        function displayEnvInfo() {
+            document.getElementById('env-info').innerHTML = `
+                <p><strong>User Agent:</strong> ${navigator.userAgent.substring(0, 100)}...</p>
+                <p><strong>Protocol:</strong> ${window.location.protocol}</p>
+                <p><strong>Port:</strong> ${window.location.port || 'default'}</p>
+                <p><strong>Pathname:</strong> ${window.location.pathname}</p>
+            `;
+        }
+
+        // Test API calls
+        async function testApiCall(action, data = {}) {
+            const endpoint = getApiEndpoint();
+            const results = document.getElementById('api-results');
+            
+            try {
+                results.innerHTML += `<p>🔄 Testing ${action}...</p>`;
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ action, ...data })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    results.innerHTML += `<p>✅ ${action} successful:</p><pre>${JSON.stringify(result, null, 2)}</pre>`;
+                } else {
+                    results.innerHTML += `<p>❌ ${action} failed (${response.status}):</p><pre>${JSON.stringify(result, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                results.innerHTML += `<p>🚨 ${action} error: ${error.message}</p>`;
+            }
+        }
+
+        async function testGetProfile() {
+            await testApiCall('getProfile');
+        }
+
+        async function testGetAvailability() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const startDate = tomorrow.toISOString().split('T')[0] + 'T00:00:00.000Z';
+            const endDate = tomorrow.toISOString().split('T')[0] + 'T23:59:59.999Z';
+            
+            await testApiCall('getAvailability', {
+                startDate,
+                endDate,
+                timezone: 'America/Los_Angeles'
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayConfigInfo();
+            displayEnvInfo();
+        });
+    </script>
+</body>
+</html>

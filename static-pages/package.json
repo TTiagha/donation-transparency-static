@@ -1,0 +1,30 @@
+{
+  "name": "donation-transparency-booking",
+  "version": "1.0.0",
+  "description": "Donation Transparency booking system with Vercel Functions",
+  "main": "api/booking.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "googleapis": "^110.0.0",
+    "uuid": "^9.0.0",
+    "ical-generator": "^3.6.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "keywords": [
+    "booking",
+    "calendar",
+    "vercel",
+    "google-calendar",
+    "donation-transparency"
+  ]
+}

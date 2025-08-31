@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "buildCommand": "echo 'No build step required'",
+  "outputDirectory": ".",
+  "builds": [
+    {
+      "src": "static-pages/api/booking.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/booking",
+      "dest": "/static-pages/api/booking.js"
+    },
+    {
+      "src": "/static-pages/(.*)",
+      "dest": "/static-pages/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/static-pages/$1"
+    }
+  ],
+  "functions": {
+    "static-pages/api/booking.js": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

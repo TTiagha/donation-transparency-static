@@ -6,7 +6,12 @@
 const BookingApp = {
     // Configuration
     config: {
-        lambdaEndpoint: 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',
+        // API Endpoint - configurable for different deployment targets
+        apiEndpoint: window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api/booking'  // Local development
+            : window.location.hostname.includes('vercel.app')
+            ? '/api/booking'  // Vercel deployment
+            : 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',  // Lambda fallback
         requiredInviteCode: 'abc123', // Fallback for offline/error scenarios
         profileName: 'Tem Tiagha',
         defaultTimezone: 'America/Los_Angeles',
@@ -113,7 +118,7 @@ const BookingApp = {
         
         try {
             console.log('Validating invite code with server...');
-            const response = await fetch(this.config.lambdaEndpoint, {
+            const response = await fetch(this.config.apiEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -195,7 +200,7 @@ const BookingApp = {
         try {
             console.log('Loading settings from server...');
             
-            const response = await fetch(this.config.lambdaEndpoint, {
+            const response = await fetch(this.config.apiEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -513,7 +518,7 @@ const BookingApp = {
             const dateStr = date.toISOString().split('T')[0];
             
             // Call Lambda to get actual availability with Google Calendar conflicts
-            const response = await fetch(this.config.lambdaEndpoint, {
+            const response = await fetch(this.config.apiEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -811,7 +816,7 @@ const BookingApp = {
         console.log('Submitting booking:', requestBody);
 
         // Make API call (placeholder)
-        fetch(this.config.lambdaEndpoint, {
+        fetch(this.config.apiEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
