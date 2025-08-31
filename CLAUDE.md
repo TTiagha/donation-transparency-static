@@ -346,7 +346,7 @@ git push origin master:main
 
 ### Future Content Strategy
 
-See `/content-expansion-strategy.md` for detailed plan on:
+See `/temp-markdown/content-expansion-strategy.md` for detailed plan on:
 - Missing audience segments to target
 - Tactical how-to content opportunities
 - Case study and success story templates
@@ -356,9 +356,41 @@ See `/content-expansion-strategy.md` for detailed plan on:
 
 This document provides the writing team with a comprehensive roadmap for building topical authority while maintaining the optimized site structure.
 
-## Recent Major Updates (January 2025)
+## Recent Major Updates (August 2025)
 
-### Content Improvements
+### URL Redirect & SEO Optimization (August 30, 2025)
+1. **Universal Trailing Slash Redirects**
+   - ✅ Fixed critical 404 errors for trailing slash URLs (e.g., `/about/`, `/guides/best-fundraising-platforms-2025/`)
+   - ✅ Resolved conflicting rules in `_redirects` file that were overriding Amplify's universal redirect pattern
+   - ✅ All URL variations now properly redirect with 301 status codes
+   - ✅ CloudFront cache invalidation resolved legacy 404 responses
+
+2. **Canonical URL Implementation**
+   - ✅ Added canonical URL tags to all major pages (`index.html`, `about.html`, fundraising guide)
+   - ✅ Updated `sitemap.xml` to use canonical extensionless URLs (removed all `.html` extensions)
+   - ✅ Established consistent URL structure for SEO optimization
+   - ✅ Updated sitemap lastmod date for fundraising platforms guide (2025-08-30)
+
+3. **Google Search Console Integration**
+   - ✅ Created automated GSC status checking script (`check_search_console.py`)
+   - ✅ Verified sitemap submission status (24 pages submitted to Google)
+   - ✅ Monitored search performance data (homepage: 60 impressions, analytics page: 1 click)
+   - ✅ Identified indexing opportunities for new canonical URLs
+
+### Technical Fixes Implemented
+- **_redirects File Cleanup**: Removed problematic `200!` rules that conflicted with universal redirects
+- **URL Pattern Testing**: Comprehensive testing with Playwright and curl commands confirmed all redirects working
+- **SEO Structure**: Canonical URLs now match sitemap entries for consistent indexing
+- **Future-Proof Solution**: Universal redirect pattern `/<**>/` handles all URL variations automatically
+
+### Current SEO Status
+- **Redirect Infrastructure**: 100% operational with universal pattern
+- **Canonical URL Structure**: Implemented across all major pages  
+- **Google Indexing**: Awaiting 24-48 hour processing period for new canonical URLs
+- **Search Performance**: Baseline established, monitoring for improvements
+- **Technical SEO Health**: All critical redirect and canonical URL issues resolved
+
+### Content Improvements (Previous Updates)
 1. **Psychology Article Integration**
    - Replaced thin `trust-building.html` snippet with comprehensive 3,500+ word article
    - Converted from `psychology.md` with proper HTML formatting
@@ -376,30 +408,27 @@ This document provides the writing team with a comprehensive roadmap for buildin
    - Ensured all internal links use relative paths correctly
 
 ### SEO Progress
-- **Overall Completion**: 92% (increased from 90%)
+- **Overall Completion**: 95% (increased from 92% after redirect fixes)
 - **Keyword Cannibalization**: 100% resolved
 - **Content Differentiation**: Clear separation between pillars
 - **Technical SEO**: 
-  - ✅ All 301 redirects implemented
+  - ✅ All 301 redirects implemented with universal pattern
+  - ✅ Canonical URLs on all major pages
   - ✅ Meta descriptions on all pages
-  - ✅ XML sitemap created (21 pages)
+  - ✅ XML sitemap updated with canonical URLs (21 pages)
   - ✅ Robots.txt optimized for crawling
   - ✅ Schema markup expanded (19 pages with rich snippets)
   - ✅ All images have alt tags
   - ✅ App subdomain SEO strategy completed
 - **Internal Linking**: Strategic cross-linking throughout site
 
-### Files Modified/Deleted in Latest Updates
-- Modified: `/transparency/trust-building.html` (complete content replacement)
-- Modified: `/transparency/index.html` (chapter restructuring)
-- Modified: `/_redirects` (added all missing redirects)
-- Modified: `/robots.txt` (updated to allow crawling of all content)
-- Modified: `/index.html` (enhanced Organization schema)
-- Modified: `/petition-for-transparency.html` (added PetitionAction schema)
-- Modified: `/guides/complete-fundraising-starter.html` (added HowTo schema)
-- Created: `/sitemap.xml` (comprehensive XML sitemap)
-- Created: `/content-expansion-strategy.md` (future content roadmap)
-- Deleted: Multiple thin/orphaned pages across all sections
+### Files Modified in August 2025 Updates
+- Modified: `/static-pages/_redirects` (removed conflicting rules, fixed universal redirects)
+- Modified: `/static-pages/sitemap.xml` (updated all URLs to canonical format)
+- Modified: `/static-pages/guides/best-fundraising-platforms-2025.html` (added canonical URL tag)
+- Modified: `/static-pages/about.html` (added canonical URL tag)
+- Modified: `/static-pages/index.html` (added canonical URL tag)
+- Created: `/check_search_console.py` (Google Search Console automation script)
 
 ### App Subdomain SEO Strategy
 **✅ Completed:**
