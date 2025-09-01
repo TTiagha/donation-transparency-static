@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Donation Transparency booking system with Vercel Functions",
   "main": "api/booking.js",
-  "type": "module",
   "scripts": {
     "dev": "vercel dev",
     "build": "echo 'No build step required'",

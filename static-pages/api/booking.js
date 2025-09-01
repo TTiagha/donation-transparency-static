@@ -4,9 +4,9 @@
  * Migrated from AWS Lambda to Vercel Functions
  */
 
-import { google } from 'googleapis';
-import { v4 as uuidv4 } from 'uuid';
-import ical from 'ical-generator';
+const { google } = require('googleapis');
+const { v4: uuidv4 } = require('uuid');
+const ical = require('ical-generator');
 
 // Rate limiting storage (in-memory, resets on deployments)
 const rateLimitStorage = new Map();
@@ -366,7 +366,7 @@ function validateBookingRequest(body) {
 /**
  * Main Vercel API Handler
  */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
