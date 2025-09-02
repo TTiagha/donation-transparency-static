@@ -6,12 +6,10 @@
 const BookingApp = {
     // Configuration
     config: {
-        // API Endpoint - configurable for different deployment targets
+        // API Endpoint - now uses Vercel API for all domains
         apiEndpoint: window.location.hostname === 'localhost' 
             ? 'http://localhost:3000/api/booking'  // Local development
-            : window.location.hostname.includes('vercel.app')
-            ? '/api/booking'  // Vercel deployment
-            : 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',  // Lambda fallback
+            : 'https://donation-transparency-static.vercel.app/api/booking',  // Production API
         requiredInviteCode: 'abc123', // Fallback for offline/error scenarios
         profileName: 'Tem Tiagha',
         defaultTimezone: 'America/Los_Angeles',
