@@ -119,6 +119,7 @@ function getGoogleCredentials() {
 
 /**
  * Initialize Google Calendar client with proper token refresh
+ * Uses modern OAuth 2.0 v2 endpoint for better compatibility
  */
 async function getCalendarClient() {
     const credentials = getGoogleCredentials();
