@@ -535,18 +535,38 @@ module.exports = async function handler(req, res) {
             
             case 'testCalendar': {
                 try {
-                    const calendar = await getCalendarClient();
+                    const credentials = getGoogleCredentials();
+                    const auth = new google.auth.OAuth2(
+                        credentials.client_id,
+                        credentials.client_secret,
+                        credentials.redirect_uris[0]
+                    );
+                    
+                    auth.setCredentials({
+                        refresh_token: credentials.refresh_token
+                    });
+                    
+                    // Try to refresh the token
+                    const { credentials: tokens } = await auth.refreshAccessToken();
+                    
                     return res.status(200).json({
                         success: true,
                         message: 'Google Calendar authentication successful',
-                        calendarConnected: true
+                        calendarConnected: true,
+                        tokenInfo: {
+                            hasAccessToken: !!tokens.access_token,
+                            accessTokenPrefix: tokens.access_token ? tokens.access_token.substring(0, 10) + '...' : 'missing',
+                            expiryDate: tokens.expiry_date,
+                            scope: tokens.scope
+                        }
                     });
                 } catch (error) {
                     return res.status(200).json({
                         success: false,
                         message: error.message,
                         calendarConnected: false,
-                        error: error.toString()
+                        error: error.toString(),
+                        stack: error.stack
                     });
                 }
             }
