@@ -8,11 +8,21 @@ const GA4_CONFIG = {
     measurement_id: 'G-C83EV6K1D3', // GA4 measurement ID
     enhanced_measurement: true,
     send_page_view: true,
+    // Enable Google Signals for enhanced data
+    allow_google_signals: true,
+    allow_ad_personalization_signals: true,
     // Custom dimensions for SEO analysis
     custom_map: {
         'custom_parameter_1': 'traffic_source',
         'custom_parameter_2': 'user_type', 
         'custom_parameter_3': 'campaign_source'
+    },
+    // Consent mode configuration (GDPR/EEA compliance)
+    consent: {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'granted'
     }
 };
 
@@ -21,8 +31,18 @@ function initializeGA4() {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     
+    // Set up consent mode first (GDPR compliance)
+    gtag('consent', 'default', GA4_CONFIG.consent);
+    
     gtag('js', new Date());
     gtag('config', GA4_CONFIG.measurement_id, GA4_CONFIG);
+    
+    // Mark key events for conversion tracking
+    setupKeyEvents();
+    
+    // Initialize enhanced tracking
+    GA4_Enhanced.trackScrollDepth();
+    GA4_Enhanced.trackTimeOnPage();
     
     // Enhanced page view tracking with SEO context
     gtag('event', 'page_view', {
@@ -163,6 +183,69 @@ const GA4_Conversions = {
     }
 };
 
+// Setup key events for GA4 conversion tracking
+function setupKeyEvents() {
+    // Define key events that GA4 should track as conversions
+    const keyEvents = [
+        'waitlist_signup',           // Primary conversion
+        'contact_form_submit',       // Lead generation
+        'booking_request',          // High-value conversion
+        'cta_click',               // Engagement milestone
+        'qualified_page_view'       // Interest indicator
+    ];
+    
+    // Mark events as key events in GA4
+    keyEvents.forEach(eventName => {
+        gtag('event', 'conversion', {
+            'send_to': GA4_CONFIG.measurement_id,
+            'event_name': eventName
+        });
+    });
+}
+
+// Define audiences for remarketing and analysis
+const GA4_Audiences = {
+    
+    // High-intent visitors (viewed pricing/features pages)
+    highIntent: {
+        name: 'High Intent Visitors',
+        conditions: [
+            'content_group1 == "Features"',
+            'time_on_page > 60',
+            'scroll_depth > 50'
+        ]
+    },
+    
+    // Qualified leads (engaged with multiple pages)
+    qualifiedLeads: {
+        name: 'Qualified Leads',
+        conditions: [
+            'session_engaged == true',
+            'page_views >= 3',
+            'traffic_source contains "organic"'
+        ]
+    },
+    
+    // Fundraising decision makers (viewed comparison content)
+    decisionMakers: {
+        name: 'Fundraising Decision Makers',
+        conditions: [
+            'page_location contains "best-fundraising-platforms"',
+            'time_on_page > 120',
+            'user_type == "new"'
+        ]
+    },
+    
+    // Ready to convert (visited booking or contact pages)
+    readyToConvert: {
+        name: 'Ready to Convert',
+        conditions: [
+            'content_group1 == "Booking" OR content_group1 == "Contact"',
+            'session_engaged == true'
+        ]
+    }
+};
+
 // Enhanced measurement events (automatic)
 const GA4_Enhanced = {
     
@@ -212,6 +295,55 @@ if (document.readyState === 'loading') {
     initializeGA4();
 }
 
+// Utility functions for manual setup assistant completion
+const GA4_Setup = {
+    
+    // Helper to update consent (for GDPR compliance)
+    updateConsent: function(consentSettings) {
+        if (typeof gtag !== 'undefined') {
+            gtag('consent', 'update', consentSettings);
+        }
+    },
+    
+    // Helper to send custom conversion events
+    sendConversion: function(eventName, parameters = {}) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, {
+                'send_to': GA4_CONFIG.measurement_id,
+                ...parameters
+            });
+        }
+    },
+    
+    // Helper to create custom audience conditions
+    trackAudienceCondition: function(audienceName, conditionMet = true) {
+        if (typeof gtag !== 'undefined' && conditionMet) {
+            gtag('event', 'audience_condition', {
+                'audience_name': audienceName,
+                'condition_met': conditionMet,
+                'timestamp': Date.now()
+            });
+        }
+    },
+    
+    // Debug helper to verify setup
+    verifySetup: function() {
+        console.log('GA4 Configuration:', GA4_CONFIG);
+        console.log('Defined Audiences:', Object.keys(GA4_Audiences));
+        console.log('Available Conversions:', Object.keys(GA4_Conversions));
+        console.log('Setup Complete:', typeof gtag !== 'undefined' ? '✅' : '❌');
+        
+        return {
+            config: GA4_CONFIG,
+            audiences: Object.keys(GA4_Audiences).length,
+            conversions: Object.keys(GA4_Conversions).length,
+            initialized: typeof gtag !== 'undefined'
+        };
+    }
+};
+
 // Export for use in other scripts
 window.GA4_Conversions = GA4_Conversions;
 window.GA4_Enhanced = GA4_Enhanced;
+window.GA4_Audiences = GA4_Audiences;
+window.GA4_Setup = GA4_Setup;
