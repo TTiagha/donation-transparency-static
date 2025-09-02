@@ -5,7 +5,7 @@
 
 // GA4 Configuration
 const GA4_CONFIG = {
-    measurement_id: 'GA_MEASUREMENT_ID', // Replace with actual GA4 measurement ID
+    measurement_id: 'G-C83EV6K1D3', // GA4 measurement ID
     enhanced_measurement: true,
     send_page_view: true,
     // Custom dimensions for SEO analysis
