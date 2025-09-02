@@ -871,11 +871,21 @@ const BookingApp = {
     },
 
     /**
-     * Show booking success
+     * Show booking success with enhanced accessibility and styling
      */
     showBookingSuccess: function(formData) {
         const successMessage = document.getElementById('success-message');
         const successText = document.getElementById('success-text');
+        const successIcon = document.querySelector('.success-icon');
+        
+        // Add accessibility attributes
+        successMessage.setAttribute('role', 'alert');
+        successMessage.setAttribute('aria-live', 'assertive');
+        
+        // Add accessible label to success icon
+        if (successIcon) {
+            successIcon.setAttribute('aria-label', 'Meeting successfully booked');
+        }
         
         const timeString = this.state.selectedTime.toLocaleString('en-US', {
             weekday: 'long',
@@ -888,17 +898,45 @@ const BookingApp = {
             timeZoneName: 'short'
         });
 
+        // Enhanced HTML structure with better semantics
         successText.innerHTML = `
-            <strong>Meeting Details:</strong><br>
-            📅 ${timeString}<br>
-            ⏱️ ${this.state.selectedDuration} minutes<br>
-            👤 ${formData.name}<br>
-            📧 ${formData.email}<br><br>
-            You'll receive a confirmation email with calendar invite shortly.
+            <strong>Meeting Details:</strong>
+            <div class="success-details-grid">
+                <div class="success-detail-row" data-emoji="📅">
+                    <span class="sr-only">Date: </span>${timeString}
+                </div>
+                <div class="success-detail-row" data-emoji="⏱️">
+                    <span class="sr-only">Duration: </span>${this.state.selectedDuration} minutes
+                </div>
+                <div class="success-detail-row" data-emoji="👤">
+                    <span class="sr-only">Name: </span>${formData.name}
+                </div>
+                <div class="success-detail-row" data-emoji="📧">
+                    <span class="sr-only">Email: </span>${formData.email}
+                </div>
+            </div>
+            <p style="margin-top: 16px; color: var(--subtle-text-color); font-size: 14px;">
+                You'll receive a confirmation email with calendar invite shortly.
+            </p>
         `;
 
+        // Show with enhanced animation
         successMessage.classList.remove('hidden');
-        successMessage.scrollIntoView({ behavior: 'smooth' });
+        
+        // Focus management for accessibility
+        setTimeout(() => {
+            const successContent = successMessage.querySelector('.success-content');
+            if (successContent) {
+                successContent.setAttribute('tabindex', '-1');
+                successContent.focus();
+            }
+        }, 600); // After animation completes
+        
+        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Announce success to screen readers
+        const announcement = `Booking successful. Meeting scheduled for ${timeString} with ${formData.name}.`;
+        this.announceToScreenReader(announcement);
     },
 
     /**
@@ -915,6 +953,26 @@ const BookingApp = {
      */
     hideError: function() {
         document.getElementById('error-message').classList.add('hidden');
+    },
+
+    /**
+     * Announce message to screen readers
+     */
+    announceToScreenReader: function(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        
+        document.body.appendChild(announcement);
+        
+        // Remove after announcement
+        setTimeout(() => {
+            if (announcement.parentNode) {
+                announcement.parentNode.removeChild(announcement);
+            }
+        }, 1000);
     },
 
     /**
