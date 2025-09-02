@@ -5,7 +5,7 @@
   "main": "api/booking.js",
   "scripts": {
     "dev": "vercel dev",
-    "build": "echo 'No build step required'",
+    "build": "echo 'Static site - no build required'",
     "deploy": "vercel --prod"
   },
   "dependencies": {
