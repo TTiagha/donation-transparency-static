@@ -9,9 +9,7 @@ const AdminPanel = {
         // API Endpoint - configurable for different deployment targets
         apiEndpoint: window.location.hostname === 'localhost' 
             ? 'http://localhost:3000/api/booking'  // Local development
-            : window.location.hostname.includes('vercel.app')
-            ? '/api/booking'  // Vercel deployment
-            : 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',  // Lambda fallback
+            : 'https://l22j3krfkgy2k35ezzezqd3nzy0gosml.lambda-url.us-east-1.on.aws/',  // AWS Lambda (actual deployment)
         requiredAdminKey: 'admin2025',
         settings: {
             profile: {
