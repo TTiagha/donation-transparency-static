@@ -571,6 +571,38 @@ module.exports = async function handler(req, res) {
                 }
             }
             
+            case 'validateInvite': {
+                const { inviteCode } = body;
+                // For now, accept specific invite codes
+                const validCodes = ['abc123', 'meet-tem', 'consultation'];
+                const isValid = validCodes.includes(inviteCode);
+                
+                return res.status(200).json({
+                    success: true,
+                    valid: isValid
+                });
+            }
+            
+            case 'getSettings': {
+                return res.status(200).json({
+                    success: true,
+                    settings: {
+                        availability: {
+                            dailySchedule: CONFIG.dailySchedule,
+                            workingHours: CONFIG.workingHours,
+                            bufferMinutes: CONFIG.bufferMinutes,
+                            advanceBookingDays: CONFIG.advanceBookingDays,
+                            minimumNoticeHours: CONFIG.minimumNoticeHours
+                        },
+                        profile: {
+                            name: CONFIG.profileName,
+                            email: CONFIG.profileEmail,
+                            timezone: CONFIG.timezone
+                        }
+                    }
+                });
+            }
+            
             default:
                 return res.status(400).json({ error: 'Invalid action' });
         }
