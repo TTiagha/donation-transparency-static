@@ -538,12 +538,21 @@ const BookingApp = {
             if (result.success && result.availability) {
                 timeSlotsGrid.innerHTML = '';
                 
+                // Show fallback mode warning if applicable
+                if (result.fallbackMode && result.warning) {
+                    const warningDiv = document.createElement('div');
+                    warningDiv.className = 'fallback-warning';
+                    warningDiv.innerHTML = `⚠️ ${result.warning}`;
+                    warningDiv.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 8px; margin-bottom: 10px; border-radius: 4px; font-size: 12px; color: #856404;';
+                    timeSlotsGrid.appendChild(warningDiv);
+                }
+                
                 if (result.availability.length === 0) {
-                    timeSlotsGrid.innerHTML = '<div class="day-off-message">No available time slots on this day</div>';
+                    timeSlotsGrid.innerHTML += '<div class="day-off-message">No available time slots on this day</div>';
                     return;
                 }
                 
-                // Display the available slots from Lambda (which already excludes Google Calendar conflicts)
+                // Display the available slots from API (which should exclude Google Calendar conflicts)
                 result.availability.forEach(slot => {
                     const slotTime = new Date(slot.start);
                     

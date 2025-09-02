@@ -155,19 +155,26 @@ async function getCalendarClient() {
  */
 async function getAvailability(startDate, endDate, settings = null) {
     try {
+        console.log('Getting availability from Google Calendar API...');
+        console.log(`Date range: ${startDate.toISOString()} to ${endDate.toISOString()}`);
+        
         const calendar = await getCalendarClient();
         
-        // Query free/busy information
+        // Query free/busy information with proper timezone handling
         const freeBusyResponse = await calendar.freebusy.query({
             requestBody: {
                 timeMin: startDate.toISOString(),
                 timeMax: endDate.toISOString(),
-                timeZone: CONFIG.timezone,
+                timeZone: 'UTC', // Always use UTC for API queries to avoid timezone confusion
                 items: [{ id: 'primary' }]
             }
         });
         
         const busyTimes = freeBusyResponse.data.calendars.primary.busy || [];
+        console.log(`Found ${busyTimes.length} busy time periods:`, busyTimes.map(busy => ({
+            start: busy.start,
+            end: busy.end
+        })));
         
         // Generate available slots
         const availableSlots = [];
@@ -179,23 +186,39 @@ async function getAvailability(startDate, endDate, settings = null) {
             
             if (!daySchedule.isDayOff) {
                 const daySlots = generateDaySlots(currentDate, daySchedule, busyTimes, settings);
+                console.log(`Generated ${daySlots.length} slots for ${currentDate.toDateString()}`);
                 availableSlots.push(...daySlots);
             }
             
             currentDate.setDate(currentDate.getDate() + 1);
         }
         
+        console.log(`Total available slots generated: ${availableSlots.length}`);
         return availableSlots;
     } catch (error) {
-        console.error('Error getting availability:', error);
+        console.error('Error getting availability from Google Calendar:', error);
+        console.error('Error details:', {
+            message: error.message,
+            code: error.code,
+            status: error.status
+        });
         
         // Check if it's an authentication error
-        if (error.message?.includes('authentication') || error.code === 401 || error.code === 403) {
-            console.error('Google Calendar authentication failed - using fallback mode');
+        if (error.message?.includes('authentication') || 
+            error.message?.includes('unauthorized') ||
+            error.code === 401 || 
+            error.code === 403 ||
+            error.status === 401 ||
+            error.status === 403) {
+            console.error('🚨 Google Calendar authentication failed - using fallback mode');
+        } else {
+            console.error('🚨 Google Calendar API error - using fallback mode');
         }
         
-        // Fallback mode: return open calendar slots
-        return generateFallbackAvailability(startDate, endDate, settings);
+        // Fallback mode: return open calendar slots with fallback indicator
+        const fallbackSlots = generateFallbackAvailability(startDate, endDate, settings);
+        console.log(`Generated ${fallbackSlots.length} fallback slots`);
+        return fallbackSlots;
     }
 }
 
@@ -227,63 +250,52 @@ function generateFallbackAvailability(startDate, endDate, settings = null) {
 function generateDaySlots(date, daySchedule, busyTimes, settings = null, isFallback = false) {
     const slots = [];
     const userTimezone = settings?.availability?.timezone || CONFIG.timezone;
-    const meetingTypes = settings?.meetingTypes || [
-        { name: '15-minute call', duration: 15 },
-        { name: '30-minute call', duration: 30 },
-        { name: '60-minute call', duration: 60 }
-    ];
+    const startHour = daySchedule.start;
+    const endHour = daySchedule.end;
     
-    // Generate slots for each meeting type
-    meetingTypes.forEach(meetingType => {
-        const duration = meetingType.duration;
-        const startHour = daySchedule.start;
-        const endHour = daySchedule.end;
-        
-        for (let hour = startHour; hour < endHour; hour++) {
-            for (let minutes = 0; minutes < 60; minutes += 30) {
-                const slotStart = new Date(date);
-                slotStart.setHours(hour, minutes, 0, 0);
+    // Generate base time slots (30-minute intervals)
+    for (let hour = startHour; hour < endHour; hour++) {
+        for (let minutes = 0; minutes < 60; minutes += 30) {
+            const slotStart = new Date(date);
+            slotStart.setHours(hour, minutes, 0, 0);
+            
+            // Check if slot is in the past
+            const now = new Date();
+            const minimumNoticeMs = (settings?.availability?.minimumNoticeHours || CONFIG.minimumNoticeHours) * 60 * 60 * 1000;
+            if (slotStart.getTime() <= now.getTime() + minimumNoticeMs) {
+                continue;
+            }
+            
+            // Check if slot conflicts with busy times (skip in fallback mode)
+            if (!isFallback) {
+                const isConflict = busyTimes.some(busy => {
+                    const busyStart = new Date(busy.start);
+                    const busyEnd = new Date(busy.end);
+                    // Check if this time slot would conflict with any existing calendar event
+                    // We check for any overlap, regardless of meeting duration
+                    return slotStart < busyEnd && new Date(slotStart.getTime() + 60 * 60 * 1000) > busyStart; // 1-hour max meeting
+                });
                 
-                const slotEnd = new Date(slotStart);
-                slotEnd.setMinutes(slotEnd.getMinutes() + duration);
-                
-                // Check if slot is in the past
-                const now = new Date();
-                const minimumNoticeMs = (settings?.availability?.minimumNoticeHours || CONFIG.minimumNoticeHours) * 60 * 60 * 1000;
-                if (slotStart.getTime() <= now.getTime() + minimumNoticeMs) {
+                if (isConflict) {
                     continue;
                 }
-                
-                // Check if slot conflicts with busy times (skip in fallback mode)
-                if (!isFallback) {
-                    const isConflict = busyTimes.some(busy => {
-                        const busyStart = new Date(busy.start);
-                        const busyEnd = new Date(busy.end);
-                        return slotStart < busyEnd && slotEnd > busyStart;
-                    });
-                    
-                    if (isConflict) {
-                        continue;
-                    }
-                }
-                
-                // Add buffer time
-                const bufferEnd = new Date(slotEnd);
-                bufferEnd.setMinutes(bufferEnd.getMinutes() + CONFIG.bufferMinutes);
-                
-                if (bufferEnd.getHours() <= endHour) {
-                    slots.push({
-                        start: slotStart.toISOString(),
-                        end: slotEnd.toISOString(),
-                        duration: duration,
-                        meetingType: meetingType.name,
-                        available: true,
-                        fallbackMode: isFallback || false
-                    });
-                }
+            }
+            
+            // Ensure there's enough time left in the day for at least a 15-minute meeting + buffer
+            const minimumSlotEnd = new Date(slotStart);
+            minimumSlotEnd.setMinutes(minimumSlotEnd.getMinutes() + 15 + CONFIG.bufferMinutes);
+            
+            if (minimumSlotEnd.getHours() <= endHour || 
+                (minimumSlotEnd.getHours() === endHour && minimumSlotEnd.getMinutes() === 0)) {
+                slots.push({
+                    start: slotStart.toISOString(),
+                    end: new Date(slotStart.getTime() + 30 * 60 * 1000).toISOString(), // Default 30-minute slot
+                    available: true,
+                    fallbackMode: isFallback || false
+                });
             }
         }
-    });
+    }
     
     return slots;
 }
@@ -471,10 +483,18 @@ module.exports = async function handler(req, res) {
                 
                 console.log(`Generated ${availability.length} available slots`);
                 
+                // Check if any slots are in fallback mode
+                const fallbackSlots = availability.filter(slot => slot.fallbackMode);
+                const isUsingFallback = fallbackSlots.length > 0;
+                
                 return res.status(200).json({
                     success: true,
                     availability,
-                    timezone: settings?.availability?.timezone || CONFIG.timezone
+                    timezone: settings?.availability?.timezone || CONFIG.timezone,
+                    fallbackMode: isUsingFallback,
+                    ...(isUsingFallback && {
+                        warning: 'Google Calendar sync unavailable - showing all time slots. Please verify availability manually.'
+                    })
                 });
             }
             
