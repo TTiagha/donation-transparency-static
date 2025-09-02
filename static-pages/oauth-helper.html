@@ -149,17 +149,9 @@
             currentClientId = clientId;
             currentClientSecret = clientSecret;
 
-            // Google OAuth 2.0 authorization URL with multiple redirect URI options
+            // Google OAuth 2.0 authorization URL - use the same domain
             const scope = encodeURIComponent('https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events');
-            
-            // Try different redirect URIs that might be configured
-            const redirectUris = [
-                'https://donationtransparency.org/booking/auth/callback',
-                'http://localhost:8080/callback',
-                'urn:ietf:wg:oauth:2.0:oob'  // For manual copy-paste
-            ];
-            
-            const redirectUri = encodeURIComponent(redirectUris[2]); // Use manual copy-paste method
+            const redirectUri = encodeURIComponent('https://donation-transparency-static.vercel.app/oauth-callback.html');
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
                 `client_id=${encodeURIComponent(clientId)}&` +
                 `redirect_uri=${redirectUri}&` +
@@ -204,7 +196,7 @@
                         client_secret: currentClientSecret,
                         code: authCode,
                         grant_type: 'authorization_code',
-                        redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
+                        redirect_uri: 'https://donation-transparency-static.vercel.app/oauth-callback.html'
                     })
                 });
 
