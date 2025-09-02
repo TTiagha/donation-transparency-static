@@ -496,11 +496,17 @@ const BookingApp = {
     },
 
     /**
-     * Generate time slots for a date (placeholder)
+     * Generate time slots for a date
      */
     generateTimeSlots: async function(date) {
         const timeSlotsGrid = document.getElementById('time-slots-grid');
-        timeSlotsGrid.innerHTML = '<div class="loading-slots">Loading available times...</div>';
+        const dateStr = date.toISOString().split('T')[0];
+
+        // Prevent duplicate calls for the same date
+        if (this._currentAvailabilityRequest === dateStr) {
+            return;
+        }
+        this._currentAvailabilityRequest = dateStr;
 
         // Get schedule for this specific day
         const daySchedule = this.getDaySchedule(date.getDay());
@@ -508,14 +514,12 @@ const BookingApp = {
         // If it's a day off, show message and return
         if (daySchedule.isDayOff) {
             timeSlotsGrid.innerHTML = '<div class="day-off-message">No availability on this day</div>';
+            this._currentAvailabilityRequest = null;
             return;
         }
 
         try {
-            // Format date for API call
-            const dateStr = date.toISOString().split('T')[0];
-            
-            // Call Lambda to get actual availability with Google Calendar conflicts
+            // Call API to get actual availability with Google Calendar conflicts
             const response = await fetch(this.config.apiEndpoint, {
                 method: 'POST',
                 headers: {
@@ -569,6 +573,9 @@ const BookingApp = {
             console.error('Error fetching availability:', error);
             // Fall back to local generation
             this.generateTimeSlotsLocal(date);
+        } finally {
+            // Clear the request tracker
+            this._currentAvailabilityRequest = null;
         }
     },
 

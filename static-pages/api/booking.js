@@ -572,7 +572,7 @@ module.exports = async function handler(req, res) {
             }
             
             case 'validateInvite': {
-                const { inviteCode } = body;
+                const { inviteCode } = req.body;
                 // For now, accept specific invite codes
                 const validCodes = ['abc123', 'meet-tem', 'consultation'];
                 const isValid = validCodes.includes(inviteCode);
