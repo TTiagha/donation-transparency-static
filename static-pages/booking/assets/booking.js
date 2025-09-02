@@ -747,6 +747,12 @@ const BookingApp = {
         
         if (this.state.isLoading) return;
 
+        // Validate time selection first
+        if (!this.state.selectedTime) {
+            this.showError('Please select a date and time for your meeting.');
+            return;
+        }
+
         // Collect form data
         const formData = {
             name: document.getElementById('guest-name').value,
