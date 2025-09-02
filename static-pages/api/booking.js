@@ -118,7 +118,7 @@ function getGoogleCredentials() {
 }
 
 /**
- * Initialize Google Calendar client
+ * Initialize Google Calendar client with proper token refresh
  */
 async function getCalendarClient() {
     const credentials = getGoogleCredentials();
@@ -129,11 +129,24 @@ async function getCalendarClient() {
         credentials.redirect_uris[0]
     );
     
+    // Set refresh token
     auth.setCredentials({
         refresh_token: credentials.refresh_token
     });
     
-    return google.calendar({ version: 'v3', auth });
+    try {
+        // Force token refresh to get a valid access token
+        const { credentials: tokens } = await auth.refreshAccessToken();
+        console.log('Successfully refreshed Google OAuth tokens');
+        
+        // Set the fresh tokens
+        auth.setCredentials(tokens);
+        
+        return google.calendar({ version: 'v3', auth });
+    } catch (error) {
+        console.error('Failed to refresh Google OAuth tokens:', error);
+        throw new Error('Google Calendar authentication failed. Please check OAuth configuration.');
+    }
 }
 
 /**
@@ -174,6 +187,12 @@ async function getAvailability(startDate, endDate, settings = null) {
         return availableSlots;
     } catch (error) {
         console.error('Error getting availability:', error);
+        
+        // Check if it's an authentication error
+        if (error.message?.includes('authentication') || error.code === 401 || error.code === 403) {
+            console.error('Google Calendar authentication failed - using fallback mode');
+        }
+        
         // Fallback mode: return open calendar slots
         return generateFallbackAvailability(startDate, endDate, settings);
     }
@@ -300,7 +319,10 @@ async function createCalendarEvent(bookingData) {
     try {
         const calendar = await getCalendarClient();
         
-        const startTime = new Date(bookingData.date + 'T' + bookingData.time);
+        // Handle both dateTime (ISO string) and separate date/time fields
+        const startTime = bookingData.dateTime ? 
+            new Date(bookingData.dateTime) : 
+            new Date(bookingData.date + 'T' + bookingData.time);
         const endTime = new Date(startTime);
         endTime.setMinutes(endTime.getMinutes() + (bookingData.duration || 30));
         
@@ -338,7 +360,15 @@ async function createCalendarEvent(bookingData) {
         return response.data;
     } catch (error) {
         console.error('Error creating calendar event:', error);
-        throw new Error('Failed to create calendar event');
+        
+        // Provide more specific error messaging for authentication issues
+        if (error.code === 401 || error.code === 403) {
+            throw new Error('Google Calendar authentication failed. Please check OAuth credentials.');
+        } else if (error.message?.includes('quota')) {
+            throw new Error('Google Calendar API quota exceeded. Please try again later.');
+        } else {
+            throw new Error(`Failed to create calendar event: ${error.message}`);
+        }
     }
 }
 
@@ -356,7 +386,7 @@ function validateBookingRequest(body) {
         errors.push('Valid email address is required');
     }
     
-    if (!body.date || !body.time) {
+    if (!body.dateTime && (!body.date || !body.time)) {
         errors.push('Date and time are required');
     }
     
@@ -483,6 +513,20 @@ module.exports = async function handler(req, res) {
                         timezone: CONFIG.timezone,
                         bio: 'Founder of Donation Transparency',
                         avatar: 'https://donationtransparency.org/assets/images/team/tem-tiagha.jpg'
+                    }
+                });
+            }
+            
+            case 'debugAuth': {
+                const credentials = getGoogleCredentials();
+                return res.status(200).json({
+                    success: true,
+                    debug: {
+                        hasClientId: !!credentials.client_id,
+                        hasClientSecret: !!credentials.client_secret,
+                        hasRefreshToken: !!credentials.refresh_token,
+                        clientIdPrefix: credentials.client_id ? credentials.client_id.substring(0, 10) + '...' : 'missing',
+                        redirectUri: credentials.redirect_uris[0]
                     }
                 });
             }
