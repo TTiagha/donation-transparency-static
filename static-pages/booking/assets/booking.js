@@ -673,9 +673,9 @@ const BookingApp = {
         });
 
         // Mark new selection
-        event.target.classList.add('active');
-        this.state.selectedDuration = parseInt(event.target.dataset.duration);
-        this.state.selectedType = event.target.dataset.type;
+        event.currentTarget.classList.add('active');
+        this.state.selectedDuration = parseInt(event.currentTarget.dataset.duration);
+        this.state.selectedType = event.currentTarget.dataset.type;
 
         // Refresh time slots if date is selected
         if (this.state.selectedDate) {
