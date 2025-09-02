@@ -149,11 +149,19 @@
             currentClientId = clientId;
             currentClientSecret = clientSecret;
 
-            // Google OAuth 2.0 authorization URL
+            // Google OAuth 2.0 authorization URL with multiple redirect URI options
             const scope = encodeURIComponent('https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events');
-            const redirectUri = encodeURIComponent('https://donationtransparency.org/booking/auth/callback');
+            
+            // Try different redirect URIs that might be configured
+            const redirectUris = [
+                'https://donationtransparency.org/booking/auth/callback',
+                'http://localhost:8080/callback',
+                'urn:ietf:wg:oauth:2.0:oob'  // For manual copy-paste
+            ];
+            
+            const redirectUri = encodeURIComponent(redirectUris[2]); // Use manual copy-paste method
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
-                `client_id=${clientId}&` +
+                `client_id=${encodeURIComponent(clientId)}&` +
                 `redirect_uri=${redirectUri}&` +
                 `scope=${scope}&` +
                 `response_type=code&` +
@@ -196,7 +204,7 @@
                         client_secret: currentClientSecret,
                         code: authCode,
                         grant_type: 'authorization_code',
-                        redirect_uri: 'https://donationtransparency.org/booking/auth/callback'
+                        redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
                     })
                 });
 
