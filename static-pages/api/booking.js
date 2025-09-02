@@ -527,9 +527,28 @@ module.exports = async function handler(req, res) {
                         hasClientSecret: !!credentials.client_secret,
                         hasRefreshToken: !!credentials.refresh_token,
                         clientIdPrefix: credentials.client_id ? credentials.client_id.substring(0, 10) + '...' : 'missing',
+                        refreshTokenPrefix: credentials.refresh_token ? credentials.refresh_token.substring(0, 10) + '...' : 'missing',
                         redirectUri: credentials.redirect_uris[0]
                     }
                 });
+            }
+            
+            case 'testCalendar': {
+                try {
+                    const calendar = await getCalendarClient();
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Google Calendar authentication successful',
+                        calendarConnected: true
+                    });
+                } catch (error) {
+                    return res.status(200).json({
+                        success: false,
+                        message: error.message,
+                        calendarConnected: false,
+                        error: error.toString()
+                    });
+                }
             }
             
             default:
