@@ -94,6 +94,17 @@ function hideMobileMenuWithAnimation(mobileMenu) {
 // Waitlist Modal Functions - make globally accessible
 window.openWaitlistModal = function openWaitlistModal() {
     console.log('🔄 Opening waitlist modal...');
+    
+    // Track waitlist button clicks for conversion funnel analysis
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'waitlist_modal_open', {
+            event_category: 'engagement',
+            event_label: 'button_click',
+            value: 1
+        });
+        console.log('📊 Tracked waitlist button click');
+    }
+    
     const modal = document.getElementById('waitlistModal');
     const modalContent = document.getElementById('modalContent');
     
