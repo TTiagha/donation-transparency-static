@@ -450,9 +450,14 @@ This document provides the writing team with a comprehensive roadmap for buildin
 
 #### Expected Impact & Timeline
 - **Conservative Goal**: 0.20% → 2.0% CTR improvement
-- **Potential Gain**: +15-30 additional monthly clicks from same impressions
-- **Monitoring Period**: 2 weeks for title optimization impact measurement
-- **Success Metrics**: CTR improvement, maintained rankings, increased total clicks
+- **Primary Impact**: Homepage (155 non-brand impressions) + Guide (373 impressions) = **528 high-impact impressions**
+- **Realistic Gain**: +8-12 additional monthly clicks from main site optimizations
+- **WordPress Pages**: 19 impressions = minimal impact (deprioritized for efficiency)
+- **Monitoring Period**: 2 weeks for title optimization impact measurement  
+- **Success Metrics**: CTR improvement on high-traffic pages, maintained rankings
+
+#### Strategy Learning
+**Key Insight**: Focus optimization efforts on pages with significant impression volume. The 373-impression guide page has 19.6x more potential impact than all WordPress pages combined.
 
 #### Strategy Decision Point
 **Why We Pivoted:** Real GSC data showed existing content ranks well but fails to convert impressions to clicks. Content audit became secondary to optimizing what already works. This data-driven approach targets immediate ROI rather than theoretical improvements.
@@ -520,11 +525,12 @@ This document provides the writing team with a comprehensive roadmap for buildin
    - ✅ WordPress app subdomain optimization plan created
    - **Expected Impact**: 0.20% → 2%+ CTR (15-30 additional monthly clicks)
 
-2. **🚨 WordPress Implementation Required** (CRITICAL - Immediate Action)
-   - ⏳ "key-principles-of-transparent-donations" page (19 impressions, position 5.7)
-   - ⏳ 9 additional high-ranking pages (positions 2-12) with 0% CTR
-   - 📋 **Action Plan**: `/wordpress-title-optimization-recommendations.md`
-   - **Requires**: WordPress admin access to app.donationtransparency.org
+2. **⚠️ WordPress Pages Analysis** (LOW IMPACT - Deferred)
+   - ✅ "key-principles-of-transparent-donations" page (19 impressions, position 5.7)  
+   - ✅ 9 additional pages analyzed (positions 2-12) with 0% CTR
+   - 📊 **Reality Check**: 19 impressions vs 373 on main guide = **19.6x less impact**
+   - 📋 **Recommendation**: Focus on main site optimization first (higher ROI)
+   - 🗂️ **Optional**: Remove from index entirely via WordPress admin for cleaner GSC data
 
 3. **📊 2-Week Performance Monitoring** (IN PROGRESS)
    - Track CTR improvements on optimized pages
