@@ -96,6 +96,19 @@ function hideMobileMenuWithAnimation(mobileMenu) {
 // Modal Functions - Global scope
 window.openWaitlistModal = function() {
     console.log('🔄 Opening waitlist modal...');
+    
+    // Track waitlist button clicks for conversion funnel analysis
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'waitlist_modal_open', {
+            event_category: 'engagement',
+            event_label: 'button_click',
+            value: 1
+        });
+        console.log('📊 Tracked waitlist button click');
+    } else {
+        console.warn('⚠️ gtag not available, tracking skipped');
+    }
+    
     const modal = document.getElementById('waitlistModal');
     const modalContent = document.getElementById('modalContent');
     
