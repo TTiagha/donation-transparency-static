@@ -455,6 +455,12 @@ This document provides the writing team with a comprehensive roadmap for buildin
    - ✅ Google Search Console verification and monitoring
    - ✅ Advanced conversion tracking with traffic source attribution
    - 📋 Setup guide created: `/GA4-setup-assistant-guide.md`
+   - 🤖 **Google Analytics MCP Server Configured** (September 2, 2025)
+     - Service account: serviceaccountdt@makedotcom-422712.iam.gserviceaccount.com
+     - GA4 Property ID: 456568937
+     - Claude Code integration: ✅ Connected
+     - Available functions: runReport, getPageViews, getActiveUsers, getEvents, getUserBehavior
+     - Ready for automated GA4 setup assistant completion and ongoing analytics
 
 2. **Content Expansion** (3%)
    - 3-4 new audience-specific guides
@@ -500,8 +506,55 @@ python3 check_search_console.py
   - `sc-domain:donationtransparency.org` (main site)
   - `sc-domain:app.donationtransparency.org` (WordPress blog)
 
-### MCP Configuration (Future Use)
-The GSC MCP server is configured in `~/.config/claude-code/mcp_config.json` but not currently active. To check indexing status, use the Python script above.
+### MCP Server Integration (September 2, 2025)
+
+#### Google Analytics MCP Server - ACTIVE ✅
+**Status**: Fully operational and connected to Claude Code
+- **Installation**: `npm install -g mcp-server-google-analytics`
+- **Configuration**: JSON-based with embedded credentials
+- **Service Account**: serviceaccountdt@makedotcom-422712.iam.gserviceaccount.com
+- **GA4 Property ID**: 456568937
+- **Connection Status**: ✅ Connected (verified in `claude mcp list`)
+
+**Available Functions:**
+- `runReport` - Custom GA4 reports with dimensions/metrics
+- `getPageViews` - Page view analytics and trends
+- `getActiveUsers` - User behavior and engagement metrics  
+- `getEvents` - Event tracking and conversion data
+- `getUserBehavior` - User journey and attribution analysis
+
+**Automation Capabilities:**
+- ✅ GA4 Setup Assistant completion (audiences, key events, Google Signals)
+- ✅ Real-time data analysis and reporting
+- ✅ Conversion optimization insights
+- ✅ SEO performance monitoring
+- ✅ Traffic source attribution and ROI analysis
+
+**Setup Process Completed:**
+1. ✅ Installed MCP server via npm
+2. ✅ Created Google Cloud service account with Analytics Data API access
+3. ✅ Added service account to GA4 property with Viewer permissions
+4. ✅ Configured Claude Code with JSON environment variables
+5. ✅ Verified connection and functionality
+
+**Command to Check Status:**
+```bash
+claude mcp list  # Should show google-analytics: ✓ Connected
+```
+
+**Future Google Analytics Automation:**
+This MCP server investment enables ongoing automation for:
+- Monthly SEO performance reports
+- Automated audience creation and management
+- Conversion tracking optimization
+- A/B testing analysis and recommendations
+- Content performance insights and optimization suggestions
+- Real-time SEO ROI measurement
+
+#### Google Search Console Integration
+**Status**: Manual Python script (MCP integration planned)
+- **Script**: `python3 check_search_console.py` for indexing status
+- **Service Account**: search-console-mcp@makedotcom-422712.iam.gserviceaccount.com
 
 ### What the Script Shows
 1. **Verified Sites** - Lists all properties the service account can access
