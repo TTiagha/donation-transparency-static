@@ -1,0 +1,63 @@
+{
+  "brand_queries": [
+    {
+      "query": "donation transparency",
+      "clicks": 2,
+      "impressions": 63,
+      "ctr": 3.1746031746031744,
+      "position": 1.5238095238095237
+    }
+  ],
+  "non_brand_queries": [
+    {
+      "query": "charity transparency",
+      "clicks": 0,
+      "impressions": 44,
+      "ctr": 0,
+      "position": 95.22727272727273
+    },
+    {
+      "query": "donor transparency",
+      "clicks": 0,
+      "impressions": 37,
+      "ctr": 0,
+      "position": 52.37837837837838
+    },
+    {
+      "query": "fundraising transparency",
+      "clicks": 0,
+      "impressions": 53,
+      "ctr": 0,
+      "position": 63.943396226415096
+    },
+    {
+      "query": "most transparent charities",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 68
+    },
+    {
+      "query": "platforms with transparent donation reporting",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 2.75
+    },
+    {
+      "query": "transparent donations",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7.142857142857143
+    },
+    {
+      "query": "transparent nonprofits to donate to",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 56.666666666666664
+    }
+  ],
+  "total_queries": 8
+}

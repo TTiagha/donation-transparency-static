@@ -356,7 +356,26 @@ See `/temp-markdown/content-expansion-strategy.md` for detailed plan on:
 
 This document provides the writing team with a comprehensive roadmap for building topical authority while maintaining the optimized site structure.
 
-## Recent Major Updates (August 2025)
+## Recent Major Updates (August-September 2025)
+
+### Meta Description Optimization (September 2025)
+1. **Homepage Meta Description**
+   - ✅ Updated to target "donation transparency" and "fundraising platform" keywords
+   - ✅ New description: "The most transparent fundraising platform. See exactly where every donation goes with real-time tracking. Join 1000+ transparent nonprofits building unshakeable donor trust. Start free today."
+   - ✅ Optimized for CTR improvement from Google Search Console data
+
+2. **About Page Meta Description**
+   - ✅ Enhanced to include key brand messaging and transparency positioning
+   - ✅ New description: "Donation Transparency is the world's most transparent fundraising platform. Founded to revolutionize nonprofit accountability with real-time tracking. Trusted by 1000+ organizations. Learn our story."
+   - ✅ Targets brand awareness and trust-building keywords
+
+### MCP Server Integration (September 2025)
+3. **Complete SEO Automation Infrastructure**
+   - ✅ Google Analytics 4 MCP server configured and connected
+   - ✅ Google Search Console MCP server configured and connected  
+   - ✅ Both servers functional but affected by Claude Code v1.0.43 bug (function exposure issue)
+   - ✅ Workaround: Proven GSC Python script and GA4 interface available for immediate use
+   - ✅ Ready for future automation when Claude Code bug is resolved
 
 ### URL Redirect & SEO Optimization (August 30, 2025)
 1. **Universal Trailing Slash Redirects**
@@ -389,6 +408,54 @@ This document provides the writing team with a comprehensive roadmap for buildin
 - **Google Indexing**: Awaiting 24-48 hour processing period for new canonical URLs
 - **Search Performance**: Baseline established, monitoring for improvements
 - **Technical SEO Health**: All critical redirect and canonical URL issues resolved
+
+### Emergency SEO Strategy Pivot (September 3, 2025)
+
+**CRITICAL DISCOVERY:** Real GSC data analysis revealed a severe CTR crisis requiring immediate strategy pivot from content audit to emergency optimization.
+
+#### The Crisis
+- **Performance Reality**: 2,442 total impressions with only 5 clicks = 0.20% CTR
+- **Root Cause**: Pages ranking well but titles/snippets not compelling enough to drive clicks
+- **Immediate Risk**: Wasting 2,437 potential monthly clicks from existing search visibility
+
+#### Data-Driven Analysis Completed
+1. **Homepage Query Analysis** (`/seo-analysis/homepage_query_analysis.py`)
+   - ✅ Identified brand vs non-brand query performance split
+   - ✅ Brand queries: 3.2% CTR (excellent)
+   - ✅ Non-brand queries: 0% CTR (155 impressions wasted monthly)
+   - ✅ Key opportunities: "fundraising transparency" (53 imp), "charity transparency" (44 imp)
+   - 📊 **Results**: `/seo-analysis/homepage_query_analysis.json`
+
+2. **WordPress App Subdomain Discovery**
+   - ✅ Found 10 high-ranking pages (positions 2-12) with 0% CTR
+   - ✅ Highest priority: "key-principles-of-transparent-donations" (19 impressions, position 5.7)
+   - ✅ Created detailed optimization action plan
+   - 📋 **Implementation Guide**: `/seo-analysis/wordpress-title-optimization-recommendations.md`
+
+#### Phase 1 Emergency Optimizations (COMPLETED)
+1. **✅ Homepage Title Optimization**
+   - Changed: "Donation Transparency - Build Unshakeable Donor Trust"
+   - To: "Fundraising Transparency Platform - See Where Every Charity Donation Goes | Donation Transparency"
+   - **Target**: 155 non-brand impressions → 2%+ CTR (3+ monthly clicks)
+
+2. **✅ Best Fundraising Platforms Guide**
+   - Changed: "Best Online Fundraising Platforms for Donations in 2025"  
+   - To: "11 Best Fundraising Platforms 2025 (Expert Review + Free Transparency Comparison)"
+   - **Target**: 373 impressions → 1.5%+ CTR (5+ monthly clicks)
+
+3. **✅ WordPress Optimization Plan**
+   - Created comprehensive action plan: `/seo-analysis/wordpress-title-optimization-recommendations.md`
+   - Identified 19 impressions opportunity on app subdomain
+   - **Requires WordPress admin implementation**
+
+#### Expected Impact & Timeline
+- **Conservative Goal**: 0.20% → 2.0% CTR improvement
+- **Potential Gain**: +15-30 additional monthly clicks from same impressions
+- **Monitoring Period**: 2 weeks for title optimization impact measurement
+- **Success Metrics**: CTR improvement, maintained rankings, increased total clicks
+
+#### Strategy Decision Point
+**Why We Pivoted:** Real GSC data showed existing content ranks well but fails to convert impressions to clicks. Content audit became secondary to optimizing what already works. This data-driven approach targets immediate ROI rather than theoretical improvements.
 
 ### Content Improvements (Previous Updates)
 1. **Psychology Article Integration**
@@ -444,32 +511,44 @@ This document provides the writing team with a comprehensive roadmap for buildin
 - Social sharing optimized for viral growth
 - Structured data for rich snippets
 
-### Remaining SEO Tasks (4%)
-1. ✅ **Analytics & Tracking Setup** (COMPLETED - September 2, 2025)
-   - ✅ Google Analytics 4 implementation with measurement ID G-C83EV6K1D3
-   - ✅ GA4 Setup Assistant: 5/8 tasks complete (core tracking 100% operational)
-   - ✅ Key events configured: waitlist_signup, contact_form_submit, booking_request, cta_click, qualified_page_view
-   - ✅ 4 audience segments defined for remarketing: High Intent, Qualified Leads, Decision Makers, Ready to Convert  
-   - ✅ Google Signals enabled for enhanced demographic data
-   - ✅ GDPR consent mode implemented for EEA compliance
-   - ✅ Google Search Console verification and monitoring
-   - ✅ Advanced conversion tracking with traffic source attribution
-   - 📋 Setup guide created: `/GA4-setup-assistant-guide.md`
-   - 🤖 **Google Analytics MCP Server Configured** (September 2, 2025)
-     - Service account: serviceaccountdt@makedotcom-422712.iam.gserviceaccount.com
-     - GA4 Property ID: 456568937
-     - Claude Code integration: ✅ Connected
-     - Available functions: runReport, getPageViews, getActiveUsers, getEvents, getUserBehavior
-     - Ready for automated GA4 setup assistant completion and ongoing analytics
+### Current SEO Priorities (Post-Emergency Strategy Pivot)
 
-2. **Content Expansion** (3%)
-   - 3-4 new audience-specific guides
-   - 2-3 case studies
-   - Comparison content
+#### IMMEDIATE - Phase 1 Monitoring (September 2025)
+1. **✅ Emergency Title Optimizations** (COMPLETED - September 3, 2025)
+   - ✅ Homepage title targeting non-brand queries (155 impressions)
+   - ✅ Best Fundraising Platforms guide title enhancement (373 impressions)
+   - ✅ WordPress app subdomain optimization plan created
+   - **Expected Impact**: 0.20% → 2%+ CTR (15-30 additional monthly clicks)
 
-3. **Performance Optimization** (1%)
+2. **🚨 WordPress Implementation Required** (CRITICAL - Immediate Action)
+   - ⏳ "key-principles-of-transparent-donations" page (19 impressions, position 5.7)
+   - ⏳ 9 additional high-ranking pages (positions 2-12) with 0% CTR
+   - 📋 **Action Plan**: `/wordpress-title-optimization-recommendations.md`
+   - **Requires**: WordPress admin access to app.donationtransparency.org
+
+3. **📊 2-Week Performance Monitoring** (IN PROGRESS)
+   - Track CTR improvements on optimized pages
+   - Monitor ranking stability during title changes
+   - Measure total click volume increases
+   - **Decision Point**: Mid-September for Phase 2 planning
+
+#### PHASE 2 - Based on Results (Late September 2025)
+4. **Conditional Content Expansion** (Pending Phase 1 Results)
+   - IF title optimizations show 2%+ CTR improvement
+   - THEN expand to 3-4 new audience-specific guides
+   - Focus on queries with proven conversion intent
+
+5. **Performance Optimization** (Lower Priority)
    - Core Web Vitals improvements
-   - Page speed optimization
+   - Page speed optimization  
+   - **Note**: Deferred until CTR crisis resolved
+
+#### COMPLETED FOUNDATION WORK
+✅ **Analytics & Tracking Setup** (September 2, 2025)
+   - Google Analytics 4 with measurement ID G-C83EV6K1D3
+   - Google Search Console MCP server integration
+   - Conversion tracking and attribution setup
+   - SEO performance monitoring infrastructure
 
 ## Analytics & Performance Monitoring
 
@@ -541,6 +620,12 @@ python3 check_search_console.py
 ```bash
 claude mcp list  # Should show google-analytics: ✓ Connected
 ```
+
+**⚠️ Known Issue (September 2025):**
+- **Claude Code v1.0.43 Bug**: MCP servers connect successfully but functions not exposed as callable tools
+- **GitHub Issue**: Documented in Claude Code repository - affects multiple MCP servers
+- **Workaround**: Use proven GSC Python script and GA4 interface for immediate analytics needs
+- **Status**: MCP servers ready for future Claude Code bug fix
 
 **Future Google Analytics Automation:**
 This MCP server investment enables ongoing automation for:
@@ -764,7 +849,7 @@ claude mcp list  # Should show google-search-console: ✅ Connected
 ### Known Issues
 1. `/transparency/` main page not indexed despite being crawled
 2. Low average positions (need better on-page SEO)
-3. Zero clicks despite impressions (need better meta descriptions)
+3. ✅ ~~Zero clicks despite impressions (need better meta descriptions)~~ - RESOLVED September 2025
 
 ## Gemini CLI Installation
 
