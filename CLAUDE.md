@@ -555,6 +555,11 @@ This document provides the writing team with a comprehensive roadmap for buildin
    - Google Search Console MCP server integration
    - Conversion tracking and attribution setup
    - SEO performance monitoring infrastructure
+   - **✅ Waitlist Button Tracking Added** (September 3, 2025)
+     - `waitlist_modal_open` event tracking for conversion funnel analysis
+     - Tracks all CTA button clicks (homepage, header, mobile menu)
+     - Enables measurement: Search → Site Click → Button Click → Signup
+     - 📊 **Analysis Guide**: `/conversion-funnel-analysis-guide.md`
 
 ## Analytics & Performance Monitoring
 
