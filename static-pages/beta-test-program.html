@@ -143,32 +143,114 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-10 lg:mt-0">
-                        <div class="bg-dt-navy rounded-lg shadow-xl overflow-hidden">
-                            <div class="px-6 py-4 bg-dt-silver">
-                                <h3 class="text-lg font-medium text-dt-navy">Live Transparency Dashboard</h3>
+                    <div class="mt-10 lg:mt-0 flex justify-center">
+                        <!-- Phone Mockup -->
+                        <div class="relative w-72 h-96 bg-black rounded-3xl shadow-2xl border-8 border-gray-800 lock-screen-fade">
+                            <!-- Phone Screen -->
+                            <div class="w-full h-full bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 rounded-2xl overflow-hidden relative">
+                                <!-- Status Bar -->
+                                <div class="flex justify-between items-center p-4 text-white text-sm">
+                                    <span class="font-medium">9:41</span>
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-4 h-2 border border-white rounded-sm">
+                                            <div class="w-3 h-1 bg-white rounded-sm m-0.5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Lock Screen Content -->
+                                <div class="px-4 pt-8 text-center">
+                                    <div class="text-white text-sm mb-2">Tuesday, March 12</div>
+                                    <div class="text-white text-6xl font-light mb-4">9:41</div>
+                                </div>
+                                
+                                <!-- App Icons -->
+                                <div class="absolute bottom-20 left-0 right-0 px-8">
+                                    <div class="flex justify-center gap-6">
+                                        <div class="w-12 h-12 bg-gray-800/70 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="w-12 h-12 bg-gray-800/70 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="w-12 h-12 bg-gray-800/70 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                            <img src="assets/images/logo-final.png" alt="DT Logo" class="w-8 h-8 rounded-lg">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Slide to Unlock -->
+                                <div class="absolute bottom-8 left-0 right-0 text-center">
+                                    <div class="text-white/60 text-sm flex items-center justify-center gap-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span>slide to unlock</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="p-6">
-                                <div class="space-y-4">
-                                    <div class="flex justify-between items-center pb-2 border-b border-dt-slate">
-                                        <span class="text-sm font-medium text-dt-silver">Program Expenses</span>
-                                        <span class="text-sm font-semibold text-dt-teal">$12,450 (62%)</span>
+                            
+                            <!-- Notification 1: New Donation -->
+                            <div class="notification-sequence absolute top-20 left-4 right-4 bg-gray-800/95 backdrop-blur-lg rounded-2xl p-3 shadow-lg border border-gray-700" style="animation-delay: 0s;">
+                                <div class="space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <img src="assets/images/logo-final.png" alt="DT Logo" class="w-5 h-5">
+                                            <p class="text-white text-xs font-medium">DONATION TRANSPARENCY</p>
+                                        </div>
+                                        <p class="text-gray-400 text-xs">now</p>
                                     </div>
-                                    <div class="flex justify-between items-center pb-2 border-b border-dt-slate">
-                                        <span class="text-sm font-medium text-dt-silver">Administrative</span>
-                                        <span class="text-sm font-semibold text-dt-silver">$3,200 (16%)</span>
+                                    <p class="text-white font-bold text-xs">💰 New Donation Received</p>
+                                    <p class="text-gray-200 text-xs">Sarah donated $50 to your Food Drive campaign</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification 2: Spending Alert -->
+                            <div class="notification-sequence absolute top-20 left-4 right-4 bg-gray-800/95 backdrop-blur-lg rounded-2xl p-3 shadow-lg border border-gray-700" style="animation-delay: 2.5s;">
+                                <div class="space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <img src="assets/images/logo-final.png" alt="DT Logo" class="w-5 h-5">
+                                            <p class="text-white text-xs font-medium">DONATION TRANSPARENCY</p>
+                                        </div>
+                                        <p class="text-gray-400 text-xs">2m ago</p>
                                     </div>
-                                    <div class="flex justify-between items-center pb-2 border-b border-dt-slate">
-                                        <span class="text-sm font-medium text-dt-silver">Fundraising</span>
-                                        <span class="text-sm font-semibold text-dt-silver">$1,800 (9%)</span>
+                                    <p class="text-white font-bold text-xs">📦 Spending Alert</p>
+                                    <p class="text-gray-200 text-xs">$75 spent on groceries at FreshMart</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification 3: Goal Update -->
+                            <div class="notification-sequence absolute top-20 left-4 right-4 bg-gray-800/95 backdrop-blur-lg rounded-2xl p-3 shadow-lg border border-gray-700" style="animation-delay: 5s;">
+                                <div class="space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <img src="assets/images/logo-final.png" alt="DT Logo" class="w-5 h-5">
+                                            <p class="text-white text-xs font-medium">DONATION TRANSPARENCY</p>
+                                        </div>
+                                        <p class="text-gray-400 text-xs">5m ago</p>
                                     </div>
-                                    <div class="flex justify-between items-center pb-2">
-                                        <span class="text-sm font-medium text-dt-silver">Reserve Fund</span>
-                                        <span class="text-sm font-semibold text-dt-silver">$2,550 (13%)</span>
+                                    <p class="text-white font-bold text-xs">🎯 Goal Update</p>
+                                    <p class="text-gray-200 text-xs">73% of monthly goal reached ($3,650/$5,000)</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification 4: Impact Report -->
+                            <div class="notification-sequence absolute top-20 left-4 right-4 bg-gray-800/95 backdrop-blur-lg rounded-2xl p-3 shadow-lg border border-gray-700" style="animation-delay: 7.5s;">
+                                <div class="space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <img src="assets/images/logo-final.png" alt="DT Logo" class="w-5 h-5">
+                                            <p class="text-white text-xs font-medium">DONATION TRANSPARENCY</p>
+                                        </div>
+                                        <p class="text-gray-400 text-xs">1h ago</p>
                                     </div>
-                                    <div class="pt-2 text-xs text-dt-slate">
-                                        Last updated: 2 hours ago
-                                    </div>
+                                    <p class="text-white font-bold text-xs">📊 Impact Report</p>
+                                    <p class="text-gray-200 text-xs">Your donations helped feed 23 families this week</p>
                                 </div>
                             </div>
                         </div>

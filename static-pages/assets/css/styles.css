@@ -114,6 +114,31 @@ body {
     animation-delay: 2s;
 }
 
+/* Notification sequence animation for beta page phone mockup */
+@keyframes notification-cascade {
+    0% { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+    }
+    15% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+    85% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+}
+
+.notification-sequence {
+    animation: notification-cascade 10s ease-in-out infinite;
+    opacity: 0;
+}
+
 /* Card flip animation */
 .flipper-card { perspective: 1000px; }
 .flipper-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
