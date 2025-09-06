@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <!-- Homepage -->
   <url>
     <loc>https://donationtransparency.org/</loc>
@@ -100,6 +100,21 @@
     <lastmod>2025-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i9.ytimg.com/vi/IaQnHrwTo20/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Best Fundraising Platforms 2025 - Expert Review and Transparency Comparison</video:title>
+      <video:description>Comprehensive expert analysis of the best fundraising platforms for 2025. AI-generated discussion covering platform comparisons, pricing transparency, and nonprofit technology recommendations for maximum donor trust.</video:description>
+      <video:content_loc>https://www.youtube.com/watch?v=IaQnHrwTo20</video:content_loc>
+      <video:player_loc>https://www.youtube.com/embed/IaQnHrwTo20</video:player_loc>
+      <video:duration>420</video:duration>
+      <video:publication_date>2025-09-04</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>fundraising platforms</video:tag>
+      <video:tag>nonprofit technology</video:tag>
+      <video:tag>donation transparency</video:tag>
+      <video:tag>fundraising software comparison</video:tag>
+      <video:category>Education</video:category>
+    </video:video>
   </url>
 
   <url>
@@ -107,6 +122,22 @@
     <lastmod>2025-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i9.ytimg.com/vi/p1a3_b2OuO4/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Solving the Donor Trust Crisis - Expert Analysis &amp; Practical Solutions</video:title>
+      <video:description>Expert AI-generated analysis of the donor trust crisis affecting nonprofits worldwide. Comprehensive discussion covering transparency frameworks, real-time tracking solutions, and proven strategies for rebuilding donor loyalty and confidence.</video:description>
+      <video:content_loc>https://www.youtube.com/watch?v=p1a3_b2OuO4</video:content_loc>
+      <video:player_loc>https://www.youtube.com/embed/p1a3_b2OuO4</video:player_loc>
+      <video:duration>480</video:duration>
+      <video:publication_date>2025-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>donor trust crisis</video:tag>
+      <video:tag>nonprofit transparency</video:tag>
+      <video:tag>fundraising strategy</video:tag>
+      <video:tag>donor engagement</video:tag>
+      <video:tag>charity accountability</video:tag>
+      <video:category>Education</video:category>
+    </video:video>
   </url>
   
   <!-- Transparency Articles -->
