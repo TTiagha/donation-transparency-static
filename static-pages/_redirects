@@ -74,3 +74,7 @@
 
 # Additional redirects
 /transparency/donor-confidence.html  /guides/building-donor-trust.html  301!
+
+# Duplicate Content Fix (SEO Critical)
+/platforms/best-fundraising-platforms-nonprofits-2025.html  /guides/best-fundraising-platforms-2025.html  301!
+/platforms/*  /guides/:splat  301!
