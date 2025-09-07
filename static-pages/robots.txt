@@ -26,4 +26,4 @@ Disallow: /favicon.html
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
 
-Sitemap: https://donationtransparency.org/sitemap.xml
+Sitemap: https://donationtransparency.org/sitemap-index.xml
