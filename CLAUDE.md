@@ -462,6 +462,47 @@ This document provides the writing team with a comprehensive roadmap for buildin
 #### Strategy Decision Point
 **Why We Pivoted:** Real GSC data showed existing content ranks well but fails to convert impressions to clicks. Content audit became secondary to optimizing what already works. This data-driven approach targets immediate ROI rather than theoretical improvements.
 
+### Beta Program Link Strategy
+
+#### Strategic Link Placement (September 7, 2025)
+**✅ COMPLETED - Beta Program Links Added to High-Impact Pages**
+
+**Link Locations for Future Deprecation:**
+1. **`/features/real-time-tracking.html:124-130`** - Beta program CTA in main feature showcase
+   - Context: "Test Real-Time Features First - Join Beta & Win $100"
+   - Location: After main "Experience Full Visibility" button
+   - HTML: `<a href="/beta-test-program" class="beta-program-link ... data-temporary="beta-2025">`
+
+2. **`/guides/solving-donor-trust-crisis.html:448-458`** - Prominent beta program solution box
+   - Context: "Beta Test the Future of Transparency"
+   - Location: End of conclusion section before final CTAs
+   - HTML: `<a href="/beta-test-program" class="beta-program-link ... data-temporary="beta-2025">`
+
+3. **`/about.html:93-102`** - Subtle beta tester mention 
+   - Context: "Currently accepting beta testers"
+   - Location: Within "How We're Different" section
+   - HTML: `<a href="/beta-test-program" class="beta-program-link ... data-temporary="beta-2025">`
+
+**Deprecation-Ready Implementation:**
+- All links use consistent `beta-program-link` CSS class
+- All links include `data-temporary="beta-2025"` attribute
+- All links wrapped in HTML comments for easy identification
+- Pattern: `<!-- BETA PROGRAM LINK - REMOVE WHEN PROGRAM ENDS -->`
+
+**Easy Removal Process:**
+```bash
+# Find all beta program links
+grep -n "BETA PROGRAM LINK" static-pages/**/*.html
+
+# Remove via CSS class
+grep -n "beta-program-link" static-pages/**/*.html
+
+# Remove via data attribute
+grep -n 'data-temporary="beta-2025"' static-pages/**/*.html
+```
+
+**Expected Impact:** Strategic placement on high-conversion pages to maximize beta program signups while maintaining clean deprecation path for future cleanup.
+
 ### Content Improvements (Previous Updates)
 1. **Psychology Article Integration**
    - Replaced thin `trust-building.html` snippet with comprehensive 3,500+ word article
